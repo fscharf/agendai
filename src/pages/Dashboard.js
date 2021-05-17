@@ -1,7 +1,8 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import Header, { user } from "../components/Header";
+import Header from "../components/Header";
 import Reminders from "../components/Reminders";
+import { user } from "../routes";
 
 export default function Dashboard() {
   return (

@@ -4,10 +4,9 @@ import Nav from "react-bootstrap/Nav";
 import { Link, NavLink } from "react-router-dom";
 import { Container, Dropdown, NavDropdown } from "react-bootstrap";
 import lightIcon from "../assets/img/icon.svg";
-import { getUser, removeUserSession } from "./Utils/Common";
+import { removeUserSession } from "./Utils/Common";
 import history from "../services/history";
-
-export const user = getUser();
+import { user } from "../routes";
 
 export default function Header(props) {
   const handleSignOut = () => {

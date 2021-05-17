@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Header, { user } from "../../components/Header";
+import Header from "../../components/Header";
+import { user } from "../../routes";
+import api from "../../services/api";
+import history from "../../services/history";
 
 export default function Account() {
+  const [users, setUserInfo] = useState([]);
+
+  useEffect(() => {
+    async function getUserById() {
+      await api
+        .get(`/users/${user.user_id}`)
+        .then((res) => {
+          return setUserInfo(res.data);
+        })
+        .catch((err) => {
+          alert(err);
+          history.push("/dashboard");
+        });
+    }
+
+    getUserById();
+  }, []);
+
   return (
     <Container className="bg-dark vh-100 h-100 text-light" fluid>
       <Header />
@@ -14,40 +35,40 @@ export default function Account() {
               <i className="far fa-user-circle me-2"></i>MINHA CONTA
             </p>
 
-            <Form method="POST" noValidate>
+            <div key={users.user_id}>
               <Form.Row as={Row}>
                 <Col md="6" className="mb-3">
                   <Form.Label className="text-muted">NOME COMPLETO</Form.Label>
-                  <Form.Control disabled type="text" value={user.name} />
+                  <Form.Control disabled type="text" value={users.name} />
                 </Col>
                 <Col md="6" className="mb-3">
                   <Form.Label className="text-muted">EMAIL</Form.Label>
-                  <Form.Control disabled type="text" value={user.email} />
+                  <Form.Control disabled type="text" value={users.email} />
                 </Col>
                 <Col md="12" className="mb-3">
                   <Form.Label className="text-muted">ENDEREÇO</Form.Label>
-                  <Form.Control disabled type="text" value={user.address} />
+                  <Form.Control disabled type="text" value={users.address} />
                 </Col>
                 <Col md="4" className="mb-3">
                   <Form.Label className="text-muted">CEP</Form.Label>
-                  <Form.Control disabled type="text" value={user.postal_code} />
+                  <Form.Control disabled type="text" value={users.postal_code} />
                 </Col>
                 <Col md="4" className="mb-3">
                   <Form.Label className="text-muted">BAIRRO</Form.Label>
-                  <Form.Control disabled type="text" value={user.district} />
+                  <Form.Control disabled type="text" value={users.district} />
                 </Col>
                 <Col md="4" className="mb-3">
                   <Form.Label className="text-muted">CIDADE</Form.Label>
-                  <Form.Control disabled type="text" value={user.city} />
+                  <Form.Control disabled type="text" value={users.city} />
                 </Col>
                 <Col md="12" className="mb-3">
                   <Form.Label className="text-muted">TELEFONE(S)</Form.Label>
                   <Form.Row as={Row}>
                     <Col md="6" className="mb-3">
-                      <Form.Control disabled type="text" value={user.phone1} />
+                      <Form.Control disabled type="text" value={users.phone1} />
                     </Col>
                     <Col md="6">
-                      <Form.Control disabled type="text" value={user.phone2} />
+                      <Form.Control disabled type="text" value={users.phone2} />
                     </Col>
                   </Form.Row>
                 </Col>
@@ -57,11 +78,11 @@ export default function Account() {
                   <i className="far fa-edit me-2"></i>EDITAR DADOS
                 </Button>
               </Form.Row>
-            </Form>
+            </div>
           </Col>
           <Col md="4">
             <p>MAIS OPÇÕES</p>
-            {!user.account_verified && (
+            {!users.account_verified && (
               <div className="text-danger mb-3">
                 <i className="far fa-times-circle me-2"></i>CONTA NÃO VERIFICADA
                 <br />
@@ -71,12 +92,12 @@ export default function Account() {
                 </Link>
               </div>
             )}
-            {user.account_verified && (
+            {users.account_verified && (
               <div className="text-success mb-3">
                 <i className="far fa-check-circle me-2"></i>CONTA VERIFICADA
               </div>
             )}
-            <Link className="btn btn-primary btn-sm" to="/dashboard">
+            <Link className="btn btn-primary btn-sm" to="/changePassword">
               <i className="far fa-lock me-2"></i>TROCAR SENHA
             </Link>
             <p />

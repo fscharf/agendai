@@ -14,8 +14,9 @@ import { Helmet } from "react-helmet";
 import Loading from "./Loading";
 import api from "../services/api";
 import { setUserSession } from "./Utils/Common";
+import history from "../services/history";
 
-export default function SignIn(props) {
+export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,7 +33,7 @@ export default function SignIn(props) {
       .then((res) => {
         setLoading(false);
         setUserSession(res.data.token, res.data.user);
-        props.history.push("/dashboard");
+        history.push("/dashboard");
       })
       .catch((err) => {
         setLoading(false);

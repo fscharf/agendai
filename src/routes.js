@@ -15,12 +15,14 @@ import PublicRoute from "./components/Utils/PublicRoute";
 import PrivateRoute from "./components/Utils/PrivateRoute";
 import {
   getToken,
+  getUser,
   removeUserSession,
   setUserSession,
 } from "./components/Utils/Common";
 import Loading from "./components/Loading";
 import api from "./services/api";
-import { user } from "./components/Header";
+
+export const user = getUser();
 
 export default function Routes() {
   const [authLoading, setAuthLoading] = useState(true);

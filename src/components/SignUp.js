@@ -19,43 +19,48 @@ import Loading from "./Loading";
 //precisa corrigir
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [credentials, setCredentials] = useState({
+    email: "",
+    password: "",
+    name: "",
+    confirmPassword: "",
+  });
   const [error, setError] = useState(null);
 
   const title = "Cadastre-se grátis no Barber Shop";
 
-  async function handleSignUp(e) {
-    if (password !== confirmPassword) {
+  async function handleSignUp() {
+    if (
+      !credentials.email ||
+      !credentials.password ||
+      !credentials.confirmPassword ||
+      !credentials.name
+    ) {
+      setError("Por favor, preencha todos os campos.");
+      return;
+    }
+    if (credentials.password !== credentials.confirmPassword) {
       setError("Senhas não conferem.");
       return;
     }
 
     await api
-      .post("/users", { name: name, email: email, password: password })
-      .then((res) => {
-        setLoading(false);
+      .post("/users", {
+        name: credentials.name,
+        email: credentials.email,
+        password: credentials.password,
       })
-      .catch((err) => {
-        setLoading(false);
-        if (
-          (err.response && err.response.status === 401) ||
-          (err.response && err.response.status === 400)
-        ) {
-          setError(err.response.data.message);
-        } else {
-          setError("Oops! Alguma coisa deu errado.");
-        }
-      });
-
-    await api
-      .post("/users/signin/", { email: email, password: password })
-      .then((res) => {
-        setLoading(false);
-        setUserSession(res.data.token, res.data.user);
-        history.push("/dashboard");
+      .then(() => {
+        api
+          .post("/users/signin", {
+            email: credentials.email,
+            password: credentials.password,
+          })
+          .then((res) => {
+            setLoading(false);
+            setUserSession(res.data.token, res.data.user);
+            history.push("/dashboard");
+          });
       })
       .catch((err) => {
         setLoading(false);
@@ -97,19 +102,33 @@ export default function SignUp() {
                 <Form.Group className="mb-3">
                   <Form.Control
                     type="email"
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) =>
+                      setCredentials({
+                        email: e.target.value,
+                        password: credentials.password,
+                        confirmPassword: credentials.confirmPassword,
+                        name: credentials.name,
+                      })
+                    }
+                    value={credentials.email}
                     name="email"
-                    required
                     placeholder="E-mail"
                   />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Control
                     type="text"
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) =>
+                      setCredentials({
+                        name: e.target.value,
+                        password: credentials.password,
+                        confirmPassword: credentials.confirmPassword,
+                        email: credentials.email,
+                      })
+                    }
+                    value={credentials.name}
                     maxLength="50"
                     name="name"
-                    required
                     placeholder="Nome completo"
                   />
                 </Form.Group>
@@ -117,16 +136,30 @@ export default function SignUp() {
                   <Form.Control
                     type="password"
                     name="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
+                    onChange={(e) =>
+                      setCredentials({
+                        password: e.target.value,
+                        name: credentials.name,
+                        confirmPassword: credentials.confirmPassword,
+                        email: credentials.email,
+                      })
+                    }
+                    value={credentials.password}
                     placeholder="Senha"
                   />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Control
                     type="password"
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
+                    onChange={(e) =>
+                      setCredentials({
+                        confirmPassword: e.target.value,
+                        password: credentials.password,
+                        name: credentials.name,
+                        email: credentials.email,
+                      })
+                    }
+                    value={credentials.confirmPassword}
                     placeholder="Confirme a senha"
                   />
                 </Form.Group>

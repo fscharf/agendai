@@ -17,3 +17,4 @@ export const removeUserSession = () => {
   sessionStorage.removeItem("token");
   sessionStorage.removeItem("user");
 };
+

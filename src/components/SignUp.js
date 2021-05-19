@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Alert,
-  Button,
-  Card,
-  Col,
-  Container,
-  Form,
-  Row,
-} from "react-bootstrap";
+import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import api from "../services/api";
@@ -15,8 +7,8 @@ import lightIcon from "../assets/img/icon.svg";
 import { setUserSession } from "./Utils/Common";
 import history from "../services/history";
 import Loading from "./Loading";
+import toast from "react-hot-toast";
 
-//precisa corrigir
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [credentials, setCredentials] = useState({
@@ -25,7 +17,6 @@ export default function SignUp() {
     name: "",
     confirmPassword: "",
   });
-  const [error, setError] = useState(null);
 
   const title = "Cadastre-se grátis no Barber Shop";
 
@@ -36,12 +27,13 @@ export default function SignUp() {
       !credentials.confirmPassword ||
       !credentials.name
     ) {
-      setError("Por favor, preencha todos os campos.");
-      return;
+      return toast.error("Por favor, preencha todos os campos.");
     }
     if (credentials.password !== credentials.confirmPassword) {
-      setError("Senhas não conferem.");
-      return;
+      return toast.error("Senhas não conferem.");
+    }
+    if (credentials.password.length < 6) {
+      return toast.error("Sua senha deve conter pelo menos 6 caracteres.");
     }
 
     await api
@@ -59,7 +51,7 @@ export default function SignUp() {
           .then((res) => {
             setLoading(false);
             setUserSession(res.data.token, res.data.user);
-            history.push("/dashboard");
+            return history.push("/dashboard");
           });
       })
       .catch((err) => {
@@ -68,9 +60,9 @@ export default function SignUp() {
           (err.response && err.response.status === 401) ||
           (err.response && err.response.status === 400)
         ) {
-          setError(err.response.data.message);
+          return toast.error(err.response.data.message);
         } else {
-          setError("Oops! Alguma coisa deu errado.");
+          return toast.error("Oops! Alguma coisa deu errado.");
         }
       });
   }
@@ -171,11 +163,6 @@ export default function SignUp() {
                 Já possui conta? &nbsp;
                 <Link to="/signin">Iniciar sessão</Link>
               </Form.Text>
-              {error && (
-                <Alert variant="danger" className="fw-bold">
-                  {error}
-                </Alert>
-              )}
             </Card>
           </Col>
         </Row>

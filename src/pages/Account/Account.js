@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Header from "../../components/Header";
-import { user } from "../../routes";
+import { user } from "../../components/Controllers/UserController";
 import api from "../../services/api";
-import history from "../../services/history";
+import { successMsg } from "./ChangePassword";
+import toast from "react-hot-toast";
 
 export default function Account() {
   const [users, setUserInfo] = useState([]);
@@ -17,12 +18,15 @@ export default function Account() {
           return setUserInfo(res.data);
         })
         .catch((err) => {
-          alert(err);
-          history.push("/dashboard");
+          return toast.error(err);
         });
     }
 
     getUserById();
+
+    if (successMsg) {
+      return toast.success(successMsg);
+    }
   }, []);
 
   return (
@@ -51,7 +55,11 @@ export default function Account() {
                 </Col>
                 <Col md="4" className="mb-3">
                   <Form.Label className="text-muted">CEP</Form.Label>
-                  <Form.Control disabled type="text" value={users.postal_code} />
+                  <Form.Control
+                    disabled
+                    type="text"
+                    value={users.postal_code}
+                  />
                 </Col>
                 <Col md="4" className="mb-3">
                   <Form.Label className="text-muted">BAIRRO</Form.Label>
@@ -82,7 +90,7 @@ export default function Account() {
           </Col>
           <Col md="4">
             <p>MAIS OPÇÕES</p>
-            {!users.account_verified && (
+            {user.account_verified ? (
               <div className="text-danger mb-3">
                 <i className="far fa-times-circle me-2"></i>CONTA NÃO VERIFICADA
                 <br />
@@ -91,13 +99,12 @@ export default function Account() {
                   <i className="far fa-arrow-alt-right"></i>
                 </Link>
               </div>
-            )}
-            {users.account_verified && (
+            ) : (
               <div className="text-success mb-3">
                 <i className="far fa-check-circle me-2"></i>CONTA VERIFICADA
               </div>
             )}
-            <Link className="btn btn-primary btn-sm" to="/changePassword">
+            <Link className="btn btn-primary btn-sm" to="/change-password">
               <i className="far fa-lock me-2"></i>TROCAR SENHA
             </Link>
             <p />

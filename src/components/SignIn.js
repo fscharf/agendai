@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Col,
-  Form,
-  Row,
-  Button,
-  Card,
-  Container,
-  Alert,
-} from "react-bootstrap";
+import { Col, Form, Row, Button, Card, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import lightIcon from "../assets/img/icon.svg";
 import { Helmet } from "react-helmet";
@@ -15,12 +7,12 @@ import Loading from "./Loading";
 import api from "../services/api";
 import { setUserSession } from "./Utils/Common";
 import history from "../services/history";
+import toast from "react-hot-toast";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
 
   const title = "Iniciar sessão";
 
@@ -33,7 +25,7 @@ export default function SignIn() {
       .then((res) => {
         setLoading(false);
         setUserSession(res.data.token, res.data.user);
-        history.push("/dashboard");
+        return history.push("/dashboard");
       })
       .catch((err) => {
         setLoading(false);
@@ -41,9 +33,9 @@ export default function SignIn() {
           (err.response && err.response.status === 401) ||
           (err.response && err.response.status === 400)
         ) {
-          setError(err.response.data.message);
+          return toast.error(err.response.data.message);
         } else {
-          setError("Oops! Alguma coisa deu errado.");
+          return toast.error("Oops, algo deu errado.");
         }
       });
   };
@@ -98,11 +90,6 @@ export default function SignIn() {
                   Não possui conta ainda? &nbsp;
                   <Link to="/signup">Cadastre-se grátis</Link>
                 </Form.Text>
-                {error && (
-                  <Alert variant="danger" className="fw-bold">
-                    {error}
-                  </Alert>
-                )}
               </div>
             </Card>
           </Col>

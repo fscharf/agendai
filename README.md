@@ -1,23 +1,11 @@
-# User
-user_id
-name 
-email
-address
-postal_code
-district
-city
-phone1
-phone2 - nullable
-account_verified - binary
-password
-active - binary
-user_type
-created_at
-updated_at
+### V1.0.0
+# Initial implementation;
+# Models, Methods, Controllers;
+# API Services configuration;
 
-# Schedule
-id
-date
-hour
-status
-user_id
+### V1.0.1
+# User authentication/registration;
+
+### V1.0.2
+# Solved: Notification issues when submitting forms;
+# Schedule registration;

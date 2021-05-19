@@ -8,21 +8,21 @@ import SignUp from "./components/SignUp";
 import Dashboard from "./pages/Dashboard";
 import Schedule from "./pages/Schedule/Schedule";
 import ScheduleList from "./pages/Schedule/ScheduleList";
-import Account from "./pages/User/Account";
+import Account from "./pages/Account/Account";
+import ChangePassword from "./pages/Account/ChangePassword";
+import { Toaster } from "react-hot-toast";
 
 import history from "./services/history";
 import PublicRoute from "./components/Utils/PublicRoute";
 import PrivateRoute from "./components/Utils/PrivateRoute";
 import {
   getToken,
-  getUser,
   removeUserSession,
   setUserSession,
 } from "./components/Utils/Common";
 import Loading from "./components/Loading";
 import api from "./services/api";
-
-export const user = getUser();
+import { user } from "./components/Controllers/UserController";
 
 export default function Routes() {
   const [authLoading, setAuthLoading] = useState(true);
@@ -38,7 +38,7 @@ export default function Routes() {
         setUserSession(res.data.token, res.data.user);
         setAuthLoading(false);
       })
-      .catch((err) => {
+      .catch(() => {
         removeUserSession();
         setAuthLoading(false);
       });
@@ -58,8 +58,10 @@ export default function Routes() {
         <PrivateRoute component={Schedule} path="/schedule" />
         <PrivateRoute component={ScheduleList} path="/schedule-list" />
         <PrivateRoute component={Account} path="/account" />
+        <PrivateRoute component={ChangePassword} path="/change-password" />
         <Route component={NotFound} path="*" />
       </Switch>
+      <Toaster position="top-right" toastOptions={{ duration: 5000 }} />
     </Router>
   );
 }

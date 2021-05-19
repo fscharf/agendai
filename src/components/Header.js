@@ -6,7 +6,7 @@ import { Container, Dropdown, NavDropdown } from "react-bootstrap";
 import lightIcon from "../assets/img/icon.svg";
 import { removeUserSession } from "./Utils/Common";
 import history from "../services/history";
-import { user } from "../routes";
+import { user } from "./Controllers/UserController";
 
 export default function Header(props) {
   const handleSignOut = () => {

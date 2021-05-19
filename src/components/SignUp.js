@@ -156,7 +156,7 @@ export default function SignUp() {
                   />
                 </Form.Group>
                 <Button onClick={handleSignUp} className="btn btn-primary mb-3">
-                  {loading ? <Loading /> : <small>ENVIAR</small>}
+                  {loading ? <Loading /> : <span>ENVIAR</span>}
                 </Button>
               </Form.Row>
               <Form.Text className="mb-3">

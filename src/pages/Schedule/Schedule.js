@@ -21,7 +21,8 @@ export default function Schedule() {
         date: date,
         user_id: user.user_id,
       })
-      .then(() => {
+      .then((res) => {
+        toast.success(res.data.message)
         return history.push("/schedule-list");
       })
       .catch((err) => {

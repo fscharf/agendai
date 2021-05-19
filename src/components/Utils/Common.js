@@ -1,3 +1,5 @@
+import history from "../../services/history";
+
 export const getUser = () => {
   const userStr = sessionStorage.getItem("user");
   if (userStr) return JSON.parse(userStr);
@@ -16,5 +18,10 @@ export const setUserSession = (token, user) => {
 export const removeUserSession = () => {
   sessionStorage.removeItem("token");
   sessionStorage.removeItem("user");
+  setTimeout(1000);
 };
 
+export const handleSignOut = () => {
+  removeUserSession();
+  return history.push("/signin");
+};

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Route, Router, Switch } from "react-router-dom";
 
-import App from "./pages/App";
+import Welcome from "./pages/Welcome";
 import SignIn from "./components/SignIn";
 import NotFound from "./components/NotFound";
 import SignUp from "./components/SignUp";
@@ -23,6 +23,7 @@ import {
 import Loading from "./components/Loading";
 import api from "./services/api";
 import { user } from "./components/Controllers/UserController";
+import ConfirmAccount from "./pages/Account/ConfirmAccount";
 
 export default function Routes() {
   const [authLoading, setAuthLoading] = useState(true);
@@ -32,6 +33,12 @@ export default function Routes() {
     if (!token) {
       return;
     }
+
+    if (!user.account_verified) {
+      setAuthLoading(false);
+      history.push("/confirm-account");
+    }
+
     api
       .get(`/verifyToken?token=${token}&email=${user.email}`)
       .then((res) => {
@@ -51,13 +58,14 @@ export default function Routes() {
   return (
     <Router history={history}>
       <Switch>
-        <PublicRoute component={App} path="/" exact />
+        <PublicRoute component={Welcome} path="/" exact />
         <PublicRoute component={SignIn} path="/signin" />
         <PublicRoute component={SignUp} path="/signup" />
         <PrivateRoute component={Dashboard} path="/dashboard" />
         <PrivateRoute component={Schedule} path="/schedule" />
         <PrivateRoute component={ScheduleList} path="/schedule-list" />
         <PrivateRoute component={Account} path="/account" />
+        <PrivateRoute component={ConfirmAccount} path="/confirm-account" />
         <PrivateRoute component={ChangePassword} path="/change-password" />
         <Route component={NotFound} path="*" />
       </Switch>

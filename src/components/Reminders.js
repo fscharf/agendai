@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Col, Row } from "react-bootstrap";
+import toast from "react-hot-toast";
+import api from "../services/api";
+import { user } from "./Controllers/UserController";
 
 export default function Reminders() {
-  let newDate = new Date();
-  let currentDate = newDate.toLocaleDateString();
-  let currentHour = newDate.toLocaleTimeString();
+  const [schedule, setSchedule] = useState([]);
+
+  const getAllSchedule = () => {
+    api
+      .get("/schedule", {
+        params: {
+          user_id: user.user_id,
+        },
+      })
+      .then((res) => {
+        return setSchedule(res.data);
+      })
+      .catch((err) => {
+        if (err.response || err.response.data === 401 || 400) {
+          return toast.error(err.response.data.message);
+        }
+      });
+  };
+
+  useEffect(() => {
+    getAllSchedule();
+  }, []);
 
   return (
     <Row>
@@ -13,30 +35,28 @@ export default function Reminders() {
           <i className="far fa-sticky-note me-2"></i>LEMBRETES
         </p>
         <Row>
-          <Col md="4" className="mb-3">
-            <Alert variant="primary">
-              <span>
-                Você tem um agendamento dia <strong>{currentDate}</strong> às{" "}
-                <strong>{currentHour}</strong>
-              </span>
-            </Alert>
-          </Col>
-          <Col md="4" className="mb-3">
-            <Alert variant="primary">
-              <span>
-                Você tem um agendamento dia <strong>{currentDate}</strong> às{" "}
-                <strong>{currentHour}</strong>
-              </span>
-            </Alert>
-          </Col>
-          <Col md="4">
-            <Alert variant="primary" className="mb-3">
-              <span>
-                Você tem um agendamento dia <strong>{currentDate}</strong> às{" "}
-                <strong>{currentHour}</strong>
-              </span>
-            </Alert>
-          </Col>
+          {schedule.length > 0 ? (
+            <>
+              {schedule.map((data, key) => {
+                return (
+                  <Col md="4" className="mb-3">
+                    <Alert key={key} variant="primary">
+                      <span>
+                        Você tem um agendamento dia{" "}
+                        <strong>
+                          {new Date(data.date).toLocaleDateString("pt-br")}
+                        </strong>{" "}
+                        às{" "}
+                        <strong>{String(data.hour).replace(":00", "")}</strong>
+                      </span>
+                    </Alert>
+                  </Col>
+                );
+              })}
+            </>
+          ) : (
+            <p className="text-muted">Você não tem agendamentos próximos :)</p>
+          )}
         </Row>
       </Col>
     </Row>

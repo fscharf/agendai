@@ -10,7 +10,7 @@ export default function Dashboard() {
     <Container fluid className="vh-100 text-light bg-dark">
       <Header />
       <Container>
-        {user.account_verified ? (
+        {!user.account_verified ? (
           <Row className="mb-3">
             <Col md="8">
               <Alert variant="danger">

@@ -90,7 +90,7 @@ export default function Account() {
           </Col>
           <Col md="4">
             <p>MAIS OPÇÕES</p>
-            {user.account_verified ? (
+            {!user.account_verified ? (
               <div className="text-danger mb-3">
                 <i className="far fa-times-circle me-2"></i>CONTA NÃO VERIFICADA
                 <br />

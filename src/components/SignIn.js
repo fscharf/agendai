@@ -83,7 +83,7 @@ export default function SignIn() {
                   />
                 </Form.Group>
                 <Button onClick={handleSignIn} className="btn btn-primary mb-3">
-                  {loading ? <Loading /> : <small>ENTRAR</small>}
+                  {loading ? <Loading /> : <span>ENTRAR</span>}
                 </Button>
 
                 <Form.Text className="mb-3">

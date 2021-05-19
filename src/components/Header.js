@@ -4,16 +4,10 @@ import Nav from "react-bootstrap/Nav";
 import { Link, NavLink } from "react-router-dom";
 import { Container, Dropdown, NavDropdown } from "react-bootstrap";
 import lightIcon from "../assets/img/icon.svg";
-import { removeUserSession } from "./Utils/Common";
-import history from "../services/history";
 import { user } from "./Controllers/UserController";
+import { handleSignOut } from "./Utils/Common";
 
-export default function Header(props) {
-  const handleSignOut = () => {
-    removeUserSession();
-    history.push("/signin");
-  };
-
+export default function Header() {
   return (
     <Navbar expand="lg" variant="dark" className="py-3">
       <Container>

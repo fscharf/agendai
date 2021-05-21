@@ -11,7 +11,7 @@ import {
   Row,
 } from "react-bootstrap";
 import toast from "react-hot-toast";
-import { user } from "../../components/Utils/Common";
+import { getUser } from "../../components/Utils/Common";
 import Header from "../../components/Header";
 import { confirmationToast } from "../../components/Controllers/ScheduleController";
 import api from "../../services/api";
@@ -21,6 +21,7 @@ export default function ScheduleList() {
   const [date, setDate] = useState("");
   const [hour, setHour] = useState("");
   const [status, setStatus] = useState(true);
+  const user = getUser();
 
   const getAllSchedule = () => {
     api
@@ -177,15 +178,13 @@ export default function ScheduleList() {
                                   Confirmado
                                 </Card.Text>
                                 <Dropdown>
-                                  <Dropdown.Toggle
-                                    size="sm"
-                                  >
+                                  <Dropdown.Toggle size="sm">
                                     Opções
                                   </Dropdown.Toggle>
                                   <Dropdown.Menu>
                                     <Dropdown.Item
                                       onClick={() =>
-                                        confirmationToast(data.id_schedule)
+                                        confirmationToast(data.schedule_id)
                                       }
                                     >
                                       Cancelar

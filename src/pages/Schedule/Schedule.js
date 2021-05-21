@@ -8,15 +8,16 @@ import {
   Jumbotron,
   Row,
 } from "react-bootstrap";
-import { user } from "../../components/Controllers/UserController";
 import Header from "../../components/Header";
 import api from "../../services/api";
 import toast from "react-hot-toast";
 import history from "../../services/history";
+import { getUser } from "../../components/Utils/Common";
 
 export default function Schedule() {
   const [date, setDate] = useState(null);
   const [hour, setHour] = useState(null);
+  const user = getUser();
 
   async function handleSubmit() {
     if (!date || !hour || !user.user_id) {

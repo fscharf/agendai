@@ -9,11 +9,11 @@ import {
   Row,
 } from "react-bootstrap";
 import Header from "../../components/Header";
-import { user } from "../../components/Controllers/UserController";
 import api from "../../services/api";
 import history from "../../services/history";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { getUser } from "../../components/Utils/Common";
 
 export var successMsg;
 
@@ -24,6 +24,7 @@ export default function ChangePassword() {
     newPassword: "",
     confirmNewPassword: "",
   });
+  const user = getUser();
 
   useEffect(() => {
     async function getUserById() {

@@ -17,38 +17,39 @@ import PublicRoute from "./components/Utils/PublicRoute";
 import PrivateRoute from "./components/Utils/PrivateRoute";
 import {
   getToken,
+  getUser,
   removeUserSession,
   setUserSession,
 } from "./components/Utils/Common";
 import Loading from "./components/Loading";
 import api from "./services/api";
-import { user } from "./components/Controllers/UserController";
-import ConfirmAccount from "./pages/Account/ConfirmAccount";
+import Confirmation from "./pages/Account/Confirmation";
 
 export default function Routes() {
   const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
+    const user = getUser();
     const token = getToken();
-    if (!token) {
+    
+    if (!token || !user) {
       return;
     }
 
-    if (!user.account_verified) {
-      setAuthLoading(false);
-      history.push("/confirm-account");
-    }
+    const verifyToken = () =>
+      api
+        .get(`/verifyToken?token=${token}&email=${user.email}`)
+        .then((res) => {
+          setUserSession(res.data.token, res.data.user);
+          setAuthLoading(false);
+        })
+        .catch(() => {
+          removeUserSession();
+          setAuthLoading(false);
+        });
 
-    api
-      .get(`/verifyToken?token=${token}&email=${user.email}`)
-      .then((res) => {
-        setUserSession(res.data.token, res.data.user);
-        setAuthLoading(false);
-      })
-      .catch(() => {
-        removeUserSession();
-        setAuthLoading(false);
-      });
+    verifyToken();
+    getUser();
   }, []);
 
   if (authLoading && getToken()) {
@@ -61,11 +62,14 @@ export default function Routes() {
         <PublicRoute component={Welcome} path="/" exact />
         <PublicRoute component={SignIn} path="/signin" />
         <PublicRoute component={SignUp} path="/signup" />
+        <PublicRoute
+          component={Confirmation}
+          path="/confirm/:confirmationCode"
+        />
         <PrivateRoute component={Dashboard} path="/dashboard" />
         <PrivateRoute component={Schedule} path="/schedule" />
         <PrivateRoute component={ScheduleList} path="/schedule-list" />
         <PrivateRoute component={Account} path="/account" />
-        <PrivateRoute component={ConfirmAccount} path="/confirm-account" />
         <PrivateRoute component={ChangePassword} path="/change-password" />
         <Route component={NotFound} path="*" />
       </Switch>

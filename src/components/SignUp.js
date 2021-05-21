@@ -3,8 +3,6 @@ import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import api from "../services/api";
-import { setUserSession } from "./Utils/Common";
-import history from "../services/history";
 import Loading from "./Loading";
 import toast from "react-hot-toast";
 
@@ -37,21 +35,12 @@ export default function SignUp() {
 
     await api
       .post("/users", {
-        name: credentials.name,
+        username: credentials.name,
         email: credentials.email,
         password: credentials.password,
       })
-      .then(() => {
-        api
-          .post("/users/signin", {
-            email: credentials.email,
-            password: credentials.password,
-          })
-          .then((res) => {
-            setLoading(false);
-            setUserSession(res.data.token, res.data.user);
-            return history.push("/dashboard");
-          });
+      .then((res) => {
+        return toast.success(res.data.message);
       })
       .catch((err) => {
         setLoading(false);
@@ -67,7 +56,10 @@ export default function SignUp() {
   }
 
   return (
-    <Container fluid className="vh-100 d-flex align-items-center text-center justify-content-center">
+    <Container
+      fluid
+      className="vh-100 d-flex align-items-center text-center justify-content-center"
+    >
       <Helmet>
         <title>{title}</title>
       </Helmet>

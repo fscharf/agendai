@@ -2,29 +2,29 @@ import React, { useEffect, useState } from "react";
 import { Alert, Col, Row } from "react-bootstrap";
 import toast from "react-hot-toast";
 import api from "../services/api";
-import { user } from "./Controllers/UserController";
+import { getUser } from "./Utils/Common";
 
 export default function Reminders() {
   const [schedule, setSchedule] = useState([]);
-
-  const getAllSchedule = () => {
-    api
-      .get("/schedule", {
-        params: {
-          user_id: user.user_id,
-        },
-      })
-      .then((res) => {
-        return setSchedule(res.data);
-      })
-      .catch((err) => {
-        if (err.response || err.response.data === 401 || 400) {
-          return toast.error(err.response.data.message);
-        }
-      });
-  };
+  const user = getUser();
 
   useEffect(() => {
+    const getAllSchedule = async () => {
+      await api
+        .get("/schedule", {
+          params: {
+            user_id: user.user_id,
+          },
+        })
+        .then((res) => {
+          return setSchedule(res.data);
+        })
+        .catch((err) => {
+          if (err.response || err.response.data === 401 || 400) {
+            return toast.error(err.response.data.message);
+          }
+        });
+    };
     getAllSchedule();
   }, []);
 
@@ -45,10 +45,7 @@ export default function Reminders() {
                         <Alert key={key} variant="primary">
                           <span>
                             Você tem um agendamento dia{" "}
-                            <strong>
-                              {data.date}
-                            </strong>{" "}
-                            às{" "}
+                            <strong>{data.date}</strong> às{" "}
                             <strong>
                               {String(data.hour).replace(":00", "")}
                             </strong>

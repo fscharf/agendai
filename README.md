@@ -13,3 +13,7 @@
 ### V1.0.3
 # Schedule implementation, methods, model and validation (not complete);
 # Next step: Validate User through e-mail.
+
+### V1.0.4
+# Nodemailer sends e-mail in Registration;
+# User authenticates and needs e-mail validation;

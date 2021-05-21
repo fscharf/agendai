@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Jumbotron,
+  Row,
+} from "react-bootstrap";
 import Header from "../../components/Header";
 import { user } from "../../components/Controllers/UserController";
 import api from "../../services/api";
@@ -63,71 +71,73 @@ export default function ChangePassword() {
   }
 
   return (
-    <Container fluid className="vh-100 h-100 bg-dark text-light">
+    <Jumbotron fluid>
       <Header />
       <Container>
         <Row>
-          <Col md="4">
-            <p>
-              <Link to="/account" title="Voltar" className="btn btn-primary">
-                <i className="far fa-arrow-left"></i>
-              </Link>
-              <i className="far fa-lock ms-3 me-2"></i>TROCAR SENHA
-            </p>
+          <Col md="4" className="mx-auto">
+            <Card className="mb-3 p-5">
+              <Card.Text>
+                <Link to="/account" title="Voltar" className="btn btn-primary">
+                  <i className="far fa-arrow-left"></i>
+                </Link>
+                <i className="far fa-lock ms-3 me-2"></i>TROCAR SENHA
+              </Card.Text>
 
-            <Form.Row className="mb-3">
-              <Form.Label>Senha atual</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Senha atual"
-                value={credentials.password}
-                onChange={(e) =>
-                  setCredentials({
-                    password: e.target.value,
-                    newPassword: credentials.newPassword,
-                    confirmNewPassword: credentials.confirmNewPassword,
-                  })
-                }
-              />
-            </Form.Row>
-            <Form.Row className="mb-3">
-              <Form.Label>Nova senha</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Nova senha"
-                value={credentials.newPassword}
-                onChange={(e) =>
-                  setCredentials({
-                    newPassword: e.target.value,
-                    password: credentials.password,
-                    confirmNewPassword: credentials.confirmNewPassword,
-                  })
-                }
-              />
-            </Form.Row>
-            <Form.Row className="mb-3">
-              <Form.Label>Confirme a nova senha</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Confirme a nova senha"
-                value={credentials.confirmNewPassword}
-                onChange={(e) =>
-                  setCredentials({
-                    confirmNewPassword: e.target.value,
-                    newPassword: credentials.newPassword,
-                    password: credentials.password,
-                  })
-                }
-              />
-            </Form.Row>
-            <Form.Row className="d-grid mb-3">
-              <Button variant="primary" onClick={handleChangePassword}>
-                <i className="far fa-check-circle me-2"></i>ENVIAR
-              </Button>
-            </Form.Row>
+              <Form.Row className="mb-3">
+                <Form.Label>Senha atual</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Senha atual"
+                  value={credentials.password}
+                  onChange={(e) =>
+                    setCredentials({
+                      password: e.target.value,
+                      newPassword: credentials.newPassword,
+                      confirmNewPassword: credentials.confirmNewPassword,
+                    })
+                  }
+                />
+              </Form.Row>
+              <Form.Row className="mb-3">
+                <Form.Label>Nova senha</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Nova senha"
+                  value={credentials.newPassword}
+                  onChange={(e) =>
+                    setCredentials({
+                      newPassword: e.target.value,
+                      password: credentials.password,
+                      confirmNewPassword: credentials.confirmNewPassword,
+                    })
+                  }
+                />
+              </Form.Row>
+              <Form.Row className="mb-3">
+                <Form.Label>Confirme a nova senha</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Confirme a nova senha"
+                  value={credentials.confirmNewPassword}
+                  onChange={(e) =>
+                    setCredentials({
+                      confirmNewPassword: e.target.value,
+                      newPassword: credentials.newPassword,
+                      password: credentials.password,
+                    })
+                  }
+                />
+              </Form.Row>
+              <Form.Row className="d-grid mb-3">
+                <Button variant="primary" onClick={handleChangePassword}>
+                  <i className="far fa-check-circle me-2"></i>ENVIAR
+                </Button>
+              </Form.Row>
+            </Card>
           </Col>
         </Row>
       </Container>
-    </Container>
+    </Jumbotron>
   );
 }

@@ -1,7 +1,6 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import lightIcon from "../assets/img/icon.svg";
 
 export default function Welcome() {
   return (
@@ -12,20 +11,15 @@ export default function Welcome() {
       <Container>
         <Row>
           <Col md="3" className="mx-auto">
-            <img
-              src={lightIcon}
-              alt="icon"
-              width="150"
-              className="img-fluid mb-3"
-            />
+            <h2 className="fw-bold brand-title">Barber Shop.</h2>
             <div className="d-grid">
-              <h4 className="fw-bold">Bem-vindo ao Barber Shop!</h4>
-              <p>Agende seu corte, organize seu tempo!</p>
+              <span className="fw-bold">Bem-vindo ao Barber Shop!</span>
+              <p className="mb-5">Agende seu corte, organize seu tempo!</p>
 
               <Link to="/signup" className="btn btn-primary mb-3">
                 CADASTRE-SE GRÁTIS
               </Link>
-              <Link to="/signin" className="btn btn-dark">
+              <Link to="/signin" className="btn btn-light text-primary">
                 INICIAR SESSÃO
               </Link>
             </div>

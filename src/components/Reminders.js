@@ -30,7 +30,7 @@ export default function Reminders() {
 
   return (
     <Row>
-      <Col md="8">
+      <Col>
         <p>
           <i className="far fa-sticky-note me-2"></i>LEMBRETES
         </p>
@@ -39,18 +39,24 @@ export default function Reminders() {
             <>
               {schedule.map((data, key) => {
                 return (
-                  <Col md="4" className="mb-3">
-                    <Alert key={key} variant="primary">
-                      <span>
-                        Você tem um agendamento dia{" "}
-                        <strong>
-                          {new Date(data.date).toLocaleDateString("pt-br")}
-                        </strong>{" "}
-                        às{" "}
-                        <strong>{String(data.hour).replace(":00", "")}</strong>
-                      </span>
-                    </Alert>
-                  </Col>
+                  <>
+                    {data.status && (
+                      <Col md="4" className="mb-3">
+                        <Alert key={key} variant="primary">
+                          <span>
+                            Você tem um agendamento dia{" "}
+                            <strong>
+                              {data.date}
+                            </strong>{" "}
+                            às{" "}
+                            <strong>
+                              {String(data.hour).replace(":00", "")}
+                            </strong>
+                          </span>
+                        </Alert>
+                      </Col>
+                    )}
+                  </>
                 );
               })}
             </>

@@ -69,7 +69,14 @@ export default function Routes() {
         <PrivateRoute component={ChangePassword} path="/change-password" />
         <Route component={NotFound} path="*" />
       </Switch>
-      <Toaster position="top-right" toastOptions={{ duration: 5000 }} />
+      <Toaster
+        toastOptions={{
+          duration: 5000,
+          toast: {
+            duration: 10000,
+          },
+        }}
+      />
     </Router>
   );
 }

@@ -3,7 +3,6 @@ import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import api from "../services/api";
-import lightIcon from "../assets/img/icon.svg";
 import { setUserSession } from "./Utils/Common";
 import history from "../services/history";
 import Loading from "./Loading";
@@ -68,22 +67,19 @@ export default function SignUp() {
   }
 
   return (
-    <Container fluid className="bg-dark vh-100 text-center">
+    <Container fluid className="vh-100 d-flex align-items-center text-center justify-content-center">
       <Helmet>
         <title>{title}</title>
       </Helmet>
       <Container>
         <Row>
           <Col md="4" className="mx-auto">
-            <Card bg="dark" className="p-4 text-light border-0 shadow-sm">
+            <Card className="p-5 mb-3">
               <Form.Row className="d-grid">
                 <Link to="/">
-                  <img
-                    src={lightIcon}
-                    alt="icon"
-                    className="img-fluid"
-                    width="125"
-                  />
+                  <Card.Title className="fw-bold brand-title">
+                    Barber Shop.
+                  </Card.Title>
                 </Link>
                 <br />
                 <Form.Group className="mb-3">

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Col, Form, Row, Button, Card, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import lightIcon from "../assets/img/icon.svg";
 import { Helmet } from "react-helmet";
 import Loading from "./Loading";
 import api from "../services/api";
@@ -25,6 +24,7 @@ export default function SignIn() {
       .then((res) => {
         setLoading(false);
         setUserSession(res.data.token, res.data.user);
+        toast.success(res.data.message);
         return history.push("/dashboard");
       })
       .catch((err) => {
@@ -41,22 +41,17 @@ export default function SignIn() {
   };
 
   return (
-    <Container fluid className="bg-dark text-center vh-100">
+    <Container fluid className="vh-100 d-flex align-items-center text-center justify-content-center">
       <Helmet>
         <title>{title}</title>
       </Helmet>
       <Container>
         <Row>
           <Col md="4" className="mx-auto">
-            <Card bg="dark" className="p-4 text-light border-0 shadow-sm">
+            <Card className="mb-3 p-5">
               <div className="d-grid">
                 <Link to="/">
-                  <img
-                    src={lightIcon}
-                    alt="icon"
-                    className="img-fluid"
-                    width="125"
-                  />
+                  <Card.Title className="fw-bold brand-title">Barber Shop.</Card.Title>
                 </Link>
                 <br />
                 <Form.Group className="mb-3">

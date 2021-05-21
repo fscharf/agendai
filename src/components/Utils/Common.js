@@ -16,12 +16,15 @@ export const setUserSession = (token, user) => {
 };
 
 export const removeUserSession = () => {
+  sessionStorage.clear("user");
+  sessionStorage.clear("token");
   sessionStorage.removeItem("token");
   sessionStorage.removeItem("user");
-  setTimeout(1000);
 };
 
 export const handleSignOut = () => {
   removeUserSession();
   return history.push("/signin");
 };
+
+export const user = getUser();

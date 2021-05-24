@@ -17,12 +17,24 @@ import { getUser } from "../../components/Utils/Common";
 export default function Schedule() {
   const [date, setDate] = useState(null);
   const [hour, setHour] = useState(null);
+  const [startDate, setStartDate] = useState(new Date());
   const user = getUser();
 
   async function handleSubmit() {
     if (!date || !hour || !user.user_id) {
       return toast.error("Por favor, preencha todos campos.");
     }
+
+    if (new Date(date).getUTCDate() < startDate.getUTCDate()) {
+      return toast.error("Por favor, selecione uma data válida.");
+    }
+
+    // if (
+    //   new Date(date).getUTCDate() === startDate.getUTCDate() &&
+    //   hour < startDate.getHours()
+    // ) {
+    //   return toast.error("Por favor, selecione um horário.");
+    // }
 
     await api
       .post("/schedule", {
@@ -60,6 +72,7 @@ export default function Schedule() {
                 <Form.Label>Escolha uma data</Form.Label>
                 <Form.Control
                   type="date"
+                  selected={startDate}
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
                 />

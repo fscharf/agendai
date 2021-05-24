@@ -12,6 +12,7 @@ import {
 } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { getUser } from "../../components/Utils/Common";
+import { formatDate } from "../../components/Utils/Utils";
 import Header from "../../components/Header";
 import { confirmationToast } from "../../components/Controllers/ScheduleController";
 import api from "../../services/api";
@@ -164,7 +165,7 @@ export default function ScheduleList() {
                             <Card.Text className="fw-bold">
                               <Card.Text>
                                 <i className="far fa-calendar-alt me-2" />
-                                {data.date}
+                                {formatDate(data.date)}
                                 &nbsp;&middot;&nbsp;
                                 <i className="far fa-clock me-2" />
                                 {String(data.hour).replace(":00", "")}

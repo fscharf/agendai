@@ -3,6 +3,7 @@ import { Alert, Col, Row } from "react-bootstrap";
 import toast from "react-hot-toast";
 import api from "../services/api";
 import { getUser } from "./Utils/Common";
+import { formatDate } from "./Utils/Utils";
 
 export default function Reminders() {
   const [schedule, setSchedule] = useState([]);
@@ -45,7 +46,7 @@ export default function Reminders() {
                         <Alert key={key} variant="primary">
                           <span>
                             Você tem um agendamento dia{" "}
-                            <strong>{data.date}</strong> às{" "}
+                            <strong>{formatDate(data.date)}</strong> às{" "}
                             <strong>
                               {String(data.hour).replace(":00", "")}
                             </strong>

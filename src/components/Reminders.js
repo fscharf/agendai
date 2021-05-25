@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Alert, Col, Row } from "react-bootstrap";
 import toast from "react-hot-toast";
 import api from "../services/api";
-import { getUser } from "./Utils/Common";
-import { formatDate } from "./Utils/Utils";
+import { getUser, formatDate, checkDate } from "./Utils/Common";
 
 export default function Reminders() {
   const [schedule, setSchedule] = useState([]);
@@ -35,6 +34,9 @@ export default function Reminders() {
         <p>
           <i className="far fa-sticky-note me-2"></i>LEMBRETES
         </p>
+        <p className="text-muted">
+          Mostrando apenas os próximos agendamentos.
+        </p>
         <Row>
           {schedule.length > 0 ? (
             <>
@@ -43,15 +45,17 @@ export default function Reminders() {
                   <>
                     {data.status && (
                       <Col md="4" className="mb-3">
-                        <Alert key={key} variant="primary">
-                          <span>
-                            Você tem um agendamento dia{" "}
-                            <strong>{formatDate(data.date)}</strong> às{" "}
-                            <strong>
-                              {String(data.hour).replace(":00", "")}
-                            </strong>
-                          </span>
-                        </Alert>
+                        {checkDate(data.date) <= checkDate() && (
+                          <Alert key={key} variant="primary">
+                            <span>
+                              Você tem um agendamento dia{" "}
+                              <strong>{formatDate(data.date)}</strong> às{" "}
+                              <strong>
+                                {String(data.hour).replace(":00", "")}
+                              </strong>
+                            </span>
+                          </Alert>
+                        )}
                       </Col>
                     )}
                   </>

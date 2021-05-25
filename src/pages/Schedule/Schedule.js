@@ -5,19 +5,19 @@ import {
   Col,
   Container,
   Form,
-  Jumbotron,
   Row,
 } from "react-bootstrap";
-import Header from "../../components/Header";
 import api from "../../services/api";
 import toast from "react-hot-toast";
 import history from "../../services/history";
 import { getUser } from "../../components/Utils/Common";
+import ScheduleHour from "./ScheduleHour";
+import Layout from "../../components/Layout/Layout";
 
 export default function Schedule() {
   const [date, setDate] = useState(null);
   const [hour, setHour] = useState(null);
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate,] = useState(new Date());
   const user = getUser();
 
   async function handleSubmit() {
@@ -28,13 +28,6 @@ export default function Schedule() {
     if (new Date(date).getUTCDate() < startDate.getUTCDate()) {
       return toast.error("Por favor, selecione uma data válida.");
     }
-
-    // if (
-    //   new Date(date).getUTCDate() === startDate.getUTCDate() &&
-    //   hour < startDate.getHours()
-    // ) {
-    //   return toast.error("Por favor, selecione um horário.");
-    // }
 
     await api
       .post("/schedule", {
@@ -58,8 +51,7 @@ export default function Schedule() {
   }
 
   return (
-    <Jumbotron className="vh-100 bg-light" fluid>
-      <Header />
+    <Layout>
       <Container>
         <Row>
           <Col md="4" className="mx-auto">
@@ -79,24 +71,7 @@ export default function Schedule() {
               </Form.Row>
               <Form.Row className="mb-3">
                 <Form.Label>Escolha um horário</Form.Label>
-                <select
-                  className="mr-sm-2 form-select"
-                  id="inlineFormCustomSelect"
-                  name="hour"
-                  value={hour}
-                  onChange={(e) => setHour(e.target.value)}
-                >
-                  <option value="">Selecione...</option>
-                  <option value="09:00">09:00</option>
-                  <option value="10:00">10:00</option>
-                  <option value="11:00">11:00</option>
-                  <option value="12:00">12:00</option>
-                  <option value="14:00">14:00</option>
-                  <option value="15:00">15:00</option>
-                  <option value="16:00">16:00</option>
-                  <option value="17:00">17:00</option>
-                  <option value="18:00">18:00</option>
-                </select>
+                <ScheduleHour value={hour} onChange={(e) => setHour(e.target.value)} />
               </Form.Row>
               <Form.Row className="d-grid">
                 <Button onClick={handleSubmit} className="btn btn-primary">
@@ -108,6 +83,6 @@ export default function Schedule() {
           </Col>
         </Row>
       </Container>
-    </Jumbotron>
+    </Layout>
   );
 }

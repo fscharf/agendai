@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import api from "../services/api";
 import Loading from "./Loading";
 import toast from "react-hot-toast";
+import history from "../services/history";
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
@@ -40,7 +41,8 @@ export default function SignUp() {
         password: credentials.password,
       })
       .then((res) => {
-        return toast.success(res.data.message);
+        toast.success(res.data.message);
+        history.push("/signin");
       })
       .catch((err) => {
         setLoading(false);

@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Form,
-  Jumbotron,
-  Row,
-} from "react-bootstrap";
-import Header from "../../components/Header";
+import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import Layout from "../../components/Layout/Layout";
 import api from "../../services/api";
 import history from "../../services/history";
 import toast from "react-hot-toast";
@@ -34,7 +26,7 @@ export default function ChangePassword() {
           return setUserInfo(res.data.password);
         })
         .catch((err) => {
-          alert(err);
+          toast.error(err);
           history.push("/dashboard");
         });
     }
@@ -61,8 +53,8 @@ export default function ChangePassword() {
         checkPassword: credentials.password,
       })
       .then(() => {
-        successMsg = "Senha atualizada com sucesso.";
-        return history.push("/account");
+        toast.success("Senha atualizada com sucesso.");
+        history.push("/account");
       })
       .catch((err) => {
         if (err.response || err.response.data === 400 || 401) {
@@ -72,8 +64,7 @@ export default function ChangePassword() {
   }
 
   return (
-    <Jumbotron fluid>
-      <Header />
+    <Layout>
       <Container>
         <Row>
           <Col md="4" className="mx-auto">
@@ -139,6 +130,6 @@ export default function ChangePassword() {
           </Col>
         </Row>
       </Container>
-    </Jumbotron>
+    </Layout>
   );
 }

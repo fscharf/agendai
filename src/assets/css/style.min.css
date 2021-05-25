@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Barlow&family=Bitter&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow&family=Bitter&family=DM+Sans&display=swap");
 .welcome-page {
   background: url("../img/edited.svg") center no-repeat;
   object-fit: cover;
@@ -7497,4 +7497,4 @@ textarea.form-control-lg {
     display: none !important; } }
 
 * {
-  font-family: "Barlow", sans-serif; }
+  font-family: "DM Sans", sans-serif; }

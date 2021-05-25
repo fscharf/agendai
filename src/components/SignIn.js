@@ -25,7 +25,7 @@ export default function SignIn() {
         setLoading(false);
         setUserSession(res.data.token, res.data.user);
         toast.success(res.data.message);
-        return history.push("/dashboard");
+        setTimeout(() => (window.location.href = "/dashboard"), 3000);
       })
       .catch((err) => {
         setLoading(false);
@@ -41,7 +41,10 @@ export default function SignIn() {
   };
 
   return (
-    <Container fluid className="vh-100 d-flex align-items-center text-center justify-content-center">
+    <Container
+      fluid
+      className="vh-100 d-flex align-items-center text-center justify-content-center"
+    >
       <Helmet>
         <title>{title}</title>
       </Helmet>
@@ -51,7 +54,9 @@ export default function SignIn() {
             <Card className="mb-3 p-5">
               <div className="d-grid">
                 <Link to="/">
-                  <Card.Title className="fw-bold brand-title">Barber Shop.</Card.Title>
+                  <Card.Title className="fw-bold brand-title">
+                    Barber Shop.
+                  </Card.Title>
                 </Link>
                 <br />
                 <Form.Group className="mb-3">

@@ -1,10 +1,10 @@
 import React from "react";
 import { Container, Spinner } from "react-bootstrap";
 
-export default function Loading(props) {
+export default function Loading() {
   return (
     <Container
-      className="vh-100 bg-dark d-flex justify-content-center align-items-center"
+      className="vh-100 d-flex justify-content-center align-items-center"
       fluid
     >
       <Spinner

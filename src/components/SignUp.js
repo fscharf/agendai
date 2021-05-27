@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
-import api from "../services/api";
+import { User } from "./Controllers/UserController";
 import Loading from "./Loading";
-import toast from "react-hot-toast";
-import history from "../services/history";
 
 export default function SignUp() {
+  const title = "Cadastre-se grátis no Barber Shop";
   const [loading, setLoading] = useState(false);
   const [credentials, setCredentials] = useState({
     email: "",
@@ -16,46 +15,24 @@ export default function SignUp() {
     confirmPassword: "",
   });
 
-  const title = "Cadastre-se grátis no Barber Shop";
+  const userFields = new User();
 
-  async function handleSignUp() {
-    if (
-      !credentials.email ||
-      !credentials.password ||
-      !credentials.confirmPassword ||
-      !credentials.name
-    ) {
-      return toast.error("Por favor, preencha todos os campos.");
-    }
-    if (credentials.password !== credentials.confirmPassword) {
-      return toast.error("Senhas não conferem.");
-    }
-    if (credentials.password.length < 6) {
-      return toast.error("Sua senha deve conter pelo menos 6 caracteres.");
-    }
-
-    await api
-      .post("/users", {
-        username: credentials.name,
+  const handleSignUp = () => {
+    userFields
+      .createUser({
         email: credentials.email,
         password: credentials.password,
+        name: credentials.name,
+        confirmPassword: credentials.confirmPassword,
       })
-      .then((res) => {
-        toast.success(res.data.message);
-        history.push("/signin");
+      .then(() => {
+        setLoading(userFields.loading);
       })
       .catch((err) => {
-        setLoading(false);
-        if (
-          (err.response && err.response.status === 401) ||
-          (err.response && err.response.status === 400)
-        ) {
-          return toast.error(err.response.data.message);
-        } else {
-          return toast.error("Oops! Alguma coisa deu errado.");
-        }
+        if (err) setLoading(userFields.loading);
       });
-  }
+  };
+
 
   return (
     <Container

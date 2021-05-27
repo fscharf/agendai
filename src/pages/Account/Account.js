@@ -2,19 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Card, Col, Container, Form, Jumbotron, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Header from "../../components/Header";
-import api from "../../services/api";
-import { successMsg } from "./ChangePassword";
 import toast from "react-hot-toast";
-import { getUser, handleSignOut } from "../../components/Utils/Common";
+import { getUser } from "../../components/Utils/Common";
+import { User } from "../../components/Controllers/UserController";
 
 export default function Account() {
   const [users, setUserInfo] = useState([]);
   const user = getUser();
+  const fields = new User();
 
   useEffect(() => {
-    async function getUserById() {
-      await api
-        .get(`/users/${user.user_id}`)
+    function getUserById() {
+      fields
+        .getUserById({ userKey: user.user_id })
         .then((res) => {
           return setUserInfo(res.data);
         })
@@ -24,10 +24,7 @@ export default function Account() {
     }
 
     getUserById();
-
-    if (successMsg) {
-      return toast.success(successMsg);
-    }
+    //eslint-disable-next-line
   }, []);
 
   return (
@@ -80,7 +77,7 @@ export default function Account() {
                     </div>
                   )}
                   <Link
-                    className="btn btn-primary btn-sm disabled"
+                    className="btn btn-primary btn-sm"
                     to="/change-password"
                   >
                     <i className="far fa-envelope me-2" />
@@ -94,19 +91,6 @@ export default function Account() {
                     <i className="far fa-lock me-2" />
                     TROCAR SENHA
                   </Link>
-                  <p />
-                  <Link
-                    className="btn btn-primary btn-sm disabled"
-                    to="/settings"
-                  >
-                    <i className="far fa-cog me-2" />
-                    CONFIGURAÇÕES
-                  </Link>
-                  <p />
-                  <a href="/signin" onClick={() => handleSignOut()}>
-                    <i className="far fa-sign-out-alt me-2" />
-                    Sair da Conta
-                  </a>
                 </Col>
               </Row>
             </Card>

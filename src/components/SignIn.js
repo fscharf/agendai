@@ -5,7 +5,6 @@ import { Helmet } from "react-helmet";
 import Loading from "./Loading";
 import api from "../services/api";
 import { setUserSession } from "./Utils/Common";
-import history from "../services/history";
 import toast from "react-hot-toast";
 
 export default function SignIn() {
@@ -25,7 +24,7 @@ export default function SignIn() {
         setLoading(false);
         setUserSession(res.data.token, res.data.user);
         toast.success(res.data.message);
-        setTimeout(() => (window.location.href = "/dashboard"), 3000);
+        setTimeout(() => (window.location.href = "/dashboard"), 2000);
       })
       .catch((err) => {
         setLoading(false);

@@ -6,7 +6,7 @@ import SignIn from "./components/SignIn";
 import NotFound from "./components/NotFound";
 import SignUp from "./components/SignUp";
 import Dashboard from "./pages/Dashboard";
-import Schedule from "./pages/Schedule/Schedule";
+import Schedule from "./pages/Schedule/ScheduleForm";
 import ScheduleList from "./pages/Schedule/ScheduleList";
 import Account from "./pages/Account/Account";
 import ChangePassword from "./pages/Account/ChangePassword";
@@ -26,12 +26,12 @@ import api from "./services/api";
 import Confirmation from "./pages/Account/Confirmation";
 
 export default function Routes() {
-  const [authLoading, setAuthLoading] = useState(true);
+  const [authLoading, setAuthLoading] = useState(false);
 
   useEffect(() => {
     const user = getUser();
     const token = getToken();
-    
+
     if (!token || !user) {
       return;
     }
@@ -75,9 +75,12 @@ export default function Routes() {
       </Switch>
       <Toaster
         toastOptions={{
-          duration: 5000,
-          toast: {
-            duration: 10000,
+          duration: 100000,
+          success: {
+            duration: 5000,
+          },
+          error: {
+            duration: 5000,
           },
         }}
       />

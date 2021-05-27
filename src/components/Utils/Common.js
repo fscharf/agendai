@@ -1,4 +1,3 @@
-import history from "../../services/history";
 import api from "../../services/api";
 
 export const getUser = () => {
@@ -25,7 +24,7 @@ export const removeUserSession = () => {
 
 export const handleSignOut = () => {
   removeUserSession();
-  history.push("/signin");
+  window.location.href = "/signin";
 };
 
 export const verifyUser = (code) => {
@@ -46,7 +45,7 @@ export const checkDate = (props) => {
 
   if (props) {
     newDate = new Date(props);
-    return currentDate = newDate.getUTCDate();
+    return (currentDate = newDate.getUTCDate());
   }
 
   currentDate = newDate.getUTCDate();

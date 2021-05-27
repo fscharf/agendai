@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Dropdown,
-  Form,
-  Row,
-} from "react-bootstrap";
+import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { getUser, formatDate, checkDate } from "../../components/Utils/Common";
-import { confirmationToast } from "../../components/Controllers/ScheduleController";
-import api from "../../services/api";
+import { Schedule } from "../../components/Controllers/ScheduleController";
 import Layout from "../../components/Layout/Layout";
+import ConfirmationToast from "../../components/ConfirmationToast";
 import ScheduleHour from "./ScheduleHour";
 
 export default function ScheduleList() {
@@ -20,30 +12,24 @@ export default function ScheduleList() {
   const [date, setDate] = useState("");
   const [hour, setHour] = useState("");
   const [status, setStatus] = useState(true);
+  const fields = new Schedule();
   const user = getUser();
 
-  const getSchedule = () => {
-    api
-      .get("/schedule", {
-        params: {
-          user_id: user.user_id,
-          date: date,
-          hour: hour,
-          status: status,
-        },
+  const getScheduleList = () => {
+    fields
+      .getSchedule({
+        userKey: user.user_id,
+        date: date,
+        hour: hour,
+        status: status,
       })
-      .then((res) => {
-        return setSchedule(res.data);
-      })
-      .catch((err) => {
-        if (err.response || err.response.data === 401 || 400) {
-          return toast.error(err.response.data.message);
-        }
-      });
+      .then((res) => setSchedule(res.data))
+      .catch((err) => toast.error(err.response.data.message));
   };
 
   useEffect(() => {
-    getSchedule();
+    getScheduleList();
+    //eslint-disable-next-line
   }, []);
 
   return (
@@ -96,13 +82,17 @@ export default function ScheduleList() {
                   </Col>
                 </Form.Row>
                 <Form.Row as={Row} className="mb-3">
-                  <Col md="4 d-grid" className="mb-3">
-                    <Button size="sm" variant="primary" onClick={getSchedule}>
+                  <Col md="4" className="d-grid mb-3">
+                    <Button
+                      size="sm"
+                      variant="primary"
+                      onClick={() => getScheduleList()}
+                    >
                       <i className="far fa-check-circle me-2" />
                       APLICAR FILTROS
                     </Button>
                   </Col>
-                  <Col md="4 d-grid" className="mb-3">
+                  <Col md="4" className="d-grid mb-3">
                     <Button
                       size="sm"
                       variant="warning"
@@ -112,7 +102,7 @@ export default function ScheduleList() {
                       LIMPAR FILTROS
                     </Button>
                   </Col>
-                  <Col md="4 d-grid" className="mb-3">
+                  <Col md="4" className="d-grid mb-3">
                     <Form.Check
                       label={`Mostrar apenas Confirmados`}
                       defaultChecked={true}
@@ -124,69 +114,70 @@ export default function ScheduleList() {
                   </Col>
                 </Form.Row>
               </div>
+              <p className="text-muted">
+                Mostrando apenas os próximos agendamentos.
+              </p>
               {schedule.length > 0 ? (
                 <>
                   <Row>
                     {schedule.map((data, key) => {
                       return (
-                        <Col md="4">
-                          {checkDate(data.date) <= checkDate() && (
-                            <Card
-                              className={`p-3 mb-3 ${
-                                data.status
-                                  ? "border border-success"
-                                  : "border border-danger"
-                              }`}
-                              key={key}
-                            >
-                              <>
-                                <Card.Text className="fw-bold">
-                                  <Card.Text>
-                                    <i className="far fa-calendar-alt me-2" />
-                                    {formatDate(data.date)}
-                                    &nbsp;&middot;&nbsp;
-                                    <i className="far fa-clock me-2" />
-                                    {String(data.hour).replace(":00", "")}
-                                  </Card.Text>
-                                </Card.Text>
-
-                                {data.status ? (
-                                  <>
-                                    <Card.Text className="text-success">
-                                      <i className="far fa-check-circle me-2" />
-                                      Confirmado
+                        <>
+                          {checkDate(data.date) >= checkDate() && (
+                            <Col md="4">
+                              <Card
+                                className={`p-3 mb-3 ${
+                                  data.status
+                                    ? "border border-success"
+                                    : "border border-danger"
+                                }`}
+                                key={key}
+                              >
+                                <>
+                                  <Card.Text className="fw-bold">
+                                    <Card.Text>
+                                      <i className="far fa-calendar-alt me-2" />
+                                      {formatDate(data.date)}
+                                      &nbsp;&middot;&nbsp;
+                                      <i className="far fa-clock me-2" />
+                                      {String(data.hour).replace(":00", "")}
                                     </Card.Text>
-                                    <Dropdown>
-                                      <Dropdown.Toggle size="sm">
-                                        Opções
-                                      </Dropdown.Toggle>
-                                      <Dropdown.Menu>
-                                        <Dropdown.Item
-                                          onClick={() =>
-                                            confirmationToast(data.schedule_id)
-                                          }
-                                        >
-                                          Cancelar
-                                        </Dropdown.Item>
-                                      </Dropdown.Menu>
-                                    </Dropdown>
-                                  </>
-                                ) : (
-                                  <Card.Text className="text-danger">
-                                    <i className="far fa-times-circle me-2" />
-                                    Cancelado
                                   </Card.Text>
-                                )}
-                              </>
-                            </Card>
+
+                                  {data.status ? (
+                                    <>
+                                      <Card.Text className="text-success">
+                                        <i className="far fa-check-circle me-2" />
+                                        Confirmado
+                                      </Card.Text>
+                                      <ConfirmationToast
+                                        onClick={() =>
+                                          fields.updateSchedule({
+                                            key: data.schedule_id,
+                                            status: !data.status,
+                                          })
+                                        }
+                                        variant="light"
+                                        actionTitle="Cancelar"
+                                      />
+                                    </>
+                                  ) : (
+                                    <Card.Text className="text-danger">
+                                      <i className="far fa-times-circle me-2" />
+                                      Cancelado
+                                    </Card.Text>
+                                  )}
+                                </>
+                              </Card>
+                            </Col>
                           )}
-                        </Col>
+                        </>
                       );
                     })}
                   </Row>
                 </>
               ) : (
-                <p className="text-muted">Nada encontrado :(</p>
+                <p className="text-muted">Oops, nada encontrado.</p>
               )}
             </Card>
           </Col>

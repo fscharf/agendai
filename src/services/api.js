@@ -1,10 +1,10 @@
 import axios from "axios";
-import { getToken } from "../components/Utils/Common";
+const token = sessionStorage.getItem("token") || null;
 
 const api = axios.create({
-  baseURL: "https://barber-shop-api-2.herokuapp.com/",  
+  baseURL: "https://barber-shop-api-2.herokuapp.com",
   headers: {
-    "X-Access-Token": getToken(),
+    "X-Access-Token": token,
   },
 });
 

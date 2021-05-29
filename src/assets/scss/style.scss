@@ -1,7 +1,4 @@
 @import "variables";
-@import url("https://fonts.googleapis.com/css2?family=Barlow&family=Bitter&family=DM+Sans&display=swap");
+@import "nightmode";
+@import url("https://fonts.googleapis.com/css2?family=Barlow&family=Bitter&family=DM+Sans&family=Righteous&display=swap");
 @import "../../../node_modules/bootstrap/scss/bootstrap";
-
-* {
-    font-family: "DM Sans", sans-serif;
-}

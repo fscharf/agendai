@@ -1,31 +1,27 @@
 import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Layout from "../components/Layout/Layout";
+import welcomeImg from "../assets/img/undraw_date_picker_gorr.svg";
 
 export default function Welcome() {
   return (
-    <Container
-      fluid
-      className="welcome-page d-flex justify-content-center align-items-center text-center text-light"
-    >
-      <Container>
-        <Row>
-          <Col md="3" className="mx-auto">
-            <h2 className="fw-bold brand-title">Barber Shop.</h2>
-            <div className="d-grid">
-              <span className="fw-bold">Bem-vindo ao Barber Shop!</span>
-              <p className="mb-5">Agende seu corte, organize seu tempo!</p>
-
-              <Link to="/signup" className="btn btn-primary mb-3">
-                CADASTRE-SE GRÁTIS
-              </Link>
-              <Link to="/signin" className="btn btn-light text-primary">
-                INICIAR SESSÃO
-              </Link>
-            </div>
-          </Col>
-        </Row>
-      </Container>
-    </Container>
+    <Layout>
+      <Row>
+        <Col md="4" className="my-auto ms-auto">
+          <h2 className="fw-bold">Organize seu tempo!</h2>
+          <h4 className="text-muted">
+            No Agendaí, você agenda seu atendimento muito mais fácil e rápido.
+          </h4>
+          <p/>
+          <Link className="btn btn-dark" to="/signup">
+            Cadastre-se agora! É grátis.
+          </Link>
+        </Col>
+        <Col md="6" className="mx-auto my-auto d-none d-sm-block">
+          <img src={welcomeImg} className="img-fluid" alt="" width="500" />
+        </Col>
+      </Row>
+    </Layout>
   );
 }

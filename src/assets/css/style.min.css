@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Barlow&family=Bitter&family=DM+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow&family=Bitter&family=DM+Sans&family=Righteous&display=swap");
 .welcome-page {
   background: url("../img/edited.svg") center no-repeat;
   object-fit: cover;
@@ -7,17 +7,46 @@
 .invert {
   filter: invert(100%); }
 
-body {
-  background: #f8f9fa !important;
-  height: 100vh; }
-
 .object-fit-cover {
   object-fit: cover !important;
   background-size: contain; }
 
 .brand-title {
-  font-family: 'Bitter', serif;
-  text-transform: uppercase; }
+  font-family: "Righteous", serif; }
+
+* {
+  font-family: "DM Sans", sans-serif; }
+
+body {
+  transition: ease 0.3s;
+  height: 100vh; }
+
+body.dark {
+  background: #343a40;
+  color: #f8f9fa; }
+  body.dark .navbar,
+  body.dark .card,
+  body.dark .btn-light {
+    background: #101113 !important;
+    color: #f8f9fa; }
+  body.dark .btn {
+    border: none; }
+  body.dark .navbar-nav .nav-link {
+    color: #ced4da; }
+  body.dark .navbar-nav .nav-link.active,
+  body.dark .navbar-brand {
+    color: #f8f9fa; }
+  body.dark .navbar-nav .nav-link:hover,
+  body.dark .navbar-nav .nav-link.active:hover,
+  body.dark .navbar-brand:hover {
+    color: #f8f9fa; }
+
+body.light {
+  background: #f8f9fa;
+  color: #101113; }
+  body.light .btn-dark {
+    background: #343a40 !important;
+    color: #f8f9fa; }
 
 /*!
  * Bootstrap v5.0.1 (https://getbootstrap.com/)
@@ -7495,6 +7524,3 @@ textarea.form-control-lg {
     display: inline-flex !important; }
   .d-print-none {
     display: none !important; } }
-
-* {
-  font-family: "DM Sans", sans-serif; }

@@ -33,7 +33,7 @@ export default function Reminders() {
                     {data.status && (
                       <>
                         {checkDate(data.date) >= checkDate() && (
-                          <Col md="4" className="mb-3">
+                          <Col md="3" className="mb-3">
                             <Alert key={key} variant="primary">
                               <span>
                                 Você tem um agendamento dia{" "}

@@ -6,6 +6,7 @@ import Loading from "./Loading";
 import api from "../services/api";
 import { setUserSession } from "./Utils/Common";
 import toast from "react-hot-toast";
+import Brand from "./Brand";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -28,13 +29,8 @@ export default function SignIn() {
       })
       .catch((err) => {
         setLoading(false);
-        if (
-          (err.response && err.response.status === 401) ||
-          (err.response && err.response.status === 400)
-        ) {
+        if (err) {
           return toast.error(err.response.data.message);
-        } else {
-          return toast.error("Oops, algo deu errado.");
         }
       });
   };
@@ -50,11 +46,11 @@ export default function SignIn() {
       <Container>
         <Row>
           <Col md="4" className="mx-auto">
-            <Card className="mb-3 p-5">
-              <div className="d-grid">
+            <Card className="mb-3 p-4 p-sm-5">
+              <Card.Body className="d-grid">
                 <Link to="/">
-                  <Card.Title className="fw-bold brand-title">
-                    Barber Shop.
+                  <Card.Title>
+                    <Brand />
                   </Card.Title>
                 </Link>
                 <br />
@@ -89,7 +85,7 @@ export default function SignIn() {
                   Não possui conta ainda? &nbsp;
                   <Link to="/signup">Cadastre-se grátis</Link>
                 </Form.Text>
-              </div>
+              </Card.Body>
             </Card>
           </Col>
         </Row>

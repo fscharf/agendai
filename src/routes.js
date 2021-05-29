@@ -24,6 +24,7 @@ import {
 import Loading from "./components/Loading";
 import api from "./services/api";
 import Confirmation from "./pages/Account/Confirmation";
+import ChangeEmail from "./pages/Account/ChangeEmail";
 
 export default function Routes() {
   const [authLoading, setAuthLoading] = useState(false);
@@ -71,6 +72,7 @@ export default function Routes() {
         <PrivateRoute component={ScheduleList} path="/schedule-list" />
         <PrivateRoute component={Account} path="/account" />
         <PrivateRoute component={ChangePassword} path="/change-password" />
+        <PrivateRoute component={ChangeEmail} path="/change-email" />
         <Route component={NotFound} path="*" />
       </Switch>
       <Toaster

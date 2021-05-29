@@ -6,7 +6,7 @@ export class Schedule {
   async createSchedule(props) {
     const startDate = new Date();
 
-    if (!props.date || !props.hour || !props.userKey) {
+    if (!props.date || !props.hour || !props.userKey || !props.description) {
       return toast.error("Por favor, preencha todos campos.");
     }
 
@@ -18,6 +18,7 @@ export class Schedule {
       .post("/schedule", {
         hour: props.hour,
         date: props.date,
+        description: props.description,
         user_id: props.userKey,
       })
       .then((res) => {

@@ -1,12 +1,16 @@
 import React from "react";
-import { Jumbotron } from "react-bootstrap";
+import { Col, Container, Jumbotron, Row } from "react-bootstrap";
 import Header from "../Header";
 
 export default function Layout({ children }) {
   return (
-    <Jumbotron fluid className="vh-100 bg-light">
+    <Jumbotron fluid>
       <Header />
-      {children}
+      <Container>
+        <Row className="mb-3">
+          <Col>{children}</Col>
+        </Row>
+      </Container>
     </Jumbotron>
   );
 }

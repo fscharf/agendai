@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
+import Brand from "./Brand";
 import { User } from "./Controllers/UserController";
 import Loading from "./Loading";
 
 export default function SignUp() {
-  const title = "Cadastre-se grátis no Barber Shop";
+  const title = "Cadastre-se grátis no Agendaí";
+
   const [loading, setLoading] = useState(false);
   const [credentials, setCredentials] = useState({
     email: "",
@@ -33,7 +35,6 @@ export default function SignUp() {
       });
   };
 
-
   return (
     <Container
       fluid
@@ -45,14 +46,14 @@ export default function SignUp() {
       <Container>
         <Row>
           <Col md="4" className="mx-auto">
-            <Card className="p-5 mb-3">
-              <Form.Row className="d-grid">
+            <Card className="p-4 p-sm-5">
+              <Card.Body className="d-grid">
                 <Link to="/">
-                  <Card.Title className="fw-bold brand-title">
-                    Barber Shop.
+                  <Card.Title>
+                    <Brand />
                   </Card.Title>
                 </Link>
-                <br />
+                <p />
                 <Form.Group className="mb-3">
                   <Card.Text>
                     <strong>CADASTRE-SE GRÁTIS</strong>
@@ -125,11 +126,11 @@ export default function SignUp() {
                 <Button onClick={handleSignUp} className="btn btn-primary mb-3">
                   {loading ? <Loading /> : <span>ENVIAR</span>}
                 </Button>
-              </Form.Row>
-              <Form.Text className="mb-3">
-                Já possui conta? &nbsp;
-                <Link to="/signin">Iniciar sessão</Link>
-              </Form.Text>
+                <Form.Text className="mb-3">
+                  Já possui conta? &nbsp;
+                  <Link to="/signin">Iniciar sessão</Link>
+                </Form.Text>
+              </Card.Body>
             </Card>
           </Col>
         </Row>

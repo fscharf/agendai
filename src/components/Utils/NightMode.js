@@ -1,7 +1,6 @@
-import { Button } from "react-bootstrap";
+import React from "react";
 
 const NightMode = () => {
-  let clickedClass = "dark";
   const body = document.body;
   const lightTheme = "light";
   const darkTheme = "dark";
@@ -17,28 +16,27 @@ const NightMode = () => {
     body.classList.add(lightTheme);
   }
 
-  const switchTheme = (e) => {
+  const switchTheme = () => {
     if (theme === darkTheme) {
       body.classList.replace(darkTheme, lightTheme);
-      e.target.classList.remove(clickedClass);
       localStorage.setItem("theme", "light");
-      theme = lightTheme;
+      return (theme = lightTheme);
     } else {
       body.classList.replace(lightTheme, darkTheme);
-      e.target.classList.add(clickedClass);
       localStorage.setItem("theme", "dark");
-      theme = darkTheme;
+      return (theme = darkTheme);
     }
   };
 
   return (
-    <Button
-      className={"rounded-pill"}
-      variant={theme === "dark" ? clickedClass : "light"}
-      onClick={(e) => switchTheme(e)}
-    >
-      <i className="far fa-moon" />
-    </Button>
+    <div className="form-check form-switch">
+      <input
+        className="form-check-input"
+        type="checkbox"
+        onClick={(e) => switchTheme(e)}
+      />
+      <label className="form-check-label">Modo Escuro</label>
+    </div>
   );
 };
 

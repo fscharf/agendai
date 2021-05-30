@@ -6,7 +6,7 @@ import welcomeImg from "../assets/img/undraw_date_picker_gorr.svg";
 
 export default function Welcome() {
   return (
-    <Layout>
+    <Layout title="agendaí">
       <Row>
         <Col md="4" className="my-auto ms-auto">
           <h2 className="fw-bold">Organize seu tempo!</h2>
@@ -14,7 +14,7 @@ export default function Welcome() {
             No Agendaí, você agenda seu atendimento muito mais fácil e rápido.
           </h4>
           <p/>
-          <Link className="btn btn-dark" to="/signup">
+          <Link className="btn btn-primary" to="/signup">
             Cadastre-se agora! É grátis.
           </Link>
         </Col>

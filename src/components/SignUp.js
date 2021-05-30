@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Card, Container, Form } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import Brand from "./Brand";
@@ -7,31 +7,25 @@ import { User } from "./Controllers/UserController";
 import Loading from "./Loading";
 
 export default function SignUp() {
-  const title = "Cadastre-se grátis no Agendaí";
-
   const [loading, setLoading] = useState(false);
-  const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
-    name: "",
-    confirmPassword: "",
-  });
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const title = "Cadastre-se grátis";
   const userFields = new User();
 
   const handleSignUp = () => {
+    setLoading(true);
     userFields
       .createUser({
-        email: credentials.email,
-        password: credentials.password,
-        name: credentials.name,
-        confirmPassword: credentials.confirmPassword,
+        email: email,
+        password: password,
+        name: name,
+        confirmPassword: confirmPassword,
       })
       .then(() => {
-        setLoading(userFields.loading);
-      })
-      .catch((err) => {
-        if (err) setLoading(userFields.loading);
+        return setLoading(false);
       });
   };
 
@@ -43,98 +37,65 @@ export default function SignUp() {
       <Helmet>
         <title>{title}</title>
       </Helmet>
-      <Container>
-        <Row>
-          <Col md="4" className="mx-auto">
-            <Card className="p-4 p-sm-5">
-              <Card.Body className="d-grid">
-                <Link to="/">
-                  <Card.Title>
-                    <Brand />
-                  </Card.Title>
-                </Link>
-                <p />
-                <Form.Group className="mb-3">
-                  <Card.Text>
-                    <strong>CADASTRE-SE GRÁTIS</strong>
-                  </Card.Text>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    type="email"
-                    onChange={(e) =>
-                      setCredentials({
-                        email: e.target.value,
-                        password: credentials.password,
-                        confirmPassword: credentials.confirmPassword,
-                        name: credentials.name,
-                      })
-                    }
-                    value={credentials.email}
-                    name="email"
-                    placeholder="E-mail"
-                  />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    type="text"
-                    onChange={(e) =>
-                      setCredentials({
-                        name: e.target.value,
-                        password: credentials.password,
-                        confirmPassword: credentials.confirmPassword,
-                        email: credentials.email,
-                      })
-                    }
-                    value={credentials.name}
-                    maxLength="50"
-                    name="name"
-                    placeholder="Nome completo"
-                  />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    type="password"
-                    name="password"
-                    onChange={(e) =>
-                      setCredentials({
-                        password: e.target.value,
-                        name: credentials.name,
-                        confirmPassword: credentials.confirmPassword,
-                        email: credentials.email,
-                      })
-                    }
-                    value={credentials.password}
-                    placeholder="Senha"
-                  />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    type="password"
-                    onChange={(e) =>
-                      setCredentials({
-                        confirmPassword: e.target.value,
-                        password: credentials.password,
-                        name: credentials.name,
-                        email: credentials.email,
-                      })
-                    }
-                    value={credentials.confirmPassword}
-                    placeholder="Confirme a senha"
-                  />
-                </Form.Group>
-                <Button onClick={handleSignUp} className="btn btn-primary mb-3">
-                  {loading ? <Loading /> : <span>ENVIAR</span>}
-                </Button>
-                <Form.Text className="mb-3">
-                  Já possui conta? &nbsp;
-                  <Link to="/signin">Iniciar sessão</Link>
-                </Form.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+      <Card className="p-4 p-sm-5" style={{ width: "25rem" }}>
+        <Card.Body className="d-grid">
+          <Card.Title>
+            <Link to="/">
+              <Brand />
+            </Link>
+          </Card.Title>
+
+          <p />
+          <Form.Group className="mb-3">
+            <Card.Text>
+              <strong>{title}</strong>
+            </Card.Text>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Control
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              name="email"
+              placeholder="E-mail"
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Control
+              type="text"
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+              maxLength="50"
+              name="name"
+              placeholder="Nome completo"
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Control
+              type="password"
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              placeholder="Senha"
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Control
+              type="password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={confirmPassword}
+              placeholder="Confirme a senha"
+            />
+          </Form.Group>
+          <Button onClick={handleSignUp} className="btn btn-primary mb-3">
+            {loading ? <Loading /> : <span>Começar!</span>}
+          </Button>
+          <Form.Text className="mb-3">
+            Já possui conta? &nbsp;
+            <Link to="/signin">Iniciar sessão</Link>
+          </Form.Text>
+        </Card.Body>
+      </Card>
     </Container>
   );
 }

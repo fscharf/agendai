@@ -6,13 +6,7 @@ import { getUser } from "../Utils/Common";
 export const user = getUser();
 
 export class User {
-  constructor(loading) {
-    this.loading = loading;
-  }
-
   async createUser(props) {
-    this.loading = false;
-
     if (
       !props.email ||
       !props.password ||
@@ -39,8 +33,6 @@ export class User {
         return history.push("/signin");
       })
       .catch((err) => {
-        this.loading = false;
-
         if (err) {
           return toast.error(err.response.data.message);
         } else {

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Col, Form, Row, Button, Card, Container } from "react-bootstrap";
+import { Form, Button, Card, Container, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import Loading from "./Loading";
 import api from "../services/api";
 import { setUserSession } from "./Utils/Common";
 import toast from "react-hot-toast";
@@ -16,6 +15,7 @@ export default function SignIn() {
   const title = "Iniciar sessão";
 
   const handleSignIn = () => {
+    setLoading(true);
     api
       .post("/users/signin", {
         email: email,
@@ -43,53 +43,51 @@ export default function SignIn() {
       <Helmet>
         <title>{title}</title>
       </Helmet>
-      <Container>
-        <Row>
-          <Col md="4" className="mx-auto">
-            <Card className="mb-3 p-4 p-sm-5">
-              <Card.Body className="d-grid">
-                <Link to="/">
-                  <Card.Title>
-                    <Brand />
-                  </Card.Title>
-                </Link>
-                <br />
-                <Form.Group className="mb-3">
-                  <Card.Text>
-                    <strong>INICIAR SESSÃO</strong>
-                  </Card.Text>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    type="email"
-                    name="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
-                    placeholder="Digite seu e-mail"
-                  />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    type="password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Digite sua senha"
-                  />
-                </Form.Group>
-                <Button onClick={handleSignIn} className="btn btn-primary mb-3">
-                  {loading ? <Loading /> : <span>ENTRAR</span>}
-                </Button>
+      <Card className="mb-3 p-4 p-sm-5" style={{ width: "25rem" }}>
+        <Card.Body className="d-grid">
+          <Link to="/">
+            <Card.Title>
+              <Brand />
+            </Card.Title>
+          </Link>
+          <br />
+          <Form.Group className="mb-3">
+            <Card.Text>
+              <strong>{title}</strong>
+            </Card.Text>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Control
+              type="email"
+              name="email"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              placeholder="Digite seu e-mail"
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Control
+              type="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Digite sua senha"
+            />
+          </Form.Group>
+          <Button onClick={handleSignIn} className="btn btn-primary mb-3">
+            {loading ? (
+              <Spinner animation="border" size="sm" role="status" />
+            ) : (
+              <span>Entrar</span>
+            )}
+          </Button>
 
-                <Form.Text className="mb-3">
-                  Não possui conta ainda? &nbsp;
-                  <Link to="/signup">Cadastre-se grátis</Link>
-                </Form.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+          <Form.Text className="mb-3">
+            Não possui conta ainda? &nbsp;
+            <Link to="/signup">Cadastre-se grátis</Link>
+          </Form.Text>
+        </Card.Body>
+      </Card>
     </Container>
   );
 }

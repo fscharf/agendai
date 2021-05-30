@@ -13,7 +13,7 @@ export default function Header() {
     <Navbar variant="light" bg="white" className="py-3 mb-5">
       <Container>
         <Nav>
-          <NavLink to="/dashboard" className="navbar-brand mx-auto h4">
+          <NavLink to="/dashboard" className="navbar-brand text-primary">
             <Brand />
           </NavLink>
         </Nav>
@@ -65,7 +65,10 @@ export default function Header() {
                   <i className="far fa-user-circle fa-lg" />
                 </NavLink>
               </OverlayTrigger>
-              <ul className="dropdown-menu dropdown-menu-end">
+              <ul
+                className="dropdown-menu dropdown-menu-end"
+                style={{ width: "200px" }}
+              >
                 <NavLink
                   to="/account"
                   activeClassName="active"
@@ -74,6 +77,9 @@ export default function Header() {
                   <i className="far fa-user-circle me-2" />
                   Conta
                 </NavLink>
+                <div className="dropdown-item-text">
+                  <NightMode />
+                </div>
 
                 <div className="dropdown-divider"></div>
 
@@ -88,19 +94,13 @@ export default function Header() {
                 </NavLink>
               </ul>
             </div>
-            <OverlayTrigger
-              placement="bottom"
-              overlay={<Tooltip>Modo escuro</Tooltip>}
-            >
-              <NightMode />
-            </OverlayTrigger>
           </Nav>
         ) : (
           <Nav>
             <NavLink className="nav-link me-2" to="/signin">
               Entrar
             </NavLink>
-            <NavLink className="btn btn-dark" to="/signup">
+            <NavLink className="btn btn-primary" to="/signup">
               Cadastre-se grátis
             </NavLink>
           </Nav>

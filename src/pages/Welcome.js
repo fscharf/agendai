@@ -8,7 +8,7 @@ import welcomeImg from "../assets/img/undraw_date_picker_gorr.svg";
 export default function Welcome() {
   return (
     <Layout>
-      <HelmetTitle title="agendaí" />
+      <HelmetTitle />
       <Row>
         <Col md="4" className="my-auto ms-auto">
           <h2 className="fw-bold">Organize seu tempo</h2>

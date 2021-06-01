@@ -6,10 +6,12 @@ import { getUser } from "../../components/Utils/Common";
 import { User } from "../../components/Controllers/UserController";
 import Layout from "../../components/Layout/Layout";
 import HelmetTitle from "../../components/Layout/HelmetTitle";
+import Loading from "../../components/Loading";
 
 export default function Account() {
   const [users, setUserInfo] = useState([]);
-  const [username, setUserName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [username, setUserName] = useState(users.username);
   const user = getUser();
   const fields = new User();
 
@@ -29,13 +31,16 @@ export default function Account() {
   };
 
   useEffect(() => {
+    setLoading(true);
     function getUserById() {
       fields
         .getUserById({ userKey: user.user_id })
         .then((res) => {
+          setLoading(false);
           return setUserInfo(res.data);
         })
         .catch((err) => {
+          setLoading(false);
           return toast.error(err);
         });
     }
@@ -44,7 +49,9 @@ export default function Account() {
     //eslint-disable-next-line
   }, []);
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <Layout>
       <HelmetTitle title="Conta" />
       <Row>
@@ -63,7 +70,7 @@ export default function Account() {
           </Form.Row>
           <Form.Row className="mb-3">
             <Form.Label className="text-muted">Email</Form.Label>
-            <Form.Control readonly type="text" value={users.email} />
+            <Form.Control readOnly type="text" value={users.email} />
           </Form.Row>
           <Form.Row className="mb-3">
             <Button
@@ -91,12 +98,12 @@ export default function Account() {
               Conta não verificada
             </div>
           )}
-          <Link className="btn btn-primary btn-sm" to="/change-email">
+          <Link to="/change-email">
             <i className="far fa-envelope me-2" />
             Mudar e-mail
           </Link>
           <p />
-          <Link className="btn btn-primary btn-sm" to="/change-password">
+          <Link to="/change-password">
             <i className="far fa-lock me-2" />
             Mudar senha
           </Link>

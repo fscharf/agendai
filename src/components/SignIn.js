@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import api from "../services/api";
 import { setUserSession } from "./Utils/Common";
 import toast from "react-hot-toast";
-import Brand from "./Brand";
 import HelmetTitle from "./Layout/HelmetTitle";
+import Icon from "./Layout/Icon";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -43,11 +43,9 @@ export default function SignIn() {
       <Card className="mb-3 p-4 p-sm-5" style={{ width: "25rem" }}>
         <Card.Body className="d-grid">
           <Link to="/">
-            <Card.Title>
-              <Brand />
-            </Card.Title>
+            <Icon width="50" className="mx-auto" />
           </Link>
-          <br />
+          <p />
           <Form.Group className="mb-3">
             <Card.Text>
               <strong>{title}</strong>

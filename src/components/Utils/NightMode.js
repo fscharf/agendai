@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "react-bootstrap";
 
 const NightMode = () => {
   const body = document.body;
@@ -29,14 +30,9 @@ const NightMode = () => {
   };
 
   return (
-    <div className="form-check form-switch">
-      <input
-        className="form-check-input"
-        type="checkbox"
-        onClick={(e) => switchTheme(e)}
-      />
-      <label className="form-check-label">Modo Escuro</label>
-    </div>
+    <Button onClick={switchTheme} variant="light" size="sm" className="rounded-pill">
+      <i className="far fa-moon me-2" />Modo Escuro
+    </Button>
   );
 };
 

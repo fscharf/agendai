@@ -7,7 +7,7 @@ $gray-400: #ced4da !default;
 $gray-500: #adb5bd !default;
 $gray-600: #6c757d !default;
 $gray-700: #495057 !default;
-$gray-800: #343a40 !default;
+$gray-800: #212122 !default;
 $gray-900: #101113 !default;
 $black: #000 !default;
 // scss-docs-end gray-color-variables
@@ -99,12 +99,6 @@ $link-hover-decoration: null !default;
 $stretched-link-pseudo-element: after !default;
 $stretched-link-z-index: 1 !default;
 
-.welcome-page {
-  background: url("../img/edited.svg") center no-repeat;
-  object-fit: cover;
-  height: 100vh;
-}
-
 .invert {
   filter: invert(100%);
 }
@@ -123,6 +117,5 @@ $stretched-link-z-index: 1 !default;
 }
 
 body {
-  transition: ease 0.3s;
-  height: 100vh;
+  transition: .2s;
 }

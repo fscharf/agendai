@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import { Container, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { getUser, handleSignOut } from "./Utils/Common";
 import Brand from "./Brand";
+import Icon from "./Layout/Icon";
 import NightMode from "./Utils/NightMode";
 
 export default function Header() {
@@ -14,6 +15,7 @@ export default function Header() {
       <Container>
         <Nav>
           <NavLink to="/dashboard" className="navbar-brand text-primary">
+            <Icon width="30" className="me-2" />
             <Brand />
           </NavLink>
         </Nav>
@@ -80,7 +82,6 @@ export default function Header() {
                 <div className="dropdown-item-text">
                   <NightMode />
                 </div>
-
                 <div className="dropdown-divider"></div>
 
                 <NavLink

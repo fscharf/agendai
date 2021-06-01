@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Button, Card, Container, Form, Spinner } from "react-bootstrap";
-import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
-import Brand from "./Brand";
 import { User } from "./Controllers/UserController";
+import HelmetTitle from "./Layout/HelmetTitle";
+import Icon from "./Layout/Icon";
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
@@ -33,17 +33,12 @@ export default function SignUp() {
       fluid
       className="vh-100 d-flex align-items-center text-center justify-content-center"
     >
-      <Helmet>
-        <title>{title}</title>
-      </Helmet>
+      <HelmetTitle title={title} />
       <Card className="p-4 p-sm-5" style={{ width: "25rem" }}>
         <Card.Body className="d-grid">
-          <Card.Title>
-            <Link to="/">
-              <Brand />
-            </Link>
-          </Card.Title>
-
+          <Link to="/">
+            <Icon width="50" className="mx-auto" />
+          </Link>
           <p />
           <Form.Group className="mb-3">
             <Card.Text>

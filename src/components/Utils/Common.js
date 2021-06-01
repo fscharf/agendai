@@ -1,5 +1,4 @@
 import api from "../../services/api";
-import history from "../../services/history";
 
 export const getUser = () => {
   const userStr = sessionStorage.getItem("user");
@@ -27,7 +26,7 @@ export const removeUserSession = () => {
 
 export const handleSignOut = () => {
   removeUserSession();
-  history.push("/signin");
+  window.location.href = "/signin";
 };
 
 export const verifyUser = (code) => {

@@ -10,7 +10,7 @@ import NightMode from "./Utils/NightMode";
 export default function Header() {
   const user = getUser();
   return (
-    <Navbar variant="light" bg="white" className="py-3 mb-5">
+    <Navbar variant="light" bg="white" className="py-3 mb-3">
       <Container>
         <Nav>
           <NavLink to="/dashboard" className="navbar-brand text-primary">

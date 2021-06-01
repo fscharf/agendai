@@ -29,7 +29,7 @@ export class User {
         password: props.password,
       })
       .then((res) => {
-        toast.success(res.data.message);
+        toast(res.data.message);
         return history.push("/signin");
       })
       .catch((err) => {
@@ -43,14 +43,31 @@ export class User {
       });
   }
 
+  async getUsers(props) {
+    return await api.get("/users", {
+      params: {
+        user_id: props.userKey,
+        email: props.email,
+        username: props.name,
+      },
+    });
+  }
+
   async getUserById(props) {
     return await api.get(`/users/${props.userKey}`);
   }
 
   async updateUser(props) {
-    return await api.put(`/users/${props.userKey}`, {
-      username: props.name,
-      email: props.email,
-    });
+    return await api
+      .put(`/users/${props.userKey}`, {
+        username: props.name,
+        email: props.email,
+      })
+      .then((res) => {
+        return toast.success(res.data.message);
+      })
+      .catch((err) => {
+        return toast.error(err.response.data.message);
+      });
   }
 }

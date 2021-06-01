@@ -1,7 +1,8 @@
 import React from "react";
 import { Card, Col, Container, Jumbotron, Row } from "react-bootstrap";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { verifyUser } from "../../components/Utils/Common";
+import history from "../../services/history";
 
 export default function Confirmation(props) {
   if (props.match.path === "/confirm/:confirmationCode") {
@@ -32,6 +33,6 @@ export default function Confirmation(props) {
       </Jumbotron>
     );
   } else {
-    return <Redirect to="/signin" />;
+    return history.push("/signin");
   }
 }

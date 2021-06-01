@@ -1,19 +1,17 @@
 import React from "react";
 import { Col, Container, Jumbotron, Row } from "react-bootstrap";
-import { Helmet } from "react-helmet";
 import Header from "../Header";
 
-export default function Layout({ children }, props) {
+export default function Layout({ children }) {
   return (
     <Jumbotron fluid>
-      <Helmet>
-        <title>{props.title}</title>
-      </Helmet>
       <Header />
-      <Container>
-        <Row className="mb-3">
-          <Col>{children}</Col>
-        </Row>
+      <Container fluid className="py-5 bg-white">
+        <Container>
+          <Row className="mb-3">
+            <Col>{children}</Col>
+          </Row>
+        </Container>
       </Container>
     </Jumbotron>
   );

@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { Form, Button, Card, Container, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
 import api from "../services/api";
 import { setUserSession } from "./Utils/Common";
 import toast from "react-hot-toast";
 import Brand from "./Brand";
+import HelmetTitle from "./Layout/HelmetTitle";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const title = "Iniciar sessão";
 
   const handleSignIn = () => {
@@ -40,9 +39,7 @@ export default function SignIn() {
       fluid
       className="vh-100 d-flex align-items-center text-center justify-content-center"
     >
-      <Helmet>
-        <title>{title}</title>
-      </Helmet>
+      <HelmetTitle title={title} />
       <Card className="mb-3 p-4 p-sm-5" style={{ width: "25rem" }}>
         <Card.Body className="d-grid">
           <Link to="/">

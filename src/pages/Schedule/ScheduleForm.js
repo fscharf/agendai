@@ -5,6 +5,7 @@ import ScheduleHour from "./ScheduleHour";
 import Layout from "../../components/Layout/Layout";
 import { Schedule } from "../../components/Controllers/ScheduleController";
 import ScheduleDesc from "./ScheduleDesc";
+import HelmetTitle from "../../components/Layout/HelmetTitle";
 
 export default function ScheduleForm() {
   const [date, setDate] = useState(null);
@@ -15,6 +16,7 @@ export default function ScheduleForm() {
 
   return (
     <Layout>
+      <HelmetTitle title="Agendar" />
       <Row>
         <Col md="4" className="mx-auto">
           <Form.Text>
@@ -56,8 +58,7 @@ export default function ScheduleForm() {
               }
               className="btn btn-primary"
             >
-              <i className="far fa-check-circle me-2" />
-              CONFIRMAR
+              Confirmar
             </Button>
           </Form.Row>
         </Col>

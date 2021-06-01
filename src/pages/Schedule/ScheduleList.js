@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { getUser, formatDate, checkDate } from "../../components/Utils/Common";
 import { Schedule } from "../../components/Controllers/ScheduleController";
 import Layout from "../../components/Layout/Layout";
+import HelmetTitle from "../../components/Layout/HelmetTitle";
 import ConfirmationToast from "../../components/ConfirmationToast";
 import ScheduleHour from "./ScheduleHour";
 
@@ -34,6 +35,7 @@ export default function ScheduleList() {
 
   return (
     <Layout>
+      <HelmetTitle title="Agendamentos" />
       <Form.Text>
         <i className="far fa-calendar-check me-2" />
         Agendamentos

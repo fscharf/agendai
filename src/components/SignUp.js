@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Button, Card, Container, Form } from "react-bootstrap";
+import { Button, Card, Container, Form, Spinner } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import Brand from "./Brand";
 import { User } from "./Controllers/UserController";
-import Loading from "./Loading";
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
@@ -88,7 +87,11 @@ export default function SignUp() {
             />
           </Form.Group>
           <Button onClick={handleSignUp} className="btn btn-primary mb-3">
-            {loading ? <Loading /> : <span>Começar!</span>}
+            {loading ? (
+              <Spinner animation="border" size="sm" role="status" />
+            ) : (
+              <span>Começar!</span>
+            )}
           </Button>
           <Form.Text className="mb-3">
             Já possui conta? &nbsp;

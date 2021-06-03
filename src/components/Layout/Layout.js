@@ -1,6 +1,6 @@
 import React from "react";
 import { Col, Container, Jumbotron, Row } from "react-bootstrap";
-import Header from "../Header";
+import Header from "./Header";
 
 export default function Layout({ children }) {
   return (

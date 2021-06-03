@@ -10,7 +10,7 @@ export default function Welcome() {
     <Layout>
       <HelmetTitle />
       <Row>
-        <Col md="4" className="my-auto ms-auto">
+        <Col md="4" className="my-auto ms-auto text-center text-md-start mb-3">
           <h2 className="fw-bold">Organize seu tempo</h2>
           <h4 className="text-muted">
             No agendaí, você agenda seu atendimento muito mais fácil e rápido.
@@ -20,7 +20,7 @@ export default function Welcome() {
             Cadastre-se agora! É grátis.
           </Link>
         </Col>
-        <Col md="6" className="mx-auto my-auto d-none d-sm-block">
+        <Col md="6" className="ms-auto my-auto">
           <img src={welcomeImg} className="img-fluid" alt="" width="500" />
         </Col>
       </Row>

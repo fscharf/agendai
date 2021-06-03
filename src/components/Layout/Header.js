@@ -3,10 +3,10 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { NavLink } from "react-router-dom";
 import { Container, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { getUser, handleSignOut } from "./Utils/Common";
+import { getUser, handleSignOut } from "../Utils/Common";
 import Brand from "./Brand";
-import Icon from "./Layout/Icon";
-import NightMode from "./Utils/NightMode";
+import Icon from "./Icon";
+import NightMode from "./NightMode";
 
 export default function Header() {
   const user = getUser();
@@ -102,7 +102,10 @@ export default function Header() {
               Entrar
             </NavLink>
             <NavLink className="btn btn-primary" to="/signup">
-              Cadastre-se grátis
+              <span className="d-md-none d-block">
+                <i className="far fa-user-plus" />
+              </span>
+              <span className="d-md-block d-none">Cadastre-se grátis</span>
             </NavLink>
           </Nav>
         )}

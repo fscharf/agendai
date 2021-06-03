@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import api from "../../services/api";
 
 export const getUser = () => {
@@ -29,11 +30,16 @@ export const handleSignOut = () => {
   window.location.href = "/signin";
 };
 
-export const verifyUser = (code) => {
-  return api.get("confirm/" + code).then((response) => {
-    return response.data;
-  });
-};
+export async function verifyUser(code) {
+  await api
+    .get(`/confirm/${code}`)
+    .then((res) => {
+      return;
+    })
+    .catch((err) => {
+      return toast.error('Ocorreu um erro ' + err);
+    });
+}
 
 export const formatDate = (date) => {
   var split = date.split("-");

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Button, Card, Container, Form, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { User } from "./Controllers/UserController";
-import HelmetTitle from "./Layout/HelmetTitle";
-import Icon from "./Layout/Icon";
+import { User } from "../Controllers/UserController";
+import HelmetTitle from "../Layout/HelmetTitle";
+import Icon from "../Layout/Icon";
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
@@ -88,9 +88,10 @@ export default function SignUp() {
               <span>Começar!</span>
             )}
           </Button>
-          <Form.Text className="mb-3">
-            Já possui conta? &nbsp;
-            <Link to="/signin">Iniciar sessão</Link>
+          <Form.Text>
+            <Link to="/signin">
+              <small>Já tem conta? Iniciar sessão</small>
+            </Link>
           </Form.Text>
         </Card.Body>
       </Card>

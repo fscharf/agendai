@@ -2,9 +2,9 @@ import React from "react";
 import { Route, Router, Switch } from "react-router-dom";
 
 import Welcome from "./pages/Welcome";
-import SignIn from "./components/SignIn";
+import SignIn from "./components/Auth/SignIn";
 import NotFound from "./components/NotFound";
-import SignUp from "./components/SignUp";
+import SignUp from "./components/Auth/SignUp";
 import Dashboard from "./pages/Dashboard";
 import Schedule from "./pages/Schedule/ScheduleForm";
 import ScheduleList from "./pages/Schedule/ScheduleList";
@@ -16,6 +16,8 @@ import PublicRoute from "./components/Utils/PublicRoute";
 import PrivateRoute from "./components/Utils/PrivateRoute";
 import Confirmation from "./pages/Account/Confirmation";
 import ChangeEmail from "./pages/Account/ChangeEmail";
+import ForgotPassword from "./components/Auth/ForgotPassword";
+import ResetPassword from "./components/Auth/ResetPassword";
 
 export default function Routes() {
   return (
@@ -24,6 +26,11 @@ export default function Routes() {
         <PublicRoute component={Welcome} path="/" exact />
         <PublicRoute component={SignIn} path="/signin" />
         <PublicRoute component={SignUp} path="/signup" />
+        <PublicRoute component={ForgotPassword} path="/forgot-password" />
+        <PublicRoute
+          component={ResetPassword}
+          path="/reset-password/:confirmationCode"
+        />
         <PublicRoute
           component={Confirmation}
           path="/confirm/:confirmationCode"

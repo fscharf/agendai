@@ -8,7 +8,7 @@ import {
 } from "./components/Utils/Common";
 import Loading from "./components/Loading";
 import api from "./services/api";
-import { Toaster } from "react-hot-toast";
+import toast, { ToastBar, Toaster } from "react-hot-toast";
 
 export default function App() {
   const [authLoading, setAuthLoading] = useState(false);
@@ -55,7 +55,21 @@ export default function App() {
             duration: 5000,
           },
         }}
-      />
+      >
+        {(t) => (
+          <ToastBar>
+            {({ icon, message }) => (
+              <>
+                {icon}
+                {message}
+                {t.type !== "loading" && (
+                  <button onClick={() => toast.dismiss(t.id)}>X</button>
+                )}
+              </>
+            )}
+          </ToastBar>
+        )}
+      </Toaster>
     </>
   );
 }

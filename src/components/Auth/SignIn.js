@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Form, Button, Card, Container, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import api from "../services/api";
-import { setUserSession } from "./Utils/Common";
+import api from "../../services/api";
+import { setUserSession } from "../Utils/Common";
 import toast from "react-hot-toast";
-import HelmetTitle from "./Layout/HelmetTitle";
-import Icon from "./Layout/Icon";
+import HelmetTitle from "../Layout/HelmetTitle";
+import Icon from "../Layout/Icon";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -57,7 +57,7 @@ export default function SignIn() {
               name="email"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
-              placeholder="Digite seu e-mail"
+              placeholder="E-mail"
             />
           </Form.Group>
           <Form.Group className="mb-3">
@@ -66,7 +66,7 @@ export default function SignIn() {
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Digite sua senha"
+              placeholder="Senha"
             />
           </Form.Group>
           <Button onClick={handleSignIn} className="btn btn-primary mb-3">
@@ -77,9 +77,13 @@ export default function SignIn() {
             )}
           </Button>
 
-          <Form.Text className="mb-3">
-            Não possui conta ainda? &nbsp;
-            <Link to="/signup">Cadastre-se grátis</Link>
+          <Link className="btn btn-outline-primary mb-3" to="/forgot-password">
+            Esqueci minha senha
+          </Link>
+          <Form.Text>
+            <Link to="/signup">
+              <small>Não tem conta? Cadastre-se grátis</small>
+            </Link>
           </Form.Text>
         </Card.Body>
       </Card>

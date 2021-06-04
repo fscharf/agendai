@@ -57,7 +57,20 @@ export default function Header() {
                 <i className="far fa-calendar-check fa-lg" />
               </NavLink>
             </OverlayTrigger>
-
+            {user.isAdmin && (
+              <OverlayTrigger
+                placement="bottom"
+                overlay={<Tooltip>Painel Administrativo</Tooltip>}
+              >
+                <NavLink
+                  activeClassName="active"
+                  to="/admin"
+                  className="nav-link"
+                >
+                  <i className="far fa-cog fa-lg" />
+                </NavLink>
+              </OverlayTrigger>
+            )}
             <div className="dropdown">
               <OverlayTrigger
                 placement="bottom"
@@ -79,7 +92,7 @@ export default function Header() {
                   <i className="far fa-user-circle me-2" />
                   Conta
                 </NavLink>
-                <div className="dropdown-item-text">
+                <div className="dropdown-item">
                   <NightMode />
                 </div>
                 <div className="dropdown-divider"></div>

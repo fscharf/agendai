@@ -1,26 +1,31 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import toast from "react-hot-toast";
+import { useToast } from "izitoast-react";
 
 export default function ConfirmationToast(props) {
-  const confirm = () =>
-    toast((t) => (
-      <div className="text-center p-3">
-        <p>Você tem certeza que deseja cancelar?</p>
-        <button
-          className="btn btn-light btn-sm me-2"
-          onClick={() => toast.dismiss(t.id)}
-        >
-          Cancelar
-        </button>
-        <button className="btn btn-primary btn-sm" onClick={props.onClick}>
-          Confirmar
-        </button>
-      </div>
-    ));
+  const confirm = useToast({
+    title: "Tem certeza que deseja prosseguir?",
+    overlay: true,
+    timeout: 0,
+    position: "topCenter",
+    buttons: [
+      [`<button><b>Sim</b></button>`, props.onClick, null],
+      [
+        "<button>Não</button>",
+        (instance, toast) => {
+          instance.hide({ transitionOut: "fadeOut" }, toast, "button");
+        },
+      ],
+    ],
+  });
 
   return (
-    <Button size={props.size} variant={props.variant} onClick={confirm}>
+    <Button
+      title={props.title}
+      size={props.size}
+      variant={props.variant}
+      onClick={confirm}
+    >
       {props.actionTitle}
     </Button>
   );

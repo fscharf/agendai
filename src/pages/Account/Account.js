@@ -12,21 +12,15 @@ export default function Account() {
   const [users, setUserInfo] = useState([]);
   const [loading, setLoading] = useState(false);
   const [username, setUserName] = useState(users.username);
+  const [admin, setAdmin] = useState(users.isAdmin);
   const user = getUser();
   const fields = new User();
 
-  const handleUpdate = (username) => {
-    if (username === users.username) {
-      return;
-    }
-
-    if (!username) {
-      return toast.error("Por favor, preencha todos os campos.");
-    }
-
+  const handleUpdate = (username, isAdmin) => {
     return fields.updateUser({
       userKey: user.user_id,
       name: username,
+      isAdmin: isAdmin,
     });
   };
 
@@ -69,14 +63,21 @@ export default function Account() {
             />
           </Form.Row>
           <Form.Row className="mb-3">
+            <Form.Label className="text-muted">Administrar?</Form.Label>
+            <select value={admin} onChange={(e) => setAdmin(e.target.value)}>
+              <option value={true}>Sim</option>
+              <option value={false}>Não</option>
+            </select>
+          </Form.Row>
+          <Form.Row className="mb-3">
             <Form.Label className="text-muted">Email</Form.Label>
             <Form.Control readOnly type="text" value={users.email} />
           </Form.Row>
           <Form.Row className="mb-3">
             <Button
               variant="primary"
-              className={username ? "" : "disabled"}
-              onClick={() => handleUpdate(username)}
+              className={username || admin ? "" : "disabled"}
+              onClick={() => handleUpdate(username, admin)}
               size="sm"
             >
               <i className="far fa-save me-2" />

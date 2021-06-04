@@ -18,6 +18,8 @@ import Confirmation from "./pages/Account/Confirmation";
 import ChangeEmail from "./pages/Account/ChangeEmail";
 import ForgotPassword from "./components/Auth/ForgotPassword";
 import ResetPassword from "./components/Auth/ResetPassword";
+import AdminRoute from "./components/Utils/AdminRoute";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
 
 export default function Routes() {
   return (
@@ -41,6 +43,7 @@ export default function Routes() {
         <PrivateRoute component={Account} path="/account" />
         <PrivateRoute component={ChangePassword} path="/change-password" />
         <PrivateRoute component={ChangeEmail} path="/change-email" />
+        <AdminRoute component={AdminDashboard} path="/admin" />
         <Route component={NotFound} path="*" />
       </Switch>
     </Router>

@@ -8,7 +8,7 @@ import {
 } from "./components/Utils/Common";
 import Loading from "./components/Loading";
 import api from "./services/api";
-import toast, { ToastBar, Toaster } from "react-hot-toast";
+import { immediateToast } from "izitoast-react";
 
 export default function App() {
   const [authLoading, setAuthLoading] = useState(false);
@@ -16,6 +16,12 @@ export default function App() {
   useEffect(() => {
     const user = getUser();
     const token = getToken();
+
+    immediateToast("settings", {
+      position: "bottomCenter",
+      closeOnClick: true,
+      displayMode: 1,
+    });
 
     if (!token || !user) {
       return;
@@ -41,35 +47,5 @@ export default function App() {
     return <Loading />;
   }
 
-  return (
-    <>
-      <Routes />
-
-      <Toaster
-        toastOptions={{
-          duration: 100000,
-          success: {
-            duration: 5000,
-          },
-          error: {
-            duration: 5000,
-          },
-        }}
-      >
-        {(t) => (
-          <ToastBar>
-            {({ icon, message }) => (
-              <>
-                {icon}
-                {message}
-                {t.type !== "loading" && (
-                  <button onClick={() => toast.dismiss(t.id)}>X</button>
-                )}
-              </>
-            )}
-          </ToastBar>
-        )}
-      </Toaster>
-    </>
-  );
+  return <Routes />;
 }

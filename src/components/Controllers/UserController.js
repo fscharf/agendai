@@ -62,6 +62,8 @@ export class User {
       .put(`/users/${props.userKey}`, {
         username: props.name,
         email: props.email,
+        isActive: props.isActive,
+        isAdmin: props.isAdmin,
       })
       .then((res) => {
         return toast.success(res.data.message);

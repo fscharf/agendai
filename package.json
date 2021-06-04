@@ -10,6 +10,7 @@
     "axios-hooks": "^2.6.3",
     "bootstrap": "^5.0.0",
     "izitoast": "^1.4.0",
+    "izitoast-react": "^1.0.16",
     "js-cookie": "^2.2.1",
     "lru-cache": "^6.0.0",
     "react": "^17.0.2",

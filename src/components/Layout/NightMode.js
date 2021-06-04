@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 
 const NightMode = () => {
   const body = document.body;
@@ -30,9 +29,9 @@ const NightMode = () => {
   };
 
   return (
-    <Button onClick={switchTheme} variant="light" size="sm" className="rounded-pill">
+    <span onClick={switchTheme}>
       <i className="far fa-moon me-2" />Modo Escuro
-    </Button>
+    </span>
   );
 };
 

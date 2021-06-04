@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Button, Card, Form, Jumbotron, Spinner } from "react-bootstrap";
+import { Button, Card, Form, Jumbotron } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { verifyUser } from "../../components/Utils/Common";
@@ -31,11 +31,11 @@ export default function ResetPassword(props) {
           headers: { "X-Access-Token": token },
         }
       )
-      .then((res) => {
+      .then(() => {
         toast.success("Senha atualizada com sucesso.");
         return history.push("/signin");
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error("Oops, parece que o código expirou.");
         return history.push("/signin");
       });
@@ -43,6 +43,7 @@ export default function ResetPassword(props) {
 
   useEffect(() => {
     verifyUser(token);
+    //eslint-disable-next-line
   }, []);
 
   return (

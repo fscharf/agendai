@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
-import toast from "react-hot-toast";
 import ConfirmationToast from "../../../components/Toasters/ConfirmationToast";
 import api from "../../../services/api";
 import { immediateToast } from "izitoast-react";
 import { Link } from "react-router-dom";
 import HelmetTitle from "../../../components/Layout/HelmetTitle";
 
-export default function AdminScheduleHour({ scheduleKey }) {
+export default function ScheduleHour() {
   const [values, setValues] = useState([]);
   const [hour, setHour] = useState("");
 
   const handleSubmit = async () => {
     if (!hour) {
       return immediateToast("error", {
-        message: "Por favor, preencha todos os campos.",
+        title: "Por favor, preencha todos campos.",
       });
     }
     return await api
@@ -22,11 +21,11 @@ export default function AdminScheduleHour({ scheduleKey }) {
         hour: hour,
       })
       .then((res) => {
-        return immediateToast("success", { message: res.data.message });
+        immediateToast("success", { title: res.data.message });
       })
       .catch((err) => {
-        return immediateToast("error", {
-          message: err.response.data.message,
+        immediateToast("error", {
+          title: err.response.data.message,
         });
       });
   };
@@ -35,11 +34,11 @@ export default function AdminScheduleHour({ scheduleKey }) {
     await api
       .delete(`/scheduleHour/${id}`)
       .then((res) => {
-        return immediateToast("success", { message: res.data.message });
+        return immediateToast("success", { title: res.data.message });
       })
       .catch((err) => {
         return immediateToast("error", {
-          message: err.response.data.message,
+          title: err.response.data.message,
         });
       });
   };
@@ -50,7 +49,7 @@ export default function AdminScheduleHour({ scheduleKey }) {
         .get("/scheduleHour")
         .then((res) => setValues(res.data))
         .catch((err) => {
-          toast.error(err.response.data.message);
+          immediateToast("error", { title: err.response.data.message });
         });
     };
     getScheduleHour();
@@ -59,13 +58,23 @@ export default function AdminScheduleHour({ scheduleKey }) {
   return (
     <Row>
       <HelmetTitle title="Gerenciar horários" />
-      <Col md="4">
+      <Col md="6" className="mb-3">
         <p>
           <Link to="/admin">
             <i className="far fa-arrow-left me-2" />
           </Link>
           Gerenciar horários
         </p>
+
+        <Form.Control
+          className="mb-3"
+          type="time"
+          value={hour}
+          onChange={(e) => setHour(e.target.value)}
+        />
+        <Button onClick={handleSubmit}>Adicionar</Button>
+      </Col>
+      <Col md="6">
         {values.map((data, key) => {
           return (
             <InputGroup className="mb-3" key={key}>
@@ -79,13 +88,6 @@ export default function AdminScheduleHour({ scheduleKey }) {
             </InputGroup>
           );
         })}
-        <Form.Control
-          className="mb-3"
-          type="time"
-          value={hour}
-          onChange={(e) => setHour(e.target.value)}
-        />
-        <Button onClick={handleSubmit}>Enviar</Button>
       </Col>
     </Row>
   );

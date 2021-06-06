@@ -6,6 +6,20 @@ import { getUser } from "../Utils/Common";
 export const user = getUser();
 
 export class User {
+  async getUsers(props) {
+    return await api.get("/users", {
+      params: {
+        user_id: props.userKey,
+        email: props.email,
+        username: props.name,
+      },
+    });
+  }
+
+  async getUserById(props) {
+    return await api.get(`/users/${props.userKey}`);
+  }
+
   async createUser(props) {
     if (
       !props.email ||
@@ -43,20 +57,6 @@ export class User {
       });
   }
 
-  async getUsers(props) {
-    return await api.get("/users", {
-      params: {
-        user_id: props.userKey,
-        email: props.email,
-        username: props.name,
-      },
-    });
-  }
-
-  async getUserById(props) {
-    return await api.get(`/users/${props.userKey}`);
-  }
-
   async updateUser(props) {
     return await api
       .put(`/users/${props.userKey}`, {
@@ -73,3 +73,5 @@ export class User {
       });
   }
 }
+
+export const users = new User();

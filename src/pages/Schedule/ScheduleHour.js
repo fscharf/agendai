@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { InputGroup } from "react-bootstrap";
+import api from "../../services/api";
 
 export default function ScheduleHour(props) {
+  const [values, setValues] = useState([]);
+
+  useEffect(() => {
+    api.get("/scheduleHour", {}).then((res) => setValues(res.data));
+  }, []);
+
   return (
     <InputGroup>
       <label className="input-group-text">
@@ -13,15 +20,9 @@ export default function ScheduleHour(props) {
         value={props.value}
       >
         <option value="">Selecione...</option>
-        <option>09:00</option>
-        <option>10:00</option>
-        <option>11:00</option>
-        <option>12:00</option>
-        <option>14:00</option>
-        <option>15:00</option>
-        <option>16:00</option>
-        <option>17:00</option>
-        <option>18:00</option>
+        {values.map((data) => {
+          return <option key={data._id}>{data.hour}</option>;
+        })}
       </select>
     </InputGroup>
   );

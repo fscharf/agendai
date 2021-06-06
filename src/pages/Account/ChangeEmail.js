@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Layout from "../../components/Layout/Layout";
 import { Link } from "react-router-dom";
-import { getUser, handleSignOut } from "../../components/Utils/Common";
+import { getUser } from "../../components/Utils/Common";
 import HelmetTitle from "../../components/Layout/HelmetTitle";
 import { User } from "../../components/Controllers/UserController";
 import toast from "react-hot-toast";
+import { Context } from "../../components/Context/AppContext";
 
 export default function ChangeEmail() {
   const [email, setEmail] = useState("");
   const user = getUser();
   const userData = new User();
   const key = user.user_id;
+
+  const { handleSignOut } = useContext(Context);
 
   const emailExists = () => {
     userData.getUsers({

@@ -1,38 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Form, Button, Card, Container, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import api from "../../services/api";
-import { setUserSession } from "../Utils/Common";
-import toast from "react-hot-toast";
 import HelmetTitle from "../Layout/HelmetTitle";
 import Icon from "../Layout/Icon";
+import { Context } from "../Context/AppContext";
 
 export default function SignIn() {
-  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { handleSignIn, authLoading } = useContext(Context);
   const title = "Iniciar sessão";
-
-  const handleSignIn = () => {
-    setLoading(true);
-    api
-      .post("/users/signin", {
-        email: email,
-        password: password,
-      })
-      .then((res) => {
-        setLoading(false);
-        setUserSession(res.data.token, res.data.user);
-        toast.success(res.data.message);
-        setTimeout(() => (window.location.href = "/dashboard"), 2000);
-      })
-      .catch((err) => {
-        setLoading(false);
-        if (err) {
-          return toast.error(err.response.data.message);
-        }
-      });
-  };
 
   return (
     <Container
@@ -69,8 +46,11 @@ export default function SignIn() {
               placeholder="Senha"
             />
           </Form.Group>
-          <Button onClick={handleSignIn} className="btn btn-primary mb-3">
-            {loading ? (
+          <Button
+            onClick={() => handleSignIn(email, password)}
+            className="btn btn-primary mb-3"
+          >
+            {authLoading ? (
               <Spinner animation="border" size="sm" role="status" />
             ) : (
               <span>Entrar</span>

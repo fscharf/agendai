@@ -6,7 +6,7 @@ import { getUser } from "../../components/Utils/Common";
 import { User } from "../../components/Controllers/UserController";
 import Layout from "../../components/Layout/Layout";
 import HelmetTitle from "../../components/Layout/HelmetTitle";
-import Loading from "../../components/Loading";
+import PageLoading from "../../components/PageLoading";
 
 export default function Account() {
   const [users, setUserInfo] = useState([]);
@@ -44,7 +44,7 @@ export default function Account() {
   }, []);
 
   return loading ? (
-    <Loading />
+    <PageLoading />
   ) : (
     <Layout>
       <HelmetTitle title="Conta" />

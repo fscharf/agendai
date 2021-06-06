@@ -1,20 +1,6 @@
 import React from "react";
-import { Container, Spinner } from "react-bootstrap";
+import Skeleton from "react-loading-skeleton";
 
-export default function Loading() {
-  return (
-    <Container
-      className="vh-100 d-flex justify-content-center align-items-center"
-      fluid
-    >
-      <Spinner
-        style={{ width: "5rem", height: "5rem" }}
-        animation="border"
-        role="status"
-        variant="primary"
-      >
-        <span className="sr-only">Carregando...</span>
-      </Spinner>
-    </Container>
-  );
+export default function Loading({ ...rest }) {
+  return <Skeleton width={100} {...rest} />;
 }

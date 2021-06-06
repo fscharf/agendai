@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { NavLink } from "react-router-dom";
 import { Container, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { getUser, handleSignOut } from "../Utils/Common";
 import Brand from "./Brand";
 import Icon from "./Icon";
 import NightMode from "./NightMode";
+import { Context } from "../Context/AppContext";
 
 export default function Header() {
-  const user = getUser();
+  const { user, handleSignOut } = useContext(Context);
+
   return (
     <Navbar variant="light" bg="white" className="py-3 mb-3">
       <Container>

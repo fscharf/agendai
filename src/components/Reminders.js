@@ -27,25 +27,21 @@ export default function Reminders() {
         <Row>
           {schedule.length > 0 ? (
             <>
-              {schedule.map((data, key) => {
+              {schedule.map((data) => {
                 return (
                   <>
-                    {data.status && (
-                      <>
-                        {checkDate(data.date) >= checkDate() && (
-                          <Col md="3" className="mb-3">
-                            <Alert key={key} variant="primary">
-                              <span>
-                                Você tem um agendamento dia{" "}
-                                <strong>{formatDate(data.date)}</strong> às{" "}
-                                <strong>
-                                  {String(data.hour).replace(":00", "")}
-                                </strong>
-                              </span>
-                            </Alert>
-                          </Col>
-                        )}
-                      </>
+                    {data.status && checkDate(data.date) >= checkDate() && (
+                      <Col md="3" key={data.schedule_id} className="mb-3">
+                        <Alert variant="primary">
+                          <span>
+                            Você tem um agendamento dia{" "}
+                            <strong>{formatDate(data.date)}</strong> às{" "}
+                            <strong>
+                              {String(data.hour).replace(":00", "")}
+                            </strong>
+                          </span>
+                        </Alert>
+                      </Col>
                     )}
                   </>
                 );

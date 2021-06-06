@@ -3,16 +3,25 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import { getUser } from "../../components/Utils/Common";
 import ScheduleHour from "./ScheduleHour";
 import Layout from "../../components/Layout/Layout";
-import { Schedule } from "../../components/Controllers/ScheduleController";
 import ScheduleDesc from "./ScheduleDesc";
 import HelmetTitle from "../../components/Layout/HelmetTitle";
+import { schedule } from "../../components/Controllers/ScheduleController";
 
 export default function ScheduleForm() {
   const [date, setDate] = useState(null);
   const [hour, setHour] = useState(null);
   const [description, setDescription] = useState("");
   const user = getUser();
-  const schedule = new Schedule();
+
+  const handleSubmit = () => {
+    return schedule.createSchedule({
+      hour: hour,
+      date: date,
+      description: description,
+      userKey: user.user_id,
+      // scheduleHourKey: scheduleHourKey,
+    });
+  };
 
   return (
     <Layout>
@@ -47,19 +56,7 @@ export default function ScheduleForm() {
             />
           </Form.Row>
           <Form.Row className="d-grid">
-            <Button
-              onClick={() =>
-                schedule.createSchedule({
-                  date: date,
-                  hour: hour,
-                  description: description,
-                  userKey: user.user_id,
-                })
-              }
-              className="btn btn-primary"
-            >
-              Confirmar
-            </Button>
+            <Button onClick={handleSubmit}>Confirmar</Button>
           </Form.Row>
         </Col>
       </Row>

@@ -12,6 +12,7 @@ export const getToken = () => {
 };
 
 export const token = getToken();
+export const userSession = getUser();
 
 export const setUserSession = (token, user) => {
   sessionStorage.setItem("token", token);
@@ -23,11 +24,6 @@ export const removeUserSession = () => {
   sessionStorage.clear("token");
   sessionStorage.removeItem("token");
   sessionStorage.removeItem("user");
-};
-
-export const handleSignOut = () => {
-  removeUserSession();
-  window.location.href = "/signin";
 };
 
 export async function verifyUser(code) {

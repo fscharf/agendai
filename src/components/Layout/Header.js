@@ -7,6 +7,7 @@ import Brand from "./Brand";
 import Icon from "./Icon";
 import NightMode from "./NightMode";
 import { Context } from "../Context/AppContext";
+import { userSession } from "../Utils/Common";
 
 export default function Header() {
   const { user, handleSignOut } = useContext(Context);
@@ -20,7 +21,7 @@ export default function Header() {
             <Brand />
           </NavLink>
         </Nav>
-        {user ? (
+        {userSession ? (
           <Nav>
             <OverlayTrigger
               placement="bottom"

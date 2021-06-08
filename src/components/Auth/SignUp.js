@@ -1,22 +1,24 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Card, Container, Form, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { User } from "../Controllers/UserController";
 import HelmetTitle from "../Layout/HelmetTitle";
 import Icon from "../Layout/Icon";
+import { Context } from "../Context/AppContext";
 
 export default function SignUp() {
-  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const title = "Cadastre-se grátis";
-  const userFields = new User();
+
+  const { userClass } = useContext(Context);
 
   const handleSignUp = () => {
     setLoading(true);
-    userFields
+    userClass
       .createUser({
         email: email,
         password: password,
@@ -24,7 +26,7 @@ export default function SignUp() {
         confirmPassword: confirmPassword,
       })
       .then(() => {
-        return setLoading(false);
+        setLoading(false);
       });
   };
 
@@ -50,7 +52,6 @@ export default function SignUp() {
               type="email"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
-              name="email"
               placeholder="E-mail"
             />
           </Form.Group>
@@ -60,14 +61,12 @@ export default function SignUp() {
               onChange={(e) => setName(e.target.value)}
               value={name}
               maxLength="50"
-              name="name"
               placeholder="Nome completo"
             />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Control
               type="password"
-              name="password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
               placeholder="Senha"

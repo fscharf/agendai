@@ -1,51 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
+import { Context } from "../../components/Context/AppContext";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import toast from "react-hot-toast";
-import { getUser } from "../../components/Utils/Common";
-import { User } from "../../components/Controllers/UserController";
 import Layout from "../../components/Layout/Layout";
 import HelmetTitle from "../../components/Layout/HelmetTitle";
-import PageLoading from "../../components/PageLoading";
 
 export default function Account() {
-  const [users, setUserInfo] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [username, setUserName] = useState(users.username);
-  const [admin, setAdmin] = useState(users.isAdmin);
-  const user = getUser();
-  const fields = new User();
+  const { user, userClass, loading } = useContext(Context);
+  const [username, setUserName] = useState(user.username);
 
-  const handleUpdate = (username, isAdmin) => {
-    return fields.updateUser({
-      userKey: user.user_id,
-      name: username,
-      isAdmin: isAdmin,
-    });
-  };
-
-  useEffect(() => {
-    setLoading(true);
-    function getUserById() {
-      fields
-        .getUserById({ userKey: user.user_id })
-        .then((res) => {
-          setLoading(false);
-          return setUserInfo(res.data);
-        })
-        .catch((err) => {
-          setLoading(false);
-          return toast.error(err);
-        });
-    }
-
-    getUserById();
-    //eslint-disable-next-line
-  }, []);
-
-  return loading ? (
-    <PageLoading />
-  ) : (
+  return (
     <Layout>
       <HelmetTitle title="Conta" />
       <Row>
@@ -58,26 +22,24 @@ export default function Account() {
             <Form.Label className="text-muted">Nome completo</Form.Label>
             <Form.Control
               type="text"
-              value={username || users.username}
+              value={username || user.username}
               onChange={(e) => setUserName(e.target.value)}
             />
           </Form.Row>
           <Form.Row className="mb-3">
-            <Form.Label className="text-muted">Administrar?</Form.Label>
-            <select value={admin} onChange={(e) => setAdmin(e.target.value)}>
-              <option value={true}>Sim</option>
-              <option value={false}>Não</option>
-            </select>
-          </Form.Row>
-          <Form.Row className="mb-3">
             <Form.Label className="text-muted">Email</Form.Label>
-            <Form.Control readOnly type="text" value={users.email} />
+            <Form.Control readOnly type="text" value={user.email} />
           </Form.Row>
           <Form.Row className="mb-3">
             <Button
               variant="primary"
-              className={username || admin ? "" : "disabled"}
-              onClick={() => handleUpdate(username, admin)}
+              className={username ? "" : "disabled"}
+              onClick={() =>
+                userClass.handleUpdate({
+                  key: user.user_id,
+                  username: username,
+                })
+              }
               size="sm"
             >
               <i className="far fa-save me-2" />
@@ -88,7 +50,7 @@ export default function Account() {
         <Col md="4">
           <Form.Text>Opções</Form.Text>
           <p />
-          {users.accountVerified ? (
+          {user.accountVerified || loading ? (
             <div className="text-success mb-3">
               <i className="far fa-check-circle me-2" />
               Conta verificada

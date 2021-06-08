@@ -1,77 +1,65 @@
-import toast from "react-hot-toast";
+import { immediateToast } from "izitoast-react";
 import api from "../../services/api";
 import history from "../../services/history";
-import { getUser } from "../Utils/Common";
-
-export const user = getUser();
 
 export class User {
-  async getUsers(props) {
-    return await api.get("/users", {
+  getUsers = async (props) => {
+    await api.get("/users", {
       params: {
-        user_id: props.userKey,
+        user_id: props.key,
         email: props.email,
         username: props.name,
       },
     });
-  }
+  };
 
-  async getUserById(props) {
-    return await api.get(`/users/${props.userKey}`);
-  }
+  getUserById = async (props) => {
+    await api.get(`/users/${props.key}`);
+  };
 
-  async createUser(props) {
-    if (
-      !props.email ||
-      !props.password ||
-      !props.confirmPassword ||
-      !props.name
-    ) {
-      return toast.error("Por favor, preencha todos os campos.");
+  createUser = async (props) => {
+    if (!props.email || !props.password || !props.name || !props.confirmPassword) {
+      return immediateToast("error", {
+        title: "Por favor, preencha todos os campos.",
+      });
     }
     if (props.password !== props.confirmPassword) {
-      return toast.error("Senhas não conferem.");
+      return immediateToast("error", { title: "Senhas não conferem." });
     }
     if (props.password.length < 6) {
-      return toast.error("Sua senha deve conter pelo menos 6 caracteres.");
+      return immediateToast("error", {
+        title: "Sua senha deve conter pelo menos 6 caracteres.",
+      });
     }
 
-    return await api
+    await api
       .post("/users", {
         username: props.name,
         email: props.email,
         password: props.password,
       })
       .then((res) => {
-        toast(res.data.message);
-        return history.push("/signin");
+        immediateToast("success", { title: res.data.message, timeout: 0 });
+        history.push("/signin");
       })
       .catch((err) => {
-        if (err) {
-          return toast.error(err.response.data.message);
-        } else {
-          return toast.error(
-            "Oops! Alguma coisa deu errado. Entre em contato com o Administrador."
-          );
-        }
+        immediateToast("error", { title: err.response.data.message });
       });
-  }
+  };
 
-  async updateUser(props) {
-    return await api
-      .put(`/users/${props.userKey}`, {
-        username: props.name,
+  handleUpdate = async (props) => {
+    await api
+      .put(`/users/${props.key}`, {
+        username: props.username,
         email: props.email,
         isActive: props.isActive,
         isAdmin: props.isAdmin,
       })
       .then((res) => {
-        return toast.success(res.data.message);
+        immediateToast("success", { title: res.data.message });
       })
       .catch((err) => {
-        return toast.error(err.response.data.message);
+        immediateToast("error", { title: err.response.data.message });
       });
-  }
+  };
 }
-
-export const users = new User();

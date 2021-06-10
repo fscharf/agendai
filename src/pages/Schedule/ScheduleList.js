@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import toast from "react-hot-toast";
-import { getUser, formatDate, checkDate } from "../../components/Utils/Common";
-import { Schedule } from "../../components/Controllers/ScheduleController";
+import { formatDate, checkDate } from "../../components/Utils/Common";
 import Layout from "../../components/Layout/Layout";
 import HelmetTitle from "../../components/Layout/HelmetTitle";
 import ConfirmationToast from "../../components/Toasters/ConfirmationToast";
 import ScheduleHour from "./ScheduleHour";
+import Accordion from "../../components/Accordion";
+import { Context } from "../../components/Context/AppContext";
 
 export default function ScheduleList() {
   const [schedule, setSchedule] = useState([]);
   const [date, setDate] = useState("");
   const [hour, setHour] = useState("");
   const [status, setStatus] = useState(true);
-  const fields = new Schedule();
-  const user = getUser();
+  const { scheduleClass, user } = useContext(Context);
 
   const getScheduleList = () => {
-    fields
+    scheduleClass
       .getSchedule({
         userKey: user.user_id,
         date: date,
@@ -41,19 +41,18 @@ export default function ScheduleList() {
         Agendamentos
       </Form.Text>
       <p />
-      <Form.Row className="mb-3">
-        <Button
-          size="sm"
-          variant="secondary"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapseFilters"
-        >
-          <i className="far fa-filter me-2" />
-          Filtros
-          <i className="far fa-chevron-down ms-2" />
-        </Button>
-      </Form.Row>
-      <div className="collapse" id="collapseFilters">
+
+      <Accordion
+        hidden
+        id="Filter"
+        className="mb-3"
+        title={
+          <span>
+            <i className="far fa-filter me-2" />
+            Filtros
+          </span>
+        }
+      >
         <Form.Row as={Row}>
           <Col md="4" className="mb-3">
             <Form.Control
@@ -110,7 +109,7 @@ export default function ScheduleList() {
             />
           </Col>
         </Form.Row>
-      </div>
+      </Accordion>
       <p className="text-muted">Mostrando apenas os próximos agendamentos.</p>
       {schedule.length > 0 ? (
         <>
@@ -146,7 +145,7 @@ export default function ScheduleList() {
                                 </Card.Text>
                                 <ConfirmationToast
                                   onClick={() =>
-                                    fields.updateSchedule({
+                                    scheduleClass.updateSchedule({
                                       key: data.schedule_id,
                                       status: !data.status,
                                     })

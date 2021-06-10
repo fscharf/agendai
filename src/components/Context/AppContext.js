@@ -7,7 +7,7 @@ const Context = createContext();
 function AppProvider({ children }) {
   const { handleSignIn, authLoading, handleSignOut } = useAuth();
   const { loading, user, userClass } = useUsers();
-  const { scheduleClass, scheduleHour } = useSchedule();
+  const { scheduleClass, scheduleHour, schedule, queryParams } = useSchedule();
 
   return (
     <Context.Provider
@@ -20,6 +20,8 @@ function AppProvider({ children }) {
         scheduleHour,
         authLoading,
         loading,
+        schedule,
+        queryParams,
       }}
     >
       {children}

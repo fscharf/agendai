@@ -5,30 +5,20 @@ import Layout from "../../components/Layout/Layout";
 import ScheduleDesc from "./ScheduleDesc";
 import HelmetTitle from "../../components/Layout/HelmetTitle";
 import { Context } from "../../components/Context/AppContext";
-import api from "../../services/api";
 
 export default function ScheduleForm() {
   const [date, setDate] = useState(null);
   const [hour, setHour] = useState(null);
   const [description, setDescription] = useState("");
-  const [sHour, setSHour] = useState([]);
 
-  const { user, scheduleHour, scheduleClass } = useContext(Context);
+  const { user, schedule, scheduleHour, scheduleClass } = useContext(Context);
 
   const handleSubmit = async () => {
-    await api.get("/scheduleHour", { params: { hour: hour } }).then((res) => {
-      setSHour(res.data);
-    });
-    const sKey = sHour.map((key) => {
-      return key._id;
-    });
-
     return scheduleClass.createSchedule({
       hour: hour,
       date: date,
       description: description,
       userKey: user.user_id,
-      scheduleHourKey: parseInt(sKey),
     });
   };
 
@@ -64,7 +54,18 @@ export default function ScheduleForm() {
               onChange={(e) => setHour(e.target.value)}
             >
               {scheduleHour.map((data) => {
-                return <option key={data._id}>{data.hour}</option>;
+                return (
+                  <option
+                    disabled={() =>
+                      data._id === schedule.schedule_hour_id
+                        ? false
+                        : true
+                    }
+                    key={data._id}
+                  >
+                    {String(data.hour).replace(":00", "")}
+                  </option>
+                );
               })}
             </ScheduleHour>
           </Form.Row>

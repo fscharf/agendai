@@ -11,24 +11,21 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <Row>
-      <Col md>
-        <Row>
-          <Col md="2">
-            <Card>
-              <Card.Body>
-                <Card.Text className="text-muted">
-                  Total de agendamentos
-                </Card.Text>
-                <Card.Text className="fw-bold">{values.length}</Card.Text>
-                <Link className="stretched-link" to="/admin/schedule">
-                  Gerenciar
-                </Link>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Col>
-    </Row>
+    <Card.Body>
+      <Card.Title>
+        <i className="far fa-sliders-h me-2" />
+        Painel
+      </Card.Title>
+      <hr />
+      <Row>
+        <Col md="3">
+          <Card.Text className="text-muted">Total de agendamentos</Card.Text>
+          <Card.Text className="fw-bold">{values.length}</Card.Text>
+          <Link className="stretched-link" to="/admin/schedule">
+            Gerenciar
+          </Link>
+        </Col>
+      </Row>
+    </Card.Body>
   );
 }

@@ -1,21 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Alert, Col, Row } from "react-bootstrap";
-import toast from "react-hot-toast";
-import { Schedule } from "./Controllers/ScheduleController";
-import { getUser, formatDate, checkDate } from "./Utils/Common";
+import { Context } from "./Context/AppContext";
+import { formatDate, checkDate, userSession } from "./Utils/Common";
 
 export default function Reminders() {
-  const user = getUser();
-  const [schedule, setSchedule] = useState([]);
-  const fields = new Schedule();
+  const { schedule, queryParams } = React.useContext(Context);
 
-  useEffect(() => {
-    fields
-      .getSchedule({ userKey: user.user_id })
-      .then((res) => setSchedule(res.data))
-      .catch((err) => toast.error(err.response.data.message));
-    //eslint-disable-next-line
-  }, []);
+  queryParams({ user_id: userSession.user_id });
 
   return (
     <Row>

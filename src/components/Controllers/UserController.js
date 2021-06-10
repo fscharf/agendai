@@ -4,21 +4,29 @@ import history from "../../services/history";
 
 export class User {
   getUsers = async (props) => {
-    await api.get("/users", {
-      params: {
-        user_id: props.key,
-        email: props.email,
-        username: props.name,
-      },
-    });
+    if (props) {
+      return await api.get("/users", {
+        params: {
+          user_id: props.key,
+          email: props.email,
+          username: props.name,
+        },
+      });
+    }
+    return await api.get("/users");
   };
 
-  getUserById = async (props) => {
-    await api.get(`/users/${props.key}`);
+  getUserById = async (key) => {
+    return await api.get(`/users/${key}`)
   };
 
   createUser = async (props) => {
-    if (!props.email || !props.password || !props.name || !props.confirmPassword) {
+    if (
+      !props.email ||
+      !props.password ||
+      !props.name ||
+      !props.confirmPassword
+    ) {
       return immediateToast("error", {
         title: "Por favor, preencha todos os campos.",
       });

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
+import { Button, Card, Col, Form, InputGroup, Row } from "react-bootstrap";
 import ConfirmationToast from "../../../components/Toasters/ConfirmationToast";
 import api from "../../../services/api";
 import { immediateToast } from "izitoast-react";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import HelmetTitle from "../../../components/Layout/HelmetTitle";
+import Accordion from "../../../components/Accordion";
 
 export default function ScheduleHour() {
   const [values, setValues] = useState([]);
   const [hour, setHour] = useState("");
+  useParams();
 
   const handleSubmit = async () => {
     if (!hour) {
@@ -56,39 +58,42 @@ export default function ScheduleHour() {
   }, [values]);
 
   return (
-    <Row>
+    <Card.Body>
       <HelmetTitle title="Gerenciar horários" />
-      <Col md="6" className="mb-3">
-        <p>
-          <Link to="/admin">
-            <i className="far fa-arrow-left me-2" />
-          </Link>
-          Gerenciar horários
-        </p>
-
-        <Form.Control
-          className="mb-3"
-          type="time"
-          value={hour}
-          onChange={(e) => setHour(e.target.value)}
-        />
-        <Button onClick={handleSubmit}>Adicionar</Button>
-      </Col>
-      <Col md="6">
-        {values.map((data, key) => {
-          return (
-            <InputGroup className="mb-3" key={key}>
-              <Form.Control type="text" value={data.hour} />
-              <ConfirmationToast
-                variant="danger"
-                actionTitle={<i className="far fa-times" />}
-                title="Excluir"
-                onClick={() => handleDelete(data._id)}
-              />
-            </InputGroup>
-          );
-        })}
-      </Col>
-    </Row>
+      <Card.Title>
+        <i className="far fa-clock me-2" />
+        Horários
+      </Card.Title>
+      <hr />
+      <Row>
+        <Col md="6" className="mb-3">
+          <Form.Label>Escolha um horário</Form.Label>
+          <Form.Control
+            className="mb-3"
+            type="time"
+            value={hour}
+            onChange={(e) => setHour(e.target.value)}
+          />
+          <Button onClick={handleSubmit}>Adicionar</Button>
+        </Col>
+        <Col md="6">
+          <Accordion title="Horários definidos" id="ScheduleHour">
+            {values.map((data, key) => {
+              return (
+                <InputGroup className="mb-3" key={key}>
+                  <Form.Control type="text" value={data.hour} />
+                  <ConfirmationToast
+                    variant="danger"
+                    actionTitle={<i className="far fa-times" />}
+                    title="Excluir"
+                    onClick={() => handleDelete(data._id)}
+                  />
+                </InputGroup>
+              );
+            })}
+          </Accordion>
+        </Col>
+      </Row>
+    </Card.Body>
   );
 }

@@ -1,32 +1,36 @@
 import React from "react";
-import { Button } from "react-bootstrap";
-import { useToast } from "izitoast-react";
+import { Button, Modal } from "react-bootstrap";
 
-export default function ConfirmationToast(props) {
-  const confirm = useToast({
-    title: "Tem certeza que deseja prosseguir?",
-    overlay: true,
-    timeout: 0,
-    position: "topCenter",
-    buttons: [
-      [`<button><b>Sim</b></button>`, props.onClick, null],
-      [
-        "<button>Não</button>",
-        (instance, toast) => {
-          instance.hide({ transitionOut: "fadeOut" }, toast, "button");
-        },
-      ],
-    ],
-  });
+export default function ConfirmationToast({
+  onClick,
+  title,
+  size,
+  variant,
+  actionTitle,
+}) {
+  const [show, setShow] = React.useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
-    <Button
-      title={props.title}
-      size={props.size}
-      variant={props.variant}
-      onClick={confirm}
-    >
-      {props.actionTitle}
-    </Button>
+    <>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Body>Tem certeza que deseja continuar?</Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="light" onClick={handleClose}>
+            Fechar
+          </Button>
+          <Button onClick={onClick} onChange={handleClose}>
+            Confirmar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Button title={title} size={size} variant={variant} onClick={handleShow}>
+        {actionTitle}
+      </Button>
+    </>
   );
 }

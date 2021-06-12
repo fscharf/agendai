@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import toast from "react-hot-toast";
 import { formatDate, checkDate } from "../../components/Utils/Common";
 import Layout from "../../components/Layout/Layout";
 import HelmetTitle from "../../components/Layout/HelmetTitle";
@@ -9,29 +8,38 @@ import ScheduleHour from "./ScheduleHour";
 import Accordion from "../../components/Accordion";
 import { Context } from "../../components/Context/AppContext";
 
-export default function ScheduleList() {
-  const [schedule, setSchedule] = useState([]);
-  const [date, setDate] = useState("");
-  const [hour, setHour] = useState("");
-  const [status, setStatus] = useState(true);
+export default function List() {
   const { scheduleClass, user } = useContext(Context);
 
-  const getScheduleList = () => {
+  const [state, setState] = useState({
+    schedule: [],
+    date: null,
+    hour: null,
+    status: true,
+  });
+
+  const getSchedule = () => {
     scheduleClass
-      .getSchedule({
+      .get({
         userKey: user.user_id,
-        date: date,
-        hour: hour,
-        status: status,
+        date: state.date,
+        hour: state.hour,
+        status: state.status,
       })
-      .then((res) => setSchedule(res.data))
-      .catch((err) => toast.error(err.response.data.message));
+      .then((res) => setState({ schedule: res.data }));
   };
 
   useEffect(() => {
-    getScheduleList();
-    //eslint-disable-next-line
+    getSchedule();
   }, []);
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setState({
+      ...state,
+      [e.target.name]: value,
+    });
+  };
 
   return (
     <Layout>
@@ -57,21 +65,20 @@ export default function ScheduleList() {
           <Col md="4" className="mb-3">
             <Form.Control
               type="date"
-              onChange={(e) => setDate(e.target.value)}
-              value={date}
+              name="date"
+              onChange={handleChange}
+              value={state.date}
             />
           </Col>
           <Col md="4" className="mb-3">
-            <ScheduleHour
-              value={hour}
-              onChange={(e) => setHour(e.target.value)}
-            />
+            <ScheduleHour value={state.hour} onChange={handleChange} />
           </Col>
           <Col md="4" className="mb-3">
             <select
               className="form-select"
-              onChange={(e) => setStatus(e.target.value)}
-              value={status}
+              onChange={handleChange}
+              name="status"
+              value={state.status}
             >
               <option value="">Todos</option>
               <option value={true}>Confirmado</option>
@@ -85,36 +92,39 @@ export default function ScheduleList() {
               size="sm"
               variant="primary"
               className="me-2"
-              onClick={() => getScheduleList()}
+              onClick={() => getSchedule()}
             >
               <i className="far fa-check-circle me-2" />
               Aplicar filtros
             </Button>
-            <Button
-              size="sm"
-              variant="light"
-              onClick={() => window.location.reload()}
-            >
-              <i className="far fa-brush me-2" />
-              Limpar filtros
-            </Button>
+            {state && (
+              <Button
+                size="sm"
+                variant="light"
+                onClick={() => window.location.reload()}
+              >
+                <i className="far fa-brush me-2" />
+                Limpar filtros
+              </Button>
+            )}
+
             <p />
             <Form.Check
               label={`Mostrar apenas Confirmados`}
               defaultChecked={true}
-              checked={status}
+              checked={state.status}
               onChange={() => {
-                setStatus(!status);
+                setState(!state.status);
               }}
             />
           </Col>
         </Form.Row>
       </Accordion>
       <p className="text-muted">Mostrando apenas os próximos agendamentos.</p>
-      {schedule.length > 0 ? (
+      {state.schedule.length > 0 ? (
         <>
           <Row>
-            {schedule.map((data, key) => {
+            {state.schedule.map((data) => {
               return (
                 <>
                   {checkDate(data.date) >= checkDate() && (
@@ -125,7 +135,7 @@ export default function ScheduleList() {
                             ? "border border-success"
                             : "border border-danger"
                         }`}
-                        key={key}
+                        key={data.schedule_id}
                       >
                         <>
                           <Card.Header className="fw-bold">
@@ -145,7 +155,7 @@ export default function ScheduleList() {
                                 </Card.Text>
                                 <ConfirmationToast
                                   onClick={() =>
-                                    scheduleClass.updateSchedule({
+                                    scheduleClass.update({
                                       key: data.schedule_id,
                                       status: !data.status,
                                     })

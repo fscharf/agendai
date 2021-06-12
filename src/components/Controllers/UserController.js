@@ -3,24 +3,28 @@ import api from "../../services/api";
 import history from "../../services/history";
 
 export class User {
-  getUsers = async (props) => {
+  get = async (props) => {
+    var query;
     if (props) {
-      return await api.get("/users", {
+      query = {
         params: {
           user_id: props.key,
           email: props.email,
           username: props.name,
+          query: props.query,
+          isAdmin: props.isAdmin,
+          isActive: props.isActive,
         },
-      });
+      };
     }
-    return await api.get("/users");
+    return await api.get("/users", query);
   };
 
-  getUserById = async (key) => {
-    return await api.get(`/users/${key}`)
+  getKey = async (key) => {
+    return await api.get(`/users/${key}`);
   };
 
-  createUser = async (props) => {
+  create = async (props) => {
     if (
       !props.email ||
       !props.password ||
@@ -55,7 +59,7 @@ export class User {
       });
   };
 
-  handleUpdate = async (props) => {
+  update = async (props) => {
     await api
       .put(`/users/${props.key}`, {
         username: props.username,

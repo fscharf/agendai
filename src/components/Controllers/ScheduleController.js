@@ -1,21 +1,27 @@
 import { immediateToast } from "izitoast-react";
 import toast from "react-hot-toast";
+import List from "../../pages/Schedule/List";
+import NewSchedule from "../../pages/Schedule/NewSchedule";
 import api from "../../services/api";
 import history from "../../services/history";
 
 export class Schedule {
-  async getSchedule(props) {
-    return await api.get("/schedule", {
-      params: {
-        date: props.date,
-        hour: props.hour,
-        status: props.status,
-        user_id: props.userKey,
-      },
-    });
+  async get(props) {
+    var query;
+    if (props) {
+      query = {
+        params: {
+          date: props.date,
+          hour: props.hour,
+          status: props.status,
+          user_id: props.userKey,
+        },
+      };
+    }
+    return await api.get("/schedule", query);
   }
 
-  async createSchedule(props) {
+  async create(props) {
     const startDate = new Date();
 
     if (!props.date || !props.hour || !props.userKey || !props.description) {
@@ -47,7 +53,7 @@ export class Schedule {
       });
   }
 
-  async updateSchedule(props) {
+  async update(props) {
     return await api
       .put(`/schedule/${props.key}`, {
         status: props.status,
@@ -63,7 +69,7 @@ export class Schedule {
       });
   }
 
-  async deleteSchedule(props) {
+  async delete(props) {
     return await api
       .delete(`/schedule/${props.key}`)
       .then((res) => {
@@ -73,6 +79,12 @@ export class Schedule {
         return toast.error(err.response.data.message);
       });
   }
-}
 
-export const schedule = new Schedule();
+  list() {
+    return List;
+  }
+  
+  newSchedule() {
+    return NewSchedule;
+  }
+}

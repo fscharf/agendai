@@ -1,7 +1,7 @@
 import axios from "axios";
+import { immediateToast } from "izitoast-react";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Form, Jumbotron } from "react-bootstrap";
-import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { verifyUser } from "../../components/Utils/Common";
 import history from "../../services/history";
@@ -15,13 +15,15 @@ export default function ResetPassword(props) {
 
   async function handleSubmit() {
     if (!password || !confirmPassword) {
-      return toast.error("Por favor, preencha todos campos.");
+      immediateToast("error", { title: "Por favor, preencha todos campos." });
     }
     if (password.length < 6) {
-      return toast.error("Sua senha deve conter pelo menos 6 caracteres.");
+      immediateToast("error", {
+        title: "Sua senha deve conter pelo menos 6 caracteres.",
+      });
     }
     if (password !== confirmPassword) {
-      return toast.error("Senhas não conferem.");
+      immediateToast("error", { title: "Senhas não conferem." });
     }
     return await axios
       .put(
@@ -32,24 +34,22 @@ export default function ResetPassword(props) {
         }
       )
       .then(() => {
-        toast.success("Senha atualizada com sucesso.");
-        return history.push("/signin");
+        immediateToast("success", { title: "Senha atualizada com sucesso." });
+        history.push("/signin");
       })
-      .catch(() => {
-        toast.error("Oops, parece que o código expirou.");
-        return history.push("/signin");
+      .catch((err) => {
+        immediateToast("error", { title: err.response.data.message });
       });
   }
 
   useEffect(() => {
     verifyUser(token);
-    //eslint-disable-next-line
-  }, []);
+  }, [token]);
 
   return (
     <Jumbotron
       fluid
-      className="d-flex justify-content-center align-items-center text-center vh-100"
+      className="d-flex justify-content-center bg-primary align-items-center text-center vh-100"
     >
       <HelmetTitle title="Mudar senha" />
       <Card className="p-4 p-sm-5" style={{ width: "25rem" }}>

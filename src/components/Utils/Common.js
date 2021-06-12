@@ -1,5 +1,6 @@
-import toast from "react-hot-toast";
+import { immediateToast } from "izitoast-react";
 import api from "../../services/api";
+import history from "../../services/history";
 
 export const getUser = () => {
   const userStr = sessionStorage.getItem("user");
@@ -26,16 +27,20 @@ export const removeUserSession = () => {
   sessionStorage.removeItem("user");
 };
 
-export async function verifyUser(code) {
+export const verifyUser = async (code) => {
   await api
     .get(`/confirm/${code}`)
-    .then((res) => {
+    .then(() => {
       return;
     })
-    .catch((err) => {
-      return toast.error('Ocorreu um erro ' + err);
+    .catch(() => {
+      immediateToast("info", {
+        title: "Oops, parece que o código expirou.",
+        timeout: 10000,
+      });
+      history.push("/signin");
     });
-}
+};
 
 export const formatDate = (date) => {
   var split = date.split("-");

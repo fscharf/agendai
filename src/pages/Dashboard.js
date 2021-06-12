@@ -17,8 +17,11 @@ export default function Dashboard() {
       </h4>
       <p className="text-muted">Que tal olhar os lembretes?</p>
       <Reminders />
-      <Link to="/schedule" className="btn btn-primary">
+      <Link to="/schedule" className="btn btn-primary me-2">
         Agendar
+      </Link>
+      <Link to="/schedule-list" className="btn btn-outline-primary">
+        Ver tudo
       </Link>
     </Layout>
   );

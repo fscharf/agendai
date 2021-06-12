@@ -1,15 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { schedule } from "../../components/Controllers/ScheduleController";
 
 export default function Dashboard() {
-  const [values, setValues] = useState([]);
-
-  useEffect(() => {
-    schedule.getSchedule({}).then((res) => setValues(res.data));
-  }, []);
-
   return (
     <Card.Body>
       <Card.Title>
@@ -20,7 +13,14 @@ export default function Dashboard() {
       <Row>
         <Col md="3">
           <Card.Text className="text-muted">Total de agendamentos</Card.Text>
-          <Card.Text className="fw-bold">{values.length}</Card.Text>
+          <Card.Text className="fw-bold">0</Card.Text>
+          <Link className="stretched-link" to="/admin/schedule">
+            Gerenciar
+          </Link>
+        </Col>
+        <Col md="3">
+          <Card.Text className="text-muted">Total de usuários</Card.Text>
+          <Card.Text className="fw-bold">0</Card.Text>
           <Link className="stretched-link" to="/admin/schedule">
             Gerenciar
           </Link>

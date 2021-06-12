@@ -1,78 +1,69 @@
 import React, { useContext, useState } from "react";
-import { Button, Col, Form, Row } from "react-bootstrap";
-import Layout from "../../components/Layout/Layout";
-import { Link } from "react-router-dom";
-import { getUser } from "../../components/Utils/Common";
+import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import HelmetTitle from "../../components/Layout/HelmetTitle";
-import { User } from "../../components/Controllers/UserController";
-import toast from "react-hot-toast";
 import { Context } from "../../components/Context/AppContext";
+import { immediateToast } from "izitoast-react";
 
 export default function ChangeEmail() {
+  const { handleSignOut, user, userClass } = useContext(Context);
   const [email, setEmail] = useState("");
-  const user = getUser();
-  const userData = new User();
-  const key = user.user_id;
 
-  const { handleSignOut } = useContext(Context);
-
-  const emailExists = () => {
-    userData.getUsers({
-      email: user.email,
-    });
-  };
-
-  async function handleSubmit() {
+  const handleSubmit = () => {
     if (!email) {
-      return toast.error("Por favor, preencha todos os campos.");
+      return immediateToast("error", {
+        title: "Por favor, preencha todos os campos.",
+      });
     }
 
     if (email === user.email) {
-      return toast.error("E-mail não pode ser igual ao e-mail atual.");
+      return immediateToast("error", {
+        title: "E-mail não pode ser igual ao e-mail atual.",
+      });
     }
 
-    if (emailExists()) {
-      return toast.error("E-mail já utilizado.");
-    }
-
-    userData
-      .updateUser({ userKey: key, email: email })
+    userClass
+      .update({ key: user.user_id, email: email })
       .then(() => {
-        handleSignOut();
+        immediateToast("success", {
+          title: "E-mail atualizado.",
+          message:
+            "Por favor, cheque sua conta, sua sessão será encerrada em 10 segundos.",
+        });
+
+        setTimeout(handleSignOut(), 10000);
       })
       .catch((err) => {
-        toast.error(err.response.data.message);
+        immediateToast("error", { title: err.response.data.message });
       });
-  }
+  };
+
+  const title = "Alterar email";
 
   return (
-    <Layout>
-      <HelmetTitle title="Mudar email" />
+    <Card.Body>
+      <HelmetTitle title={title} />
+      <Card.Title>
+        <i className="far fa-envelope me-2"></i>{title}
+      </Card.Title>
+      <hr />
       <Row>
-        <Col md="4">
-          <p>
-            <Link to="/account" title="Voltar">
-              <i className="far fa-arrow-left"></i>
-            </Link>
-            <i className="far fa-envelope ms-3 me-2"></i>Mudar email
-          </p>
+        <Col md="6">
           <Form.Row className="mb-3">
             <Form.Label>Novo email</Form.Label>
             <Form.Control
               type="email"
               placeholder="e.g. meuemail@exemplo.com"
-              required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Row>
-          <Form.Row className="d-grid mb-3">
+          <Form.Row>
             <Button variant="primary" onClick={() => handleSubmit()}>
               Enviar
             </Button>
           </Form.Row>
         </Col>
       </Row>
-    </Layout>
+    </Card.Body>
   );
 }

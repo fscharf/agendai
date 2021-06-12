@@ -1,23 +1,30 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Alert, Col, Row } from "react-bootstrap";
 import { Context } from "./Context/AppContext";
-import { formatDate, checkDate, userSession } from "./Utils/Common";
+import { formatDate, checkDate } from "./Utils/Common";
 
 export default function Reminders() {
-  const { schedule, queryParams } = React.useContext(Context);
+  const [schedule, setSchedule] = useState([]);
+  const { user, scheduleClass } = useContext(Context);
 
-  queryParams({ user_id: userSession.user_id });
+  useEffect(() => {
+    scheduleClass
+      .get({ userKey: user.user_id })
+      .then((res) => setSchedule(res.data));
+  }, [scheduleClass, user]);
 
   return (
     <Row>
       <Col>
         <p>
-          <i className="far fa-sticky-note me-2"></i>LEMBRETES
+          <i className="far fa-sticky-note me-2"></i>Lembretes
         </p>
-        <p className="text-muted">Mostrando apenas os próximos agendamentos.</p>
         <Row>
           {schedule.length > 0 ? (
             <>
+              <p className="text-muted">
+                Mostrando apenas os próximos agendamentos.
+              </p>
               {schedule.map((data) => {
                 return (
                   <>

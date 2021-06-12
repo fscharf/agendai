@@ -22,7 +22,7 @@ export default function Index() {
         {title}
       </p>
       <Row>
-        <Col md="3">
+        <Col md="3" className="mb-3">
           <Accordion title="Menu" id="Index">
             <Nav variant="pills" className="flex-column" defaultActiveKey={url}>
               <NavLink className="nav-link" exact to={url}>

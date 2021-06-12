@@ -42,10 +42,10 @@ export default function useAuth() {
         password: password,
       })
       .then((res) => {
-        setUserSession(res.data.token, res.data.user);
-        setAuthLoading(false);
         immediateToast("success", { title: res.data.message });
-        setTimeout(() => (window.location.href = "/dashboard"), 2000);
+        setAuthLoading(false);
+        setUserSession(res.data.token, res.data.user);
+        setTimeout(() => (window.location.href = "/dashboard"), 3000);
       })
       .catch((err) => {
         setAuthLoading(false);

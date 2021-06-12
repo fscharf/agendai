@@ -14,10 +14,10 @@ export default function SignIn() {
   return (
     <Container
       fluid
-      className="vh-100 d-flex align-items-center text-center justify-content-center"
+      className="vh-100 d-flex align-items-center bg-primary text-center justify-content-center"
     >
       <HelmetTitle title={title} />
-      <Card className="mb-3 p-4 p-sm-5" style={{ width: "25rem" }}>
+      <Card className="mb-3 p-4 p-sm-5 shadow-sm" style={{ width: "25rem" }}>
         <Card.Body className="d-grid">
           <Link to="/">
             <Icon width="50" className="mx-auto" />

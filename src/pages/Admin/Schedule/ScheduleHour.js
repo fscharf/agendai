@@ -3,14 +3,12 @@ import { Button, Card, Col, Form, InputGroup, Row } from "react-bootstrap";
 import ConfirmationToast from "../../../components/Toasters/ConfirmationToast";
 import api from "../../../services/api";
 import { immediateToast } from "izitoast-react";
-import { useParams } from "react-router-dom";
 import HelmetTitle from "../../../components/Layout/HelmetTitle";
 import Accordion from "../../../components/Accordion";
 
 export default function ScheduleHour() {
   const [values, setValues] = useState([]);
   const [hour, setHour] = useState("");
-  useParams();
 
   const handleSubmit = async () => {
     if (!hour) {

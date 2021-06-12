@@ -1,16 +1,25 @@
-import React from "react";
+import { immediateToast } from "izitoast-react";
+import React, { useEffect } from "react";
 import { Card, Col, Container, Jumbotron, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { verifyUser } from "../../components/Utils/Common";
 import history from "../../services/history";
 
 export default function Confirmation(props) {
-  if (props.match.path === "/confirm/:confirmationCode") {
+  useEffect(() => {
     verifyUser(props.match.params.confirmationCode);
+    immediateToast("show", {
+      title: "Você será direcionado em 10 segundos.",
+      timeout: 10000,
+    });
+    setTimeout(() => history.push("/signin"), 10000);
+  });
+
+  if (props.match.path === "/confirm/:confirmationCode") {
     return (
       <Jumbotron
         fluid
-        className="d-flex justify-content-center align-items-center text-center vh-100"
+        className="d-flex justify-content-center bg-primary align-items-center text-center vh-100"
       >
         <Container>
           <Row>

@@ -1,6 +1,6 @@
+import { immediateToast } from "izitoast-react";
 import React, { useState } from "react";
 import { Button, Card, Container, Form } from "react-bootstrap";
-import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
 import HelmetTitle from "../Layout/HelmetTitle";
@@ -16,18 +16,18 @@ export default function ForgotPassword() {
         email: email,
       })
       .then((res) => {
-        toast.success(res.data.message);
+        immediateToast("success", { title: res.data.message });
         return setEmail("");
       })
       .catch((err) => {
-        toast.error(err.response.data.message);
+        immediateToast("error", { title: err.response.data.message });
       });
   };
 
   return (
     <Container
       fluid
-      className="vh-100 d-flex align-items-center text-center justify-content-center"
+      className="vh-100 d-flex align-items-center bg-primary text-center justify-content-center"
     >
       <HelmetTitle title={title} />
       <Card className="p-4 p-sm-5" style={{ width: "25rem" }}>

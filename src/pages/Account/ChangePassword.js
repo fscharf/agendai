@@ -67,10 +67,12 @@ export default function ChangePassword() {
         <i className="far fa-lock me-2"></i>Alterar senha
       </Card.Title>
       <hr />
-      <Row>
-        <Col md="6">
-          <Form.Row className="mb-3">
-            <Form.Label>Senha atual</Form.Label>
+      <Card.Text className="text-start text-sm-end">
+        <Form.Row as={Row} className="mb-3">
+          <Form.Label column md="3">
+            Senha atual
+          </Form.Label>
+          <Col md="7">
             <Form.Control
               type="password"
               placeholder="Senha atual"
@@ -78,9 +80,13 @@ export default function ChangePassword() {
               value={state.password}
               onChange={handleChange}
             />
-          </Form.Row>
-          <Form.Row className="mb-3">
-            <Form.Label>Nova senha</Form.Label>
+          </Col>
+        </Form.Row>
+        <Form.Row as={Row} className="mb-3">
+          <Form.Label column md="3">
+            Nova senha
+          </Form.Label>
+          <Col md="7">
             <Form.Control
               type="password"
               placeholder="Nova senha"
@@ -88,23 +94,30 @@ export default function ChangePassword() {
               value={state.newPassword}
               onChange={handleChange}
             />
-          </Form.Row>
-          <Form.Row className="mb-3">
-            <Form.Label>Confirme a nova senha</Form.Label>
+          </Col>
+        </Form.Row>
+        <Form.Row as={Row}>
+          <Form.Label column md="3">
+            Confirme a nova senha
+          </Form.Label>
+          <Col md="7" className="mb-3">
             <Form.Control
               type="password"
               placeholder="Confirme a nova senha"
+              name="confirmNewPassword"
               value={state.confirmNewPassword}
               onChange={handleChange}
             />
-          </Form.Row>
-          <Form.Row>
-            <Button variant="primary" onClick={handleChangePassword}>
+          </Col>
+          <Col md="2">
+            <Button className="w-100" onClick={handleChangePassword}>
               Enviar
+              <i className="far fa-arrow-right ms-2" />
             </Button>
-          </Form.Row>
-        </Col>
-      </Row>
+          </Col>
+        </Form.Row>
+        <Form.Row></Form.Row>
+      </Card.Text>
     </Card.Body>
   );
 }

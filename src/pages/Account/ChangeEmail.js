@@ -43,27 +43,31 @@ export default function ChangeEmail() {
     <Card.Body>
       <HelmetTitle title={title} />
       <Card.Title>
-        <i className="far fa-envelope me-2"></i>{title}
+        <i className="far fa-envelope me-2"></i>
+        {title}
       </Card.Title>
       <hr />
-      <Row>
-        <Col md="6">
-          <Form.Row className="mb-3">
-            <Form.Label>Novo email</Form.Label>
+      <Card.Text className="text-start text-sm-end">
+        <Form.Row as={Row} className="mb-3">
+          <Form.Label column md="3">
+            Novo email
+          </Form.Label>
+          <Col md="7" className="mb-3">
             <Form.Control
               type="email"
               placeholder="e.g. meuemail@exemplo.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-          </Form.Row>
-          <Form.Row>
-            <Button variant="primary" onClick={() => handleSubmit()}>
+          </Col>
+          <Col md="2">
+            <Button className="w-100" onClick={() => handleSubmit()}>
               Enviar
+              <i className="far fa-arrow-right ms-2" />
             </Button>
-          </Form.Row>
-        </Col>
-      </Row>
+          </Col>
+        </Form.Row>
+      </Card.Text>
     </Card.Body>
   );
 }

@@ -19,7 +19,7 @@ function AppProvider({ children }) {
         scheduleClass,
         authLoading,
         loading,
-        scheduleHourClass
+        scheduleHourClass,
       }}
     >
       {children}

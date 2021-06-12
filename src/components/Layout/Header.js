@@ -2,12 +2,12 @@ import React, { useContext } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { NavLink } from "react-router-dom";
-import { Container, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Container, OverlayTrigger, Tooltip, Col, Row } from "react-bootstrap";
 import Brand from "./Brand";
 import Icon from "./Icon";
-import NightMode from "./NightMode";
 import { Context } from "../Context/AppContext";
 import { userSession } from "../Utils/Common";
+import NightMode from "./NightMode";
 
 export default function Header() {
   const { user, handleSignOut } = useContext(Context);
@@ -94,10 +94,17 @@ export default function Header() {
                   <i className="far fa-user-circle me-2" />
                   Conta
                 </NavLink>
-                <div className="dropdown-item">
-                  <NightMode />
+                <div className="dropdown-divider" />
+
+                <div className="dropdown-item-text">
+                  <Row className="align-items-center">
+                    <Col md="4">Tema</Col>
+                    <Col md>
+                      <NightMode size="sm" className="w-100" />
+                    </Col>
+                  </Row>
                 </div>
-                <div className="dropdown-divider"></div>
+                <div className="dropdown-divider" />
 
                 <NavLink
                   to="//"

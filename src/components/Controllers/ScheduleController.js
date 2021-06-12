@@ -4,6 +4,7 @@ import List from "../../pages/Schedule/List";
 import NewSchedule from "../../pages/Schedule/NewSchedule";
 import api from "../../services/api";
 import history from "../../services/history";
+import { checkDate, checkHour } from "../Utils/Common";
 
 export class Schedule {
   async get(props) {
@@ -22,17 +23,24 @@ export class Schedule {
   }
 
   async create(props) {
-    const startDate = new Date();
-
     if (!props.date || !props.hour || !props.userKey || !props.description) {
       return immediateToast("error", {
         title: "Por favor, preencha todos campos.",
       });
     }
 
-    if (new Date(props.date).getUTCDate() < startDate.getUTCDate()) {
+    if (checkDate(props.date) < checkDate()) {
       return immediateToast("error", {
         title: "Selecione uma data válida.",
+      });
+    }
+
+    if (
+      checkDate(props.date) === checkDate() &&
+      checkHour(props.date + " " + props.hour) < checkHour()
+    ) {
+      return immediateToast("error", {
+        title: "Selecione um horário válido",
       });
     }
 
@@ -83,7 +91,7 @@ export class Schedule {
   list() {
     return List;
   }
-  
+
   newSchedule() {
     return NewSchedule;
   }

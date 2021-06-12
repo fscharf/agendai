@@ -3,13 +3,12 @@ body.dark {
   color: $light;
   .navbar,
   .card,
-  .btn-light,
-  .container-fluid {
+  .container-fluid,
+  .container,
+  .accordion-item,
+  .dropdown-menu {
     background: $dark !important;
     color: $light;
-  }
-  .btn {
-    border: none;
   }
   .navbar-nav .nav-link {
     color: $gray-400;
@@ -20,8 +19,12 @@ body.dark {
   .brand-title,
   .navbar-nav .nav-link:hover,
   .navbar-nav .nav-link.active:hover,
-  .navbar-brand:hover {
+  .navbar-brand:hover,
+  .dropdown-menu > * {
     color: $light;
+  }
+  .dropdown-menu > *:hover {
+    background: $secondary;
   }
 }
 

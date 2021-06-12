@@ -38,6 +38,7 @@ export default function Users() {
   useEffect(() => {
     setState({ loading: true });
     handleGet();
+    // eslint-disable-next-line
   }, []);
 
   const handleChange = (e) => {

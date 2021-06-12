@@ -1,6 +1,4 @@
 import axios from "axios";
-import { configure } from "axios-hooks";
-import LRU from "lru-cache";
 const token = sessionStorage.getItem("token") || null;
 
 const api = axios.create({
@@ -9,8 +7,5 @@ const api = axios.create({
     "X-Access-Token": token,
   },
 });
-
-const cache = new LRU({ max: 10 });
-configure({ api, cache });
 
 export default api;

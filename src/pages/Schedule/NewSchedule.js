@@ -6,6 +6,7 @@ import ScheduleDesc from "./ScheduleDesc";
 import HelmetTitle from "../../components/Layout/HelmetTitle";
 import { Context } from "../../components/Context/AppContext";
 import axios from "axios";
+import { checkDate, checkHour } from "../../components/Utils/Common";
 
 export default function NewSchedule() {
   const { user, scheduleClass, scheduleHourClass } = useContext(Context);
@@ -34,7 +35,8 @@ export default function NewSchedule() {
           setState({ scheduleHour: res1.data, schedule: res2.data });
         })
       );
-  }, []);
+    // eslint-disable-next-line
+  }, [state.date]);
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -91,10 +93,10 @@ export default function NewSchedule() {
               {state.scheduleHour.map((data) => {
                 return (
                   <option
-                    disabled={() =>
-                      data._id === state.schedule.schedule_hour_id
-                        ? false
-                        : true
+                    disabled={
+                      checkHour(checkDate() + " " + data.hour) < checkHour()
+                        ? true
+                        : false
                     }
                     key={data._id}
                   >

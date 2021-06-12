@@ -60,3 +60,16 @@ export const checkDate = (props) => {
   currentDate = newDate.getUTCDate();
   return currentDate;
 };
+
+export const checkHour = (hour) => {
+  let currentHour;
+  let newDate = new Date();
+
+  if (hour) {
+    newDate = new Date(hour);
+    return (currentHour = newDate.getHours());
+  }
+
+  currentHour = newDate.getHours();
+  return currentHour;
+};

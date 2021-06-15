@@ -8,7 +8,7 @@ import Accordion from "../../components/Accordion";
 import PrivateRoute from "../../components/Utils/PrivateRoute";
 import ChangeEmail from "./ChangeEmail";
 import ChangePassword from "./ChangePassword";
-import Index from "./Index";
+import Dashboard from "./Dashboard";
 
 export default function Account() {
   const title = "Conta";
@@ -23,7 +23,7 @@ export default function Account() {
       </p>
       <Row>
         <Col md="3" className="mb-3">
-          <Accordion title="Menu" id="Index">
+          <Accordion title="Menu" id="Dashboard">
             <Nav variant="pills" className="flex-column" defaultActiveKey={url}>
               <NavLink className="nav-link" exact to={url}>
                 <i className="far fa-user-circle me-2" />
@@ -45,7 +45,7 @@ export default function Account() {
           <Card>
             <Card.Body>
               <Switch>
-                <PrivateRoute exact path={`${path}`} component={Index} />
+                <PrivateRoute exact path={`${path}`} component={Dashboard} />
                 <PrivateRoute
                   path={`${path}/change-email`}
                   component={ChangeEmail}

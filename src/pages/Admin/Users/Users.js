@@ -49,9 +49,7 @@ export default function Users() {
     });
   };
 
-  return state.loading ? (
-    <Spinner animation="border" variant="primary" />
-  ) : (
+  return (
     <Card.Body>
       <Card.Title>
         <i className="far fa-users me-2" />
@@ -112,47 +110,51 @@ export default function Users() {
             Aplicar
           </Button>
         </Col>
+        {(state.query || state.isAdmin || state.isActive) && (
+          <Card.Link href="#" onClick={() => window.location.reload()}>
+            Limpar filtros
+          </Card.Link>
+        )}
       </Row>
       <hr />
-      <Table responsive striped hover borderless>
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Status</th>
-            <th>Tipo</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
+      {state.loading ? (
+        <Spinner animation="border" variant="primary" />
+      ) : (
+        <Table variant="light" responsive striped hover borderless>
           {state.users.length > 0 ? (
             <>
-              {state.users.map((data) => {
-                return (
-                  <tr>
-                    <td>{data.username}</td>
-                    <td>{data.email}</td>
-                    <td>{data.isActive ? "Ativo" : "Inativo"}</td>
-                    <td>{data.isAdmin ? "Administrador" : "Normal"}</td>
-                    <td>
-                      <Details
-                        userKey={data.user_id}
-                        actionTitle={<i className="far fa-pen" />}
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Status</th>
+                  <th>Tipo</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {state.users.map((data) => {
+                  return (
+                    <tr>
+                      <td>{data.username}</td>
+                      <td>{data.email}</td>
+                      <td>{data.isActive ? "Ativo" : "Inativo"}</td>
+                      <td>{data.isAdmin ? "Administrador" : "Normal"}</td>
+                      <td>
+                        <Details
+                          userKey={data.user_id}
+                          actionTitle={<i className="far fa-pen" />}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
             </>
           ) : (
             <Card.Text className="text-muted">Nada encontrado :(</Card.Text>
           )}
-        </tbody>
-      </Table>
-      {(state.query || state.isAdmin || state.isActive) && (
-        <Card.Link href="#" onClick={() => window.location.reload()}>
-          Limpar filtros
-        </Card.Link>
+        </Table>
       )}
     </Card.Body>
   );

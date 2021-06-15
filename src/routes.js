@@ -14,7 +14,7 @@ import Confirmation from "./pages/Account/Confirmation";
 import ForgotPassword from "./components/Auth/ForgotPassword";
 import ResetPassword from "./components/Auth/ResetPassword";
 import AdminRoute from "./components/Utils/AdminRoute";
-import AdminIndex from "./pages/Admin/Index";
+import Admin from "./pages/Admin/Admin";
 import { Context } from "./components/Context/AppContext";
 
 export default function Routes() {
@@ -35,7 +35,7 @@ export default function Routes() {
       <PrivateRoute component={scheduleClass.newSchedule()} path="/schedule" />
       <PrivateRoute component={scheduleClass.list()} path="/schedule-list" />
       <PrivateRoute component={Account} path="/account" />
-      <AdminRoute component={AdminIndex} path="/admin" />
+      <AdminRoute component={Admin} path="/admin" />
       <Route component={NotFound} path="*" />
     </Switch>
   );

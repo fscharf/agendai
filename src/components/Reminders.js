@@ -8,9 +8,7 @@ export default function Reminders() {
   const { user, scheduleClass } = useContext(Context);
 
   useEffect(() => {
-    scheduleClass
-      .get({ userKey: user.user_id })
-      .then((res) => setSchedule(res.data));
+    scheduleClass.get().then((res) => setSchedule(res.data));
   }, [scheduleClass, user]);
 
   return (
@@ -28,19 +26,22 @@ export default function Reminders() {
               {schedule.map((data) => {
                 return (
                   <>
-                    {data.status && checkDate(data.date) >= checkDate() && (
-                      <Col md="3" key={data.schedule_id} className="mb-3">
-                        <Alert variant="primary">
-                          <span>
-                            Você tem um agendamento dia{" "}
-                            <strong>{formatDate(data.date)}</strong> às{" "}
-                            <strong>
-                              {String(data.hour).replace(":00", "")}
-                            </strong>
-                          </span>
-                        </Alert>
-                      </Col>
-                    )}
+                    {data.status &&
+                      checkDate(data.date) >= checkDate() &&
+                      data.user_id ===
+                        user.user_id && (
+                          <Col md="3" key={data.schedule_id} className="mb-3">
+                            <Alert variant="primary">
+                              <span>
+                                Você tem um agendamento dia{" "}
+                                <strong>{formatDate(data.date)}</strong> às{" "}
+                                <strong>
+                                  {String(data.hour).replace(":00", "")}
+                                </strong>
+                              </span>
+                            </Alert>
+                          </Col>
+                        )}
                   </>
                 );
               })}

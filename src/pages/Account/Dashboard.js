@@ -3,9 +3,10 @@ import { Card, Form, Row, Col, InputGroup, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Context } from "../../components/Context/AppContext";
 import NightMode from "../../components/Layout/NightMode";
+import Loading from "../../components/Loading";
 
 export default function Index() {
-  const { user, userClass } = useContext(Context);
+  const { loading, user, userClass } = useContext(Context);
 
   const [state, setState] = useState({
     username: "",
@@ -31,11 +32,16 @@ export default function Index() {
           </Form.Label>
           <Col md="7">
             <InputGroup>
-              <Form.Control
-                type="text"
-                onChange={(e) => setState({ username: e.target.value })}
-                value={state.username || user.username}
-              />
+              {loading ? (
+                <Loading className="h-100" />
+              ) : (
+                <Form.Control
+                  type="text"
+                  onChange={(e) => setState({ username: e.target.value })}
+                  value={state.username || user.username}
+                />
+              )}
+
               {state.username && state.username !== user.username && (
                 <Button title="Salvar" onClick={() => handleUpdate()}>
                   <i className="far fa-save" />
@@ -50,14 +56,20 @@ export default function Index() {
           </Form.Label>
           <Col md="7">
             <InputGroup>
-              <Form.Control disabled type="text" value={user.email} />
-              <Link
-                to="/account/change-email"
-                title="Alterar"
-                className="btn btn-primary"
-              >
-                <i className="far fa-edit" />
-              </Link>
+              {loading ? (
+                <Loading className="h-100" />
+              ) : (
+                <>
+                  <Form.Control disabled type="text" value={user.email} />
+                  <Link
+                    to="/account/change-email"
+                    title="Alterar"
+                    className="btn btn-primary"
+                  >
+                    <i className="far fa-edit" />
+                  </Link>
+                </>
+              )}
             </InputGroup>
           </Col>
         </Form.Row>
@@ -95,17 +107,30 @@ export default function Index() {
       </Card.Text>
       <hr />
       <Card.Text className="text-danger">Área de risco</Card.Text>
-      <Card.Text className="text-start text-sm-end">
-        <Form.Row className="mb-3">
-          <Form.Row as={Row} className="mb-3">
-            <Col md="3" />
-            <Col md="7 text-start">
+      <Card.Text>
+        <Form.Row as={Row}>
+          <Col md="3" />
+          <Col md="3" className="mb-3">
+            {!user.isAdmin ? (
+              <Button variant="danger">
+                <i className="far fa-user-lock me-2" />
+                Desativar conta
+              </Button>
+            ) : (
               <Button variant="danger" disabled>
                 <i className="far fa-user-lock me-2" />
                 Desativar conta
               </Button>
-            </Col>
-          </Form.Row>
+            )}
+          </Col>
+          <Col md="6">
+            <Card.Text className="text-muted small">
+              Atenção! Se você desativar sua conta, perderá todo histórico de
+              agendamentos e não conseguirá recuperar. Mas fique tranquilo, se
+              desejar voltar é só clicar em <strong>Esqueci minha senha</strong>{" "}
+              na tela de login que sua conta irá reativar automaticamente.
+            </Card.Text>
+          </Col>
         </Form.Row>
       </Card.Text>
     </Card.Body>

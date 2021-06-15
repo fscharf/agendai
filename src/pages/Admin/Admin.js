@@ -9,8 +9,10 @@ import Dashboard from "./Dashboard";
 import Accordion from "../../components/Accordion";
 import ScheduleHour from "./Schedule/ScheduleHour";
 import Users from "./Users/Users";
+import ScheduleAtt from "./Schedule/ScheduleAtt";
+import Schedule from "./Schedule/Schedule";
 
-export default function Index() {
+export default function Admin() {
   const title = "Painel Administrativo";
   let { path, url } = useRouteMatch();
 
@@ -18,9 +20,10 @@ export default function Index() {
     <Layout>
       <HelmetTitle title={title} />
       <p>
-        <i className="far fa-cog me-2" />
+        <i className="far fa-sliders-h me-2" />
         {title}
       </p>
+      <hr />
       <Row>
         <Col md="3" className="mb-3">
           <Accordion title="Menu" id="Index">
@@ -29,10 +32,9 @@ export default function Index() {
                 <i className="far fa-sliders-h me-2" />
                 Painel
               </NavLink>
-
-              <NavLink className="nav-link disabled" to={`${url}/schedule`}>
+              <NavLink className="nav-link" to={`${url}/schedule`}>
                 <i className="far fa-calendar-alt me-2" />
-                Atendimentos
+                Agendamentos
               </NavLink>
               <NavLink className="nav-link" to={`${url}/users`}>
                 <i className="far fa-users me-2" />
@@ -42,6 +44,10 @@ export default function Index() {
                 <i className="far fa-clock me-2" />
                 Horários
               </NavLink>
+              <NavLink className="nav-link" to={`${url}/schedule-att`}>
+                <i className="far fa-clipboard me-2" />
+                Atendimentos
+              </NavLink>
             </Nav>
           </Accordion>
         </Col>
@@ -50,11 +56,16 @@ export default function Index() {
             <Card.Body>
               <Switch>
                 <AdminRoute exact path={path} component={Dashboard} />
+                <AdminRoute path={`${path}/schedule`} component={Schedule} />
                 <AdminRoute
                   path={`${path}/schedule-hour`}
                   component={ScheduleHour}
                 />
                 <AdminRoute path={`${path}/users`} component={Users} />
+                <AdminRoute
+                  path={`${path}/schedule-att`}
+                  component={ScheduleAtt}
+                />
               </Switch>
             </Card.Body>
           </Card>

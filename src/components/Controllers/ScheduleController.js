@@ -24,6 +24,7 @@ export class Schedule {
 
   async create(props) {
     if (!props.date || !props.hour || !props.userKey || !props.description) {
+      console.log(props)
       return immediateToast("error", {
         title: "Por favor, preencha todos campos.",
       });
@@ -40,7 +41,7 @@ export class Schedule {
       checkHour(props.date + " " + props.hour) < checkHour()
     ) {
       return immediateToast("error", {
-        title: "Selecione um horário válido",
+        title: "Selecione um horário válido.",
       });
     }
 

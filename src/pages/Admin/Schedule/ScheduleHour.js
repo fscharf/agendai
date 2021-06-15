@@ -76,9 +76,9 @@ export default function ScheduleHour() {
         </Col>
         <Col md="6">
           <Accordion title="Horários definidos" id="ScheduleHour">
-            {values.map((data, key) => {
+            {values && values.map((data) => {
               return (
-                <InputGroup className="mb-3" key={key}>
+                <InputGroup className="mb-3" key={data._id}>
                   <Form.Control type="text" value={data.hour} />
                   <ConfirmationToast
                     variant="danger"

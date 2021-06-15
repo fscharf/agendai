@@ -6,8 +6,8 @@ import { Container, OverlayTrigger, Tooltip, Col, Row } from "react-bootstrap";
 import Brand from "./Brand";
 import Icon from "./Icon";
 import { Context } from "../Context/AppContext";
-import { userSession } from "../Utils/Common";
 import NightMode from "./NightMode";
+import { userSession } from "../Utils/Common";
 
 export default function Header() {
   const { user, handleSignOut } = useContext(Context);
@@ -22,7 +22,7 @@ export default function Header() {
           </NavLink>
         </Nav>
         {userSession ? (
-          <Nav>
+          <Nav className="user-nav">
             <OverlayTrigger
               placement="bottom"
               overlay={<Tooltip>Início</Tooltip>}
@@ -59,20 +59,22 @@ export default function Header() {
                 <i className="far fa-calendar-check fa-lg" />
               </NavLink>
             </OverlayTrigger>
+
             {user.isAdmin && (
               <OverlayTrigger
                 placement="bottom"
                 overlay={<Tooltip>Painel Administrativo</Tooltip>}
               >
                 <NavLink
-                  activeClassName="active"
                   to="/admin"
+                  activeClassName="active"
                   className="nav-link"
                 >
-                  <i className="far fa-cog fa-lg" />
+                  <i className="far fa-sliders-h" />
                 </NavLink>
               </OverlayTrigger>
             )}
+
             <div className="dropdown">
               <OverlayTrigger
                 placement="bottom"
@@ -84,7 +86,7 @@ export default function Header() {
               </OverlayTrigger>
               <ul
                 className="dropdown-menu dropdown-menu-end"
-                style={{ width: "200px" }}
+                style={{ width: "220px" }}
               >
                 <NavLink
                   to="/account"
@@ -94,6 +96,7 @@ export default function Header() {
                   <i className="far fa-user-circle me-2" />
                   Conta
                 </NavLink>
+
                 <div className="dropdown-divider" />
 
                 <div className="dropdown-item-text">

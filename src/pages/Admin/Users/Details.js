@@ -16,6 +16,7 @@ export default function Details({
   const [name, setName] = React.useState(users.username);
   const [isAdmin, setAdmin] = React.useState(users.isAdmin);
   const [isActive, setActive] = React.useState(users.isActive);
+  const [accountVerified, setAccountVerified] = React.useState(users.accountVerified);
 
   const { userClass } = React.useContext(Context);
 
@@ -30,17 +31,15 @@ export default function Details({
       })
       .catch((err) => console.log(err.response.data.message));
   };
-
   const handleSubmit = () => {
-    userClass.handleUpdate({
+    userClass.update({
       key: users.user_id,
       username: name,
       isActive: isActive,
       isAdmin: isAdmin,
+      accountVerified: accountVerified,
     });
   };
-
-  //tentar .then(() => props)
 
   return (
     <>
@@ -103,6 +102,21 @@ export default function Details({
               </select>
             </Col>
           </Form.Row>
+          <Form.Row as={Row} className="mb-3">
+            <Form.Label column md="4">
+              Conta verificada
+            </Form.Label>
+            <Col md="8">
+              <select
+                className="form-select"
+                value={accountVerified || users.accountVerified}
+                onChange={(e) => setAccountVerified(e.target.value)}
+              >
+                <option value={true}>Sim</option>
+                <option value={false}>Não</option>
+              </select>
+            </Col>
+          </Form.Row>
         </Modal.Body>
 
         <Modal.Footer>
@@ -111,7 +125,7 @@ export default function Details({
           </Button>
           <Button
             onClick={handleSubmit}
-            disabled={name || isAdmin || isActive ? false : true}
+            disabled={name || isAdmin || isActive || accountVerified ? false : true}
           >
             <i className="fas fa-save me-2" />
             Salvar

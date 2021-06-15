@@ -66,6 +66,7 @@ export class User {
         email: props.email,
         isActive: props.isActive,
         isAdmin: props.isAdmin,
+        accountVerified: props.accountVerified,
       })
       .then((res) => {
         immediateToast("success", { title: res.data.message });

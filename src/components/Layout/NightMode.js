@@ -1,25 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Button } from "react-bootstrap";
 
 const NightMode = ({ ...rest }) => {
   const [state, setState] = React.useState({
-    message: "",
+    message: "Claro",
   });
 
   const body = document.body;
   const lightTheme = "light";
   const darkTheme = "dark";
   let theme;
-
-  useEffect(() => {
-    (() => {
-      if (theme === darkTheme) {
-        setState({ message: "Escuro" });
-      } else {
-        setState({ message: "Claro" });
-      }
-    })();
-  }, []);
 
   if (localStorage) {
     theme = localStorage.getItem("theme");
@@ -35,10 +25,12 @@ const NightMode = ({ ...rest }) => {
     if (theme === darkTheme) {
       body.classList.replace(darkTheme, lightTheme);
       localStorage.setItem("theme", "light");
+      setState({ message: "Claro" });
       return (theme = lightTheme);
     } else {
       body.classList.replace(lightTheme, darkTheme);
       localStorage.setItem("theme", "dark");
+      setState({ message: "Escuro" });
       return (theme = darkTheme);
     }
   };

@@ -13,7 +13,19 @@
   font-family: "DM Sans", sans-serif; }
 
 body {
-  transition: .2s; }
+  transition: 0.2s; }
+
+.nav-link.active {
+  border-bottom: 3px solid #0c4fb4; }
+
+@media (max-width: 768px) {
+  .user-nav > .nav-link, .user-nav > .dropdown > .nav-link {
+    margin-left: 1.25rem;
+    padding-top: 1rem !important; }
+  .brand-title {
+    display: none; }
+  .navbar.navbar-expand {
+    padding: 0 !important; } }
 
 body.dark {
   background: #212122;

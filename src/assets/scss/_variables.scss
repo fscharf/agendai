@@ -117,5 +117,22 @@ $stretched-link-z-index: 1 !default;
 }
 
 body {
-  transition: .2s;
+  transition: 0.2s;
+}
+
+.nav-link.active {
+  border-bottom: 3px solid $primary;
+}
+
+@media (max-width: 768px) {
+  .user-nav > .nav-link, .user-nav > .dropdown > .nav-link {
+    margin-left: 1.25rem;
+    padding-top: 1rem !important;
+  }
+  .brand-title {
+    display: none;
+  }
+  .navbar.navbar-expand {
+    padding: 0 !important;
+  }
 }

@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Form,
-  InputGroup,
-  Row,
-  Spinner,
-  Table,
-} from "react-bootstrap";
+import { Card, Spinner, Table } from "react-bootstrap";
 import { Context } from "../../../components/Context/AppContext";
 import Details from "./Details";
+import Filter from "./Filter";
 
 export default function Users() {
   const { userClass } = React.useContext(Context);
@@ -24,6 +16,7 @@ export default function Users() {
   });
 
   const handleGet = () => {
+    setState({ loading: true });
     userClass
       .get({
         query: state.query,
@@ -36,7 +29,6 @@ export default function Users() {
   };
 
   useEffect(() => {
-    setState({ loading: true });
     handleGet();
     // eslint-disable-next-line
   }, []);
@@ -56,105 +48,48 @@ export default function Users() {
         Usuários
       </Card.Title>
       <hr />
-      <Row>
-        <Col md className="mb-3">
-          <InputGroup>
-            <Form.Control
-              onChange={handleChange}
-              name="query"
-              value={state.query}
-              placeholder="Digite o nome ou e-mail"
-            />
-            <Button onClick={handleGet}>
-              <i className="far fa-search" />
-            </Button>
-          </InputGroup>
-        </Col>
-      </Row>
-      <Row>
-        <Col md="4" className="mb-3">
-          <InputGroup>
-            <InputGroup.Text>Tipo</InputGroup.Text>
-
-            <select
-              className="form-select"
-              name="isAdmin"
-              value={state.isAdmin}
-              onChange={handleChange}
-            >
-              <option value={true}>Administrador</option>
-              <option value={false}>Normal</option>
-            </select>
-          </InputGroup>
-        </Col>
-        <Col md="4" className="mb-3">
-          <InputGroup>
-            <InputGroup.Text>Status</InputGroup.Text>
-
-            <select
-              className="form-select"
-              name="isActive"
-              value={state.isActive}
-              onChange={handleChange}
-            >
-              <option value={true}>Ativo</option>
-              <option value={false}>Inativo</option>
-            </select>
-          </InputGroup>
-        </Col>
-        <Col md="4" className="mb-3 d-grid">
-          <Button
-            disabled={state.isAdmin || state.isActive ? false : true}
-            onClick={handleGet}
-          >
-            Aplicar
-          </Button>
-        </Col>
-        {(state.query || state.isAdmin || state.isActive) && (
-          <Card.Link href="#" onClick={() => window.location.reload()}>
-            Limpar filtros
-          </Card.Link>
-        )}
-      </Row>
+      <Filter
+        onChange={handleChange}
+        onClick={handleGet}
+        query={state.query}
+        isActive={state.isActive}
+        isAdmin={state.isAdmin}
+      />
       <hr />
       {state.loading ? (
         <Spinner animation="border" variant="primary" />
-      ) : (
+      ) : state.users.length > 0 ? (
         <Table variant="light" responsive striped hover borderless>
-          {state.users.length > 0 ? (
-            <>
-              <thead>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Tipo</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {state.users && state.users.map((data) => {
+              return (
                 <tr>
-                  <th>Nome</th>
-                  <th>Email</th>
-                  <th>Status</th>
-                  <th>Tipo</th>
-                  <th></th>
+                  <td>{data.username}</td>
+                  <td>{data.email}</td>
+                  <td>{data.isActive ? "Ativo" : "Inativo"}</td>
+                  <td>{data.isAdmin ? "Administrador" : "Normal"}</td>
+                  <td>
+                    <Details
+                      userKey={data.user_id}
+                      actionTitle={<i className="far fa-pen" />}
+                    />
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {state.users.map((data) => {
-                  return (
-                    <tr>
-                      <td>{data.username}</td>
-                      <td>{data.email}</td>
-                      <td>{data.isActive ? "Ativo" : "Inativo"}</td>
-                      <td>{data.isAdmin ? "Administrador" : "Normal"}</td>
-                      <td>
-                        <Details
-                          userKey={data.user_id}
-                          actionTitle={<i className="far fa-pen" />}
-                        />
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </>
-          ) : (
-            <Card.Text className="text-muted">Nada encontrado :(</Card.Text>
-          )}
+              );
+            })}
+          </tbody>
         </Table>
+      ) : (
+        <Card.Text className="text-muted">Nada encontrado :(</Card.Text>
       )}
     </Card.Body>
   );

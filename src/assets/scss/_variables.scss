@@ -85,7 +85,7 @@ $enable-negative-margins: false !default;
 $enable-deprecation-messages: true !default;
 $enable-important-utilities: true !default;
 
-$border-radius: 0.15rem !default;
+$border-radius: 0.5rem !default;
 $border-radius-sm: 0.2rem !default;
 $border-radius-lg: 0.3rem !default;
 $border-radius-pill: 50rem !default;
@@ -101,6 +101,14 @@ $stretched-link-z-index: 1 !default;
 
 .invert {
   filter: invert(100%);
+}
+
+table {
+  border-collapse: separate !important;
+  border: solid $light 1px;
+  -webkit-border-radius: $border-radius;
+  -moz-border-radius: $border-radius;
+  border-radius: $border-radius !important;
 }
 
 .object-fit-cover {
@@ -120,12 +128,12 @@ body {
   transition: 0.2s;
 }
 
-.nav-link.active {
-  border-bottom: 3px solid $primary;
-}
-
-@media (max-width: 768px) {
-  .user-nav > .nav-link, .user-nav > .dropdown > .nav-link {
+@media screen and (max-width: 768px) {
+  .nav-link.active {
+    border-bottom: 3px solid $primary;
+  }
+  .user-nav > .nav-link,
+  .user-nav > .dropdown > .nav-link {
     margin-left: 1.25rem;
     padding-top: 1rem !important;
   }

@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Card, Col, Form, Row, Spinner } from "react-bootstrap";
+import { Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import { formatDate, checkDate } from "../../components/Utils/Common";
 import Layout from "../../components/Layout/Layout";
 import HelmetTitle from "../../components/Layout/HelmetTitle";
 import ConfirmationToast from "../../components/Toasters/ConfirmationToast";
 import { Context } from "../../components/Context/AppContext";
+import Filter from "./Filter";
 
 export default function List() {
   const { scheduleClass, user } = useContext(Context);
@@ -18,6 +19,8 @@ export default function List() {
   });
 
   const getSchedule = () => {
+    setState({ loading: true });
+
     scheduleClass
       .get({
         userKey: user.user_id,
@@ -29,7 +32,6 @@ export default function List() {
   };
 
   useEffect(() => {
-    setState({ loading: true });
     getSchedule();
   }, []);
 
@@ -49,42 +51,12 @@ export default function List() {
         Agendamentos
       </Form.Label>
       <hr />
-      <Form.Row as={Row}>
-        <Col md="4" className="mb-3">
-          <Form.Control
-            type="date"
-            name="date"
-            onChange={handleChange}
-            value={state.date}
-          />
-        </Col>
-        <Col md="4" className="mb-3">
-          <select
-            className="form-select"
-            onChange={handleChange}
-            name="status"
-            value={state.status}
-          >
-            <option value="">Todos</option>
-            <option value={true}>Confirmado</option>
-            <option value={false}>Cancelado</option>
-          </select>
-        </Col>
-        <Col className="mb-3">
-          <Button
-            variant="primary"
-            className="me-2"
-            onClick={() => getSchedule()}
-          >
-            <i className="far fa-check-circle me-2" />
-            Aplicar filtros
-          </Button>
-          <Button variant="link" onClick={() => window.location.reload()}>
-            <i className="far fa-brush me-2" />
-            Limpar filtros
-          </Button>
-        </Col>
-      </Form.Row>
+      <Filter
+        date={state.date}
+        status={state.status}
+        onChange={handleChange}
+        onClick={getSchedule}
+      />
       {state.loading ? (
         <Spinner animation="border" variant="primary" />
       ) : (
@@ -95,12 +67,12 @@ export default function List() {
                 Mostrando apenas os próximos agendamentos.
               </p>
               <Row>
-                {state.schedule.map((data) => {
-                  return (
-                    <>
-                      {checkDate(data.date) >= checkDate() &&
-                        data.user_id ===
-                          user.user_id && (
+                {state.schedule &&
+                  state.schedule.map((data) => {
+                    return (
+                      <>
+                        {checkDate(data.date) >= checkDate() &&
+                          data.user_id === user.user_id && (
                             <Col md="3">
                               <Card
                                 className={`mb-3 ${
@@ -110,51 +82,49 @@ export default function List() {
                                 }`}
                                 key={data.schedule_id}
                               >
-                                <>
-                                  <Card.Header className="fw-bold py-3">
-                                    <i className="far fa-calendar-alt me-2" />
-                                    {formatDate(data.date)}
-                                    &nbsp;&middot;&nbsp;
-                                    <i className="far fa-clock me-2" />
-                                    {String(data.hour).replace(":00", "")}
-                                  </Card.Header>
-                                  <Card.Body>
-                                    <small className="text-muted">
-                                      Atendimento
-                                    </small>
-                                    <Card.Text>{data.description}</Card.Text>
-                                    <small className="text-muted">Status</small>
-                                    {data.status ? (
-                                      <>
-                                        <Card.Text className="text-success">
-                                          <i className="far fa-check-circle me-2" />
-                                          Confirmado
-                                        </Card.Text>
-                                        <ConfirmationToast
-                                          onClick={() =>
-                                            scheduleClass.update({
-                                              key: data.schedule_id,
-                                              status: !data.status,
-                                            })
-                                          }
-                                          variant="light"
-                                          actionTitle="Cancelar"
-                                        />
-                                      </>
-                                    ) : (
-                                      <Card.Text className="text-danger">
-                                        <i className="far fa-times-circle me-2" />
-                                        Cancelado
+                                <Card.Header className="fw-bold py-3">
+                                  <i className="far fa-calendar-alt me-2" />
+                                  {formatDate(data.date)}
+                                  &nbsp;&middot;&nbsp;
+                                  <i className="far fa-clock me-2" />
+                                  {String(data.hour).replace(":00", "")}
+                                </Card.Header>
+                                <Card.Body>
+                                  <small className="text-muted">
+                                    Atendimento
+                                  </small>
+                                  <Card.Text>{data.description}</Card.Text>
+                                  <small className="text-muted">Status</small>
+                                  {data.status ? (
+                                    <>
+                                      <Card.Text className="text-success">
+                                        <i className="far fa-check-circle me-2" />
+                                        Confirmado
                                       </Card.Text>
-                                    )}
-                                  </Card.Body>
-                                </>
+                                      <ConfirmationToast
+                                        onClick={() =>
+                                          scheduleClass.update({
+                                            key: data.schedule_id,
+                                            status: !data.status,
+                                          })
+                                        }
+                                        variant="light"
+                                        actionTitle="Cancelar"
+                                      />
+                                    </>
+                                  ) : (
+                                    <Card.Text className="text-danger">
+                                      <i className="far fa-times-circle me-2" />
+                                      Cancelado
+                                    </Card.Text>
+                                  )}
+                                </Card.Body>
                               </Card>
                             </Col>
                           )}
-                    </>
-                  );
-                })}
+                      </>
+                    );
+                  })}
               </Row>
             </>
           ) : (

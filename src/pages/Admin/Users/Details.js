@@ -1,49 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { Context } from "../../../components/Context/AppContext";
 import api from "../../../services/api";
 
 export default function Details({
-  onClick,
   title,
   size,
   variant,
   actionTitle,
   userKey,
 }) {
-  const [show, setShow] = React.useState(false);
-  const [users, setUsers] = React.useState([]);
-  const [name, setName] = React.useState(users.username);
-  const [isAdmin, setAdmin] = React.useState(users.isAdmin);
-  const [isActive, setActive] = React.useState(users.isActive);
-  const [accountVerified, setAccountVerified] = React.useState(users.accountVerified);
-
   const { userClass } = React.useContext(Context);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => {
-    setShow(true);
+  const [users, setUsers] = useState([]);
+  const [state, setState] = useState({
+    show: false,
+    username: users.username,
+    isAdmin: users.isAdmin,
+    isActive: users.isActive,
+    accountVerified: users.accountVerified,
+  });
 
-    api
-      .get(`/users/${userKey}`)
-      .then((response) => {
-        setUsers(response.data);
-      })
-      .catch((err) => console.log(err.response.data.message));
+  const handleClose = () => setState({ show: false });
+
+  const handleShow = () => {
+    setState({ show: true });
+
+    api.get(`/users/${userKey}`).then((res) => {
+      setUsers(res.data);
+    });
   };
+
   const handleSubmit = () => {
-    userClass.update({
-      key: users.user_id,
-      username: name,
-      isActive: isActive,
-      isAdmin: isAdmin,
-      accountVerified: accountVerified,
+    userClass
+      .update({
+        key: users.user_id,
+        username: state.username,
+        isActive: state.isActive,
+        isAdmin: state.isAdmin,
+        accountVerified: state.accountVerified,
+      })
+      .then(() => handleClose());
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setState({
+      ...state,
+      [e.target.name]: value,
     });
   };
 
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={state.show} onHide={handleClose}>
         <Modal.Header>
           <span>
             <i className="far fa-pen me-2" />
@@ -59,8 +69,9 @@ export default function Details({
             <Col md="8">
               <Form.Control
                 type="text"
-                value={name || users.username}
-                onChange={(e) => setName(e.target.value)}
+                name="username"
+                value={state.username || users.username}
+                onChange={handleChange}
               />
             </Col>
           </Form.Row>
@@ -79,8 +90,9 @@ export default function Details({
             <Col md="8">
               <select
                 className="form-select"
-                value={isAdmin || users.isAdmin}
-                onChange={(e) => setAdmin(e.target.value)}
+                name="isAdmin"
+                value={state.isAdmin || users.isAdmin}
+                onChange={handleChange}
               >
                 <option value={true}>Administrador</option>
                 <option value={false}>Normal</option>
@@ -94,8 +106,9 @@ export default function Details({
             <Col md="8">
               <select
                 className="form-select"
-                value={isActive || users.isActive}
-                onChange={(e) => setActive(e.target.value)}
+                name="isActive"
+                value={state.isActive || users.isActive}
+                onChange={handleChange}
               >
                 <option value={true}>Ativo</option>
                 <option value={false}>Inativo</option>
@@ -109,8 +122,9 @@ export default function Details({
             <Col md="8">
               <select
                 className="form-select"
-                value={accountVerified || users.accountVerified}
-                onChange={(e) => setAccountVerified(e.target.value)}
+                name="accountVerified"
+                value={state.accountVerified || users.accountVerified}
+                onChange={handleChange}
               >
                 <option value={true}>Sim</option>
                 <option value={false}>Não</option>
@@ -125,7 +139,14 @@ export default function Details({
           </Button>
           <Button
             onClick={handleSubmit}
-            disabled={name || isAdmin || isActive || accountVerified ? false : true}
+            disabled={
+              state.username ||
+              state.isAdmin ||
+              state.isActive ||
+              state.accountVerified
+                ? false
+                : true
+            }
           >
             <i className="fas fa-save me-2" />
             Salvar

@@ -1,6 +1,6 @@
 import React from "react";
 import api from "../../../services/api";
-import { User } from "../../Controllers/UserController";
+import { User } from "../../../controllers/UserController";
 import { userSession } from "../../Utils/Common";
 
 export default function useUsers() {

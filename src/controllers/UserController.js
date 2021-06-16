@@ -1,6 +1,6 @@
 import { immediateToast } from "izitoast-react";
-import api from "../../services/api";
-import history from "../../services/history";
+import api from "../services/api";
+import history from "../services/history";
 
 export class User {
   get = async (props) => {

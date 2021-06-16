@@ -1,5 +1,5 @@
-import { Schedule } from "../../Controllers/ScheduleController";
-import { ScheduleHour } from "../../Controllers/ScheduleHourController";
+import { Schedule } from "../../../controllers/ScheduleController";
+import { ScheduleHour } from "../../../controllers/ScheduleHourController";
 
 export default function useSchedule() {
   const scheduleClass = new Schedule();

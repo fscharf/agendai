@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Card, Col, Form, Row, Spinner } from "react-bootstrap";
+import { Card, Col, Row, Spinner } from "react-bootstrap";
 import { formatDate, checkDate } from "../../components/Utils/Common";
 import Layout from "../../components/Layout/Layout";
 import HelmetTitle from "../../components/Layout/HelmetTitle";
 import ConfirmationToast from "../../components/Toasters/ConfirmationToast";
 import { Context } from "../../components/Context/AppContext";
 import Filter from "./Filter";
+import NewSchedule from "./NewSchedule";
 
 export default function List() {
   const { scheduleClass, user } = useContext(Context);
@@ -46,11 +47,20 @@ export default function List() {
   return (
     <Layout>
       <HelmetTitle title="Agendamentos" />
-      <Form.Label>
-        <i className="far fa-calendar-check me-2" />
-        Agendamentos
-      </Form.Label>
-      <hr />
+      <Row>
+        <Col md="6" className="mb-3">
+          <h5>
+            <i className="far fa-calendar-check me-2" />
+            Agendamentos
+          </h5>
+        </Col>
+        <Col md className="text-start text-sm-end">
+          <NewSchedule>
+            <i className="far fa-calendar-plus me-2" />Agendar
+          </NewSchedule>
+        </Col>
+      </Row>
+      <br />
       <Filter
         date={state.date}
         status={state.status}

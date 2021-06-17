@@ -4,7 +4,6 @@ import ConfirmationToast from "../../../components/Toasters/ConfirmationToast";
 import api from "../../../services/api";
 import { immediateToast } from "izitoast-react";
 import HelmetTitle from "../../../components/Layout/HelmetTitle";
-import Accordion from "../../../components/Accordion";
 
 export default function ScheduleAtt() {
   const [state, setState] = useState({
@@ -37,10 +36,10 @@ export default function ScheduleAtt() {
     await api
       .delete(`/schedule-att/${id}`)
       .then((res) => {
-        return immediateToast("success", { title: res.data.message });
+        immediateToast("success", { title: res.data.message });
       })
       .catch((err) => {
-        return immediateToast("error", {
+        immediateToast("error", {
           title: err.response.data.message,
         });
       });
@@ -50,10 +49,10 @@ export default function ScheduleAtt() {
     await api
       .put(`/schedule-att/${id}`, { description: state.edit })
       .then((res) => {
-        return immediateToast("success", { title: res.data.message });
+        immediateToast("success", { title: res.data.message });
       })
       .catch((err) => {
-        return immediateToast("error", {
+        immediateToast("error", {
           title: err.response.data.message,
         });
       });
@@ -82,7 +81,7 @@ export default function ScheduleAtt() {
         <i className="far fa-clipboard me-2" />
         Atendimentos
       </Card.Title>
-      <hr />
+      <br />
       <Row>
         <Col md="6" className="mb-3">
           <Form.Label>Defina um atendimento</Form.Label>
@@ -91,39 +90,44 @@ export default function ScheduleAtt() {
             type="text"
             maxLength="50"
             name="description"
-            placeholder="e.g. R$20,00 - Barba e Corte"
+            placeholder="e.g. Barba e Corte"
             value={state.description}
             onChange={handleChange}
           />
-          <Button onClick={handleSubmit}>Adicionar</Button>
+          <Button onClick={handleSubmit}>
+            <i className="far fa-plus-circle me-2" />
+            Adicionar
+          </Button>
         </Col>
         <Col md="6">
-          <Accordion title="Atendimentos definidos" id="ScheduleAtt">
-            {state.scheduleAtt &&
-              state.scheduleAtt.map((data) => {
-                return (
-                  <InputGroup className="mb-3" key={data._id}>
-                    <Form.Control
-                      type="text"
-                      name="edit"
-                      value={state.edit || data.description}
-                      onChange={handleChange}
-                    />
-                    {state.edit && state.edit !== data.description && (
-                      <Button title="Salvar" onClick={() => handleUpdate(data._id)}>
-                        <i className="far fa-save" />
-                      </Button>
-                    )}
-                    <ConfirmationToast
-                      variant="danger"
-                      actionTitle={<i className="far fa-times" />}
-                      title="Excluir"
-                      onClick={() => handleDelete(data._id)}
-                    />
-                  </InputGroup>
-                );
-              })}
-          </Accordion>
+          <Form.Label className="text-muted">Atendimentos definidos</Form.Label>
+          {state.scheduleAtt &&
+            state.scheduleAtt.map((data) => {
+              return (
+                <InputGroup className="mb-3" key={data._id}>
+                  <Form.Control
+                    type="text"
+                    name="edit"
+                    value={data.description}
+                    onChange={handleChange}
+                  />
+                  {state.edit && state.edit !== data.description && (
+                    <Button
+                      title="Salvar"
+                      onClick={() => handleUpdate(data._id)}
+                    >
+                      <i className="far fa-save" />
+                    </Button>
+                  )}
+                  <ConfirmationToast
+                    variant="danger"
+                    actionTitle={<i className="far fa-trash" />}
+                    title="Excluir"
+                    onClick={() => handleDelete(data._id)}
+                  />
+                </InputGroup>
+              );
+            })}
         </Col>
       </Row>
     </Card.Body>

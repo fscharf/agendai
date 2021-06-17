@@ -62,7 +62,7 @@ export default function ScheduleHour() {
         <i className="far fa-clock me-2" />
         Horários
       </Card.Title>
-      <hr />
+      <br />
       <Row>
         <Col md="6" className="mb-3">
           <Form.Label>Escolha um horário</Form.Label>
@@ -72,24 +72,32 @@ export default function ScheduleHour() {
             value={hour}
             onChange={(e) => setHour(e.target.value)}
           />
-          <Button onClick={handleSubmit}>Adicionar</Button>
+
+          <Button onClick={handleSubmit}>
+            <i className="far fa-plus-circle me-2" />
+            Adicionar
+          </Button>
         </Col>
         <Col md="6">
-          <Accordion title="Horários definidos" id="ScheduleHour">
-            {values && values.map((data) => {
+          <Form.Label className="text-muted">Atendimentos definidos</Form.Label>
+
+          {values &&
+            values.map((data) => {
               return (
                 <InputGroup className="mb-3" key={data._id}>
-                  <Form.Control type="text" value={data.hour} />
+                  <Form.Control
+                    type="text"
+                    value={String(data.hour).replace(":00", "")}
+                  />
                   <ConfirmationToast
                     variant="danger"
-                    actionTitle={<i className="far fa-times" />}
+                    actionTitle={<i className="far fa-trash" />}
                     title="Excluir"
                     onClick={() => handleDelete(data._id)}
                   />
                 </InputGroup>
               );
             })}
-          </Accordion>
         </Col>
       </Row>
     </Card.Body>

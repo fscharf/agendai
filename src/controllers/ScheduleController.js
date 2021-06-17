@@ -1,7 +1,6 @@
 import { immediateToast } from "izitoast-react";
 import toast from "react-hot-toast";
 import List from "../pages/Schedule/List";
-import NewSchedule from "../pages/Schedule/NewSchedule";
 import api from "../services/api";
 import history from "../services/history";
 import { checkDate, checkHour } from "../components/Utils/Common";
@@ -24,7 +23,7 @@ export class Schedule {
 
   async create(props) {
     if (!props.date || !props.hour || !props.userKey || !props.description) {
-      console.log(props)
+      console.log(props);
       return immediateToast("error", {
         title: "Por favor, preencha todos campos.",
       });
@@ -91,9 +90,5 @@ export class Schedule {
 
   list() {
     return List;
-  }
-
-  newSchedule() {
-    return NewSchedule;
   }
 }

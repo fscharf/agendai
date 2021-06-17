@@ -10,7 +10,10 @@ export default function App() {
     immediateToast("settings", {
       position: "bottomCenter",
       closeOnClick: true,
-      displayMode: 1,
+      displayMode: 2,
+      class: "rounded",
+      progressBar: false,
+      layout: 2,
     });
   }, []);
 

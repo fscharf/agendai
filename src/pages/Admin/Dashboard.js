@@ -24,7 +24,7 @@ export default function Dashboard() {
         <i className="far fa-sliders-h me-2" />
         Painel
       </Card.Title>
-      <hr />
+      <br />
       <Row>
         <Col md="4">
           <Card>

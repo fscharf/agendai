@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Card, Col, Row, Spinner, Table } from "react-bootstrap";
 import { formatDate } from "../../../components/Utils/Common";
 import api from "../../../services/api";
+import Details from "./Details";
 import Filter from "./Filter";
-
 
 export default function Schedule() {
   const [state, setState] = useState({
@@ -67,7 +67,7 @@ export default function Schedule() {
         <i className="far fa-calendar-alt me-2" />
         Agendamentos
       </Card.Title>
-      <hr />
+      <br />
       <Filter
         date={state.date}
         username={state.username}
@@ -75,7 +75,7 @@ export default function Schedule() {
         onChange={handleChange}
         onClick={() => query()}
       />
-      <hr />
+      <br />
       {state.loading ? (
         <Spinner animation="border" variant="primary" />
       ) : state.schedule &&
@@ -92,6 +92,7 @@ export default function Schedule() {
                   <th>Data</th>
                   <th>Hora</th>
                   <th>Status</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -112,6 +113,13 @@ export default function Schedule() {
                                       {schedule.status
                                         ? "Confirmado"
                                         : "Cancelado"}
+                                    </td>
+                                    <td>
+                                      <Details
+                                        title="Editar"
+                                        schedule={schedule}
+                                        users={users}
+                                      />
                                     </td>
                                   </tr>
                                 )}

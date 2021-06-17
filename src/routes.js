@@ -32,7 +32,6 @@ export default function Routes() {
       />
       <PublicRoute component={Confirmation} path="/confirm/:confirmationCode" />
       <PrivateRoute component={Dashboard} path="/dashboard" />
-      <PrivateRoute component={scheduleClass.newSchedule()} path="/schedule" />
       <PrivateRoute component={scheduleClass.list()} path="/schedule-list" />
       <PrivateRoute component={Account} path="/account" />
       <AdminRoute component={Admin} path="/admin" />

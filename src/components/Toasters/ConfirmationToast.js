@@ -3,10 +3,9 @@ import { Button, Modal } from "react-bootstrap";
 
 export default function ConfirmationToast({
   onClick,
-  title,
-  size,
-  variant,
+  message,
   actionTitle,
+  ...rest
 }) {
   const [show, setShow] = React.useState(false);
 
@@ -16,7 +15,13 @@ export default function ConfirmationToast({
   return (
     <>
       <Modal show={show} onHide={handleClose}>
-        <Modal.Body>Tem certeza que deseja continuar?</Modal.Body>
+        <Modal.Header>
+          <h5>Atenção</h5>
+          <button onClick={handleClose} className="btn-close" />
+        </Modal.Header>
+        <Modal.Body className="text-center">
+          {message ? message : "Tem certeza que deseja continuar?"}
+        </Modal.Body>
 
         <Modal.Footer>
           <Button variant="light" onClick={handleClose}>
@@ -28,7 +33,7 @@ export default function ConfirmationToast({
         </Modal.Footer>
       </Modal>
 
-      <Button title={title} size={size} variant={variant} onClick={handleShow}>
+      <Button {...rest} onClick={handleShow}>
         {actionTitle}
       </Button>
     </>

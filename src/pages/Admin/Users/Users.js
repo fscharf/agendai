@@ -47,7 +47,7 @@ export default function Users() {
         <i className="far fa-users me-2" />
         Usuários
       </Card.Title>
-      <hr />
+      <br />
       <Filter
         onChange={handleChange}
         onClick={handleGet}
@@ -55,7 +55,7 @@ export default function Users() {
         isActive={state.isActive}
         isAdmin={state.isAdmin}
       />
-      <hr />
+      <br />
       {state.loading ? (
         <Spinner animation="border" variant="primary" />
       ) : state.users.length > 0 ? (

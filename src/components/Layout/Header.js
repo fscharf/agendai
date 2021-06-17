@@ -37,18 +37,6 @@ export default function Header() {
             </OverlayTrigger>
             <OverlayTrigger
               placement="bottom"
-              overlay={<Tooltip>Agendar</Tooltip>}
-            >
-              <NavLink
-                activeClassName="active"
-                to="/schedule"
-                className="nav-link"
-              >
-                <i className="far fa-calendar-plus fa-lg" />
-              </NavLink>
-            </OverlayTrigger>
-            <OverlayTrigger
-              placement="bottom"
               overlay={<Tooltip>Agendamentos</Tooltip>}
             >
               <NavLink

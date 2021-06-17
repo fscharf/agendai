@@ -19,11 +19,11 @@ export default function Admin() {
   return (
     <Layout>
       <HelmetTitle title={title} />
-      <p>
+      <Card.Title>
         <i className="far fa-sliders-h me-2" />
         {title}
-      </p>
-      <hr />
+      </Card.Title>
+      <br />
       <Row>
         <Col md="3" className="mb-3">
           <Accordion title="Menu" id="Index">

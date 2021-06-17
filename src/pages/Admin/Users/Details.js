@@ -3,13 +3,7 @@ import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { Context } from "../../../components/Context/AppContext";
 import api from "../../../services/api";
 
-export default function Details({
-  title,
-  size,
-  variant,
-  actionTitle,
-  userKey,
-}) {
+export default function Details({ actionTitle, userKey, ...rest }) {
   const { userClass } = React.useContext(Context);
 
   const [users, setUsers] = useState([]);
@@ -154,7 +148,7 @@ export default function Details({
         </Modal.Footer>
       </Modal>
 
-      <Button title={title} size={size} variant={variant} onClick={handleShow}>
+      <Button {...rest} onClick={handleShow}>
         {actionTitle}
       </Button>
     </>

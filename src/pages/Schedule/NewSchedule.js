@@ -1,12 +1,11 @@
 import React, { useContext, useState } from "react";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Form, Modal, Container } from "react-bootstrap";
 import ScheduleHour from "./ScheduleHour";
-import Layout from "../../components/Layout/Layout";
 import HelmetTitle from "../../components/Layout/HelmetTitle";
 import { Context } from "../../components/Context/AppContext";
 import Description from "./Description";
 
-export default function NewSchedule() {
+export default function NewSchedule({ children, ...rest }) {
   const { user, scheduleClass } = useContext(Context);
 
   const [state, setState] = useState({
@@ -14,6 +13,7 @@ export default function NewSchedule() {
     date: null,
     hour: null,
     description: null,
+    show: false,
   });
 
   const handleChange = (e) => {
@@ -33,61 +33,61 @@ export default function NewSchedule() {
     });
   };
 
+  const handleClose = () => setState({ show: false });
+  const handleShow = () => setState({ show: true });
+
   return (
-    <Layout>
-      <HelmetTitle title="Agendar" />
-      <Form.Label>
-        <i className="far fa-calendar-plus me-2" />
-        Agendar
-      </Form.Label>
-      <hr />
-      <Row>
-        <Col md="6" className="mx-auto">
-          <p />
-          <Form.Row as={Row} className="mb-3">
-            <Form.Label column md="4">
-              Escolha uma data
-            </Form.Label>
-            <Col md="8">
+    <>
+      <Modal centered show={state.show} onHide={handleClose}>
+        <Modal.Header>
+          <HelmetTitle title="Novo agendamento" />
+          <h5>
+            <i className="far fa-calendar-plus me-2" />
+            Agendar
+          </h5>
+
+          <button onClick={handleClose} className="btn-close" />
+        </Modal.Header>
+        <Modal.Body>
+          <Container>
+            <Form.Row className="mb-3">
+              <Form.Label>Escolha uma data</Form.Label>
               <Form.Control
                 type="date"
                 name="date"
                 value={state.date}
                 onChange={handleChange}
               />
-            </Col>
-          </Form.Row>
-          <Form.Row as={Row} className="mb-3">
-            <Form.Label column md="4">
-              Atendimento
-            </Form.Label>
-            <Col md="8">
+            </Form.Row>
+            <Form.Row className="mb-3">
+              <Form.Label>Atendimento</Form.Label>
               <Description
                 name="description"
                 value={state.description}
                 onChange={handleChange}
               />
-            </Col>
-          </Form.Row>
-          <Form.Row as={Row} className="mb-3">
-            <Form.Label column md="4">
-              Escolha um horário
-            </Form.Label>
-            <Col md="8">
+            </Form.Row>
+            <Form.Row className="mb-3">
+              <Form.Label>Escolha um horário</Form.Label>
               <ScheduleHour
                 name="hour"
                 value={state.hour}
                 onChange={handleChange}
               />
-            </Col>
-          </Form.Row>
-          <Form.Row className="text-end">
-            <Button onClick={handleSubmit}>
-              Confirmar <i className="far fa-arrow-right" />
-            </Button>
-          </Form.Row>
-        </Col>
-      </Row>
-    </Layout>
+            </Form.Row>
+          </Container>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="light" onClick={handleClose}>
+            Cancelar
+          </Button>
+          <Button onClick={handleSubmit}>Confirmar</Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Button {...rest} onClick={handleShow}>
+        {children}
+      </Button>
+    </>
   );
 }

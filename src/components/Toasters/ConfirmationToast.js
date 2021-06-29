@@ -5,6 +5,7 @@ export default function ConfirmationToast({
   onClick,
   message,
   actionTitle,
+  children,
   ...rest
 }) {
   const [show, setShow] = React.useState(false);
@@ -20,7 +21,14 @@ export default function ConfirmationToast({
           <button onClick={handleClose} className="btn-close" />
         </Modal.Header>
         <Modal.Body className="text-center">
-          {message ? message : "Tem certeza que deseja continuar?"}
+          {message ? (
+            <div>
+              <p>Tem certeza que deseja continuar?</p>
+              <span className="text-muted">{message}</span>
+            </div>
+          ) : (
+            "Tem certeza que deseja continuar?"
+          )}
         </Modal.Body>
 
         <Modal.Footer>
@@ -34,7 +42,7 @@ export default function ConfirmationToast({
       </Modal>
 
       <Button {...rest} onClick={handleShow}>
-        {actionTitle}
+        {actionTitle ? actionTitle : children}
       </Button>
     </>
   );

@@ -5,6 +5,8 @@ import { formatDate } from "../../../components/Utils/Common";
 import api from "../../../services/api";
 import Details from "./Details";
 import Filter from "./Filter";
+import ConfirmationToast from "../../../components/Toasters/ConfirmationToast";
+import { immediateToast } from "izitoast-react";
 
 export default function Schedule() {
   const [state, setState] = useState({
@@ -14,6 +16,7 @@ export default function Schedule() {
     date: new Date(),
     username: null,
     status: true,
+    rotate: 0,
   });
 
   const query = () => {
@@ -37,6 +40,15 @@ export default function Schedule() {
             loading: false,
           });
         })
+      );
+  };
+
+  const destroy = (key) => {
+    api
+      .delete(`/schedule/${key}`)
+      .then((res) => immediateToast("success", { title: res.data.message }))
+      .catch((err) =>
+        immediateToast("error", { title: err.response.data.message })
       );
   };
 
@@ -119,6 +131,17 @@ export default function Schedule() {
                                         title="Editar"
                                         schedule={schedule}
                                         users={users}
+                                        className="me-2"
+                                      />
+                                      <ConfirmationToast
+                                        variant="danger"
+                                        actionTitle={
+                                          <i className="far fa-trash" />
+                                        }
+                                        onClick={() =>
+                                          destroy(schedule.schedule_id)
+                                        }
+                                        message="Se você continuar, apagará os dados permanentemente e não poderá recuperar."
                                       />
                                     </td>
                                   </tr>

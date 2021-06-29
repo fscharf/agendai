@@ -1,13 +1,12 @@
 import React, { useContext } from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
 import { NavLink } from "react-router-dom";
-import { Container, OverlayTrigger, Tooltip, Col, Row } from "react-bootstrap";
+import { Container, Col, Row, Navbar, Nav } from "react-bootstrap";
 import Brand from "./Brand";
 import Icon from "./Icon";
 import { Context } from "../Context/AppContext";
 import NightMode from "./NightMode";
 import { userSession } from "../Utils/Common";
+import HeaderLink from "./HeaderLink";
 
 export default function Header() {
   const { user, handleSignOut } = useContext(Context);
@@ -23,55 +22,27 @@ export default function Header() {
         </Nav>
         {userSession ? (
           <Nav className="user-nav">
-            <OverlayTrigger
-              placement="bottom"
-              overlay={<Tooltip>Início</Tooltip>}
-            >
-              <NavLink
-                activeClassName="active"
-                to="/dashboard"
-                className="nav-link"
-              >
-                <i className="far fa-home-alt fa-lg" />
-              </NavLink>
-            </OverlayTrigger>
-            <OverlayTrigger
-              placement="bottom"
-              overlay={<Tooltip>Agendamentos</Tooltip>}
-            >
-              <NavLink
-                activeClassName="active"
-                to="/schedule-list"
-                className="nav-link"
-              >
-                <i className="far fa-calendar-check fa-lg" />
-              </NavLink>
-            </OverlayTrigger>
+            <HeaderLink path="/" tooltipText="Início">
+              <i className="far fa-home-alt fa-lg" />
+            </HeaderLink>
+            <HeaderLink path="/schedule-list" tooltipText="Agendamentos">
+              <i className="far fa-calendar-check fa-lg" />
+            </HeaderLink>
 
             {user.isAdmin && (
-              <OverlayTrigger
-                placement="bottom"
-                overlay={<Tooltip>Painel Administrativo</Tooltip>}
-              >
-                <NavLink
-                  to="/admin"
-                  activeClassName="active"
-                  className="nav-link"
-                >
-                  <i className="far fa-sliders-h" />
-                </NavLink>
-              </OverlayTrigger>
+              <HeaderLink path="/admin" tooltipText="Painel Administrativo">
+                <i className="far fa-sliders-h" />
+              </HeaderLink>
             )}
 
             <div className="dropdown">
-              <OverlayTrigger
-                placement="bottom"
-                overlay={<Tooltip>Conta</Tooltip>}
+              <HeaderLink
+                path="//"
+                tooltipText="Conta"
+                data-bs-toggle="dropdown"
               >
-                <NavLink to="//" className="nav-link" data-bs-toggle="dropdown">
-                  <i className="far fa-user-circle fa-lg" />
-                </NavLink>
-              </OverlayTrigger>
+                <i className="far fa-user-circle fa-lg" />
+              </HeaderLink>
               <ul
                 className="dropdown-menu dropdown-menu-end"
                 style={{ width: "220px" }}

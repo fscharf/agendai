@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { Context } from "../../../components/Context/AppContext";
-import api from "../../../services/api";
 
-export default function Details({ actionTitle, userKey, ...rest }) {
+export default function Details({ users, actionTitle, userKey, ...rest }) {
   const { userClass } = React.useContext(Context);
 
-  const [users, setUsers] = useState([]);
   const [state, setState] = useState({
     show: false,
     username: users.username,
@@ -19,10 +17,6 @@ export default function Details({ actionTitle, userKey, ...rest }) {
 
   const handleShow = () => {
     setState({ show: true });
-
-    api.get(`/users/${userKey}`).then((res) => {
-      setUsers(res.data);
-    });
   };
 
   const handleSubmit = () => {

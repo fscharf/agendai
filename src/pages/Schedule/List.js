@@ -34,6 +34,7 @@ export default function List() {
 
   useEffect(() => {
     getSchedule();
+    //eslint-disable-next-line
   }, []);
 
   const handleChange = (e) => {

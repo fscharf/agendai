@@ -4,7 +4,6 @@ import ConfirmationToast from "../../../components/Toasters/ConfirmationToast";
 import api from "../../../services/api";
 import { immediateToast } from "izitoast-react";
 import HelmetTitle from "../../../components/Layout/HelmetTitle";
-import Accordion from "../../../components/Accordion";
 
 export default function ScheduleHour() {
   const [values, setValues] = useState([]);
@@ -79,7 +78,7 @@ export default function ScheduleHour() {
           </Button>
         </Col>
         <Col md="6">
-          <Form.Label className="text-muted">Atendimentos definidos</Form.Label>
+          <Form.Label className="text-muted">Horários definidos</Form.Label>
 
           {values &&
             values.map((data) => {

@@ -7,6 +7,7 @@ export default function Filter({
   query,
   isAdmin,
   isActive,
+  clearFilter,
 }) {
   return (
     <>
@@ -17,6 +18,7 @@ export default function Filter({
               onChange={onChange}
               name="query"
               value={query}
+              type="search"
               placeholder="Digite o nome ou e-mail"
             />
             <Button onClick={onClick}>
@@ -48,13 +50,21 @@ export default function Filter({
             <option value={false}>Inativo</option>
           </select>
         </Col>
-        <Col md="3" className="mb-3 d-grid">
-          <Button
-            disabled={isAdmin || isActive ? false : true}
-            onClick={onClick}
-          >
-            Aplicar filtros
-          </Button>
+      </Row>
+
+      <Row>
+        <Col md className="mb-3">
+          <InputGroup>
+            <Button variant="link" onClick={onClick}>
+              <i className="far fa-filter me-2" />
+              Aplicar filtros
+            </Button>
+
+            <Button variant="link" onClick={clearFilter}>
+              <i className="far fa-sync me-2" />
+              Recarregar página
+            </Button>
+          </InputGroup>
         </Col>
       </Row>
     </>

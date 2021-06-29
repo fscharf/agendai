@@ -54,6 +54,7 @@ export default function Users() {
         query={state.query}
         isActive={state.isActive}
         isAdmin={state.isAdmin}
+        clearFilter={() => window.location.reload()}
       />
       <br />
       {state.loading ? (
@@ -70,22 +71,24 @@ export default function Users() {
             </tr>
           </thead>
           <tbody>
-            {state.users && state.users.map((data) => {
-              return (
-                <tr>
-                  <td>{data.username}</td>
-                  <td>{data.email}</td>
-                  <td>{data.isActive ? "Ativo" : "Inativo"}</td>
-                  <td>{data.isAdmin ? "Administrador" : "Normal"}</td>
-                  <td>
-                    <Details
-                      userKey={data.user_id}
-                      actionTitle={<i className="far fa-pen" />}
-                    />
-                  </td>
-                </tr>
-              );
-            })}
+            {state.users &&
+              state.users.map((data) => {
+                return (
+                  <tr>
+                    <td>{data.username}</td>
+                    <td>{data.email}</td>
+                    <td>{data.isActive ? "Ativo" : "Inativo"}</td>
+                    <td>{data.isAdmin ? "Administrador" : "Normal"}</td>
+                    <td>
+                      <Details
+                        userKey={data.user_id}
+                        actionTitle={<i className="far fa-pen" />}
+                        users={data}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </Table>
       ) : (

@@ -22,6 +22,12 @@ table {
 body {
   transition: 0.2s; }
 
+@keyframes rotateIcon {
+  50% {
+    transform: rotate(90deg); }
+  100% {
+    transform: rotate(180deg); } }
+
 @media screen and (max-width: 768px) {
   .nav-link.active {
     border-bottom: 3px solid #0c4fb4; }

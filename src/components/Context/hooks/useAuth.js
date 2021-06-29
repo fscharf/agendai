@@ -19,7 +19,7 @@ export default function useAuth() {
         return null;
       }
       await api
-        .get(`/verifyToken?token=${token}&email=${userSession.email}`)
+        .get(`/verifyToken?token=${token}&_id=${userSession.user_id}`)
         .then((res) => {
           if (!isMounted) {
             setUserSession(res.data.token, res.data.user);

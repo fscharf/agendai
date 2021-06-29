@@ -1,12 +1,14 @@
+import { immediateToast } from "izitoast-react";
 import React, { useContext, useState } from "react";
 import { Card, Form, Row, Col, InputGroup, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Context } from "../../components/Context/AppContext";
 import NightMode from "../../components/Layout/NightMode";
 import Loading from "../../components/Loading";
+import ConfirmationToast from "../../components/Toasters/ConfirmationToast";
 
 export default function Index() {
-  const { loading, user, userClass } = useContext(Context);
+  const { loading, user, userClass, handleSignOut } = useContext(Context);
 
   const [state, setState] = useState({
     username: "",
@@ -14,6 +16,17 @@ export default function Index() {
 
   const handleUpdate = () => {
     userClass.update({ key: user.user_id, username: state.username });
+  };
+
+  const disableAccount = () => {
+    userClass.update({ key: user.user_id, isActive: false }).then(() => {
+      immediateToast("success", {
+        title: "Conta desativada com sucesso.",
+        message: "Encerrando sessão em 10 segundos...",
+        timeout: 0,
+      });
+      setTimeout(() => handleSignOut(), 10000);
+    });
   };
 
   return (
@@ -112,10 +125,10 @@ export default function Index() {
           <Col md="3" />
           <Col md="3" className="mb-3">
             {!user.isAdmin ? (
-              <Button variant="danger">
+              <ConfirmationToast variant="danger" onClick={disableAccount}>
                 <i className="far fa-user-lock me-2" />
                 Desativar conta
-              </Button>
+              </ConfirmationToast>
             ) : (
               <Button variant="danger" disabled>
                 <i className="far fa-user-lock me-2" />

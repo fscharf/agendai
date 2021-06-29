@@ -73,3 +73,4 @@ export const checkHour = (hour) => {
   currentHour = newDate.getHours();
   return currentHour;
 };
+

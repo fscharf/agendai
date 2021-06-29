@@ -1,7 +1,6 @@
 import { immediateToast } from "izitoast-react";
 import React, { useState } from "react";
 import { Button, Container, Form, Modal } from "react-bootstrap";
-import ConfirmationToast from "../../../components/Toasters/ConfirmationToast";
 import api from "../../../services/api";
 
 export default function Details({ schedule, users, ...rest }) {

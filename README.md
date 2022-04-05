@@ -1,19 +1,26 @@
-### V1.0.0
-# Initial implementation;
-# Models, Methods, Controllers;
-# API Services configuration;
+# agendai
 
-### V1.0.1
-# User authentication/registration;
+agendai is a schedule app for shoppers who wants to organize their attendances
+![](https://i.imgur.com/CLMlHYV.png)
 
-### V1.0.2
-# Solved: Notification issues when submitting forms;
-# Schedule registration;
+## features
 
-### V1.0.3
-# Schedule implementation, methods, model and validation (not complete);
-# Next step: Validate User through e-mail.
+- authentication
+- email confirmation
+- dashboard
+- my account
+- settings
+- dark/light mode (beta)
 
-### V1.0.4
-# Nodemailer sends e-mail in Registration;
-# User authenticates and needs e-mail validation;
+### `yarn`
+
+add the dependencies after cloning this repo
+
+### `yarn start` or `npm run start`
+
+after running `yarn` or `npm install`, run this command to begin the development mode
+
+
+### `yarn build` or `npm run build`
+
+if you want a production build, react-scripts will do it automatically with this command 
